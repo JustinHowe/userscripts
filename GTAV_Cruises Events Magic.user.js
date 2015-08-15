@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
-// @namespace    http://your.homepage/
-// @version      0.4
-// @description  enter something useful
-// @author       You
-// @match        https://www.reddit.com/r/GTAV_Cruises
+// @namespace    https://github.com/JustinHowe/userscripts/
+// @version      0.5
+// @description  Events block for GTAV_Cruises
+// @author       Syntaximus
+// @match        https://www.reddit.com/r/GTAV_Cruises/
 // @grant        none
 // ==/UserScript==
 
