@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      0.80
+// @version      0.81
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises/
@@ -24,13 +24,18 @@ $(window).load(function(){
 	// Run everything after iFrame load.
 	$("#eventsiFrame").load(function(){
 		var eventsString = "";
-		var eventTitle;
-		var href;
 		var events = $("#eventsiFrame").contents().find("header.search-result-header > span").filter(function() { return ($(this).text() === 'Event') }).next();
 		for (var i=0; i < events.length; i++) {
-			eventTitle = events[i].innerHTML;
-			href = $(events[i]).attr('href');
-			eventsString = eventsString + '<a href="' + href + '" target="_blank">' + eventTitle + '</a><br /><br />'
+			var eventString = events[i].innerHTML;
+			var href = $(events[i]).attr('href');
+			var eventParts = eventString.split(" | ");
+			var region = eventParts[0];
+			var date = eventParts[1];
+			var title = eventParts[2];
+			var timezone = eventParts[3];
+			var time = eventParts[4];
+
+			eventsString = eventsString + '<strong><a href="' + href + '" target="_blank">'+ region + " - " + title + '</a></strong><br /><br />'
 		}
 		$(".md").prepend('<blockquote><h3>Upcoming Cruises (' + events.length + ')</h3><p>' + eventsString + '</p></blockquote>');
 	});
