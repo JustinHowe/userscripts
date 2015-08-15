@@ -5,6 +5,7 @@
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises/
+// @include      *.reddit.com/r/GTAV_Cruises/*
 // @grant        none
 // ==/UserScript==
 
