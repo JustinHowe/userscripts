@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      0.6
+// @version      0.7
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises/
@@ -10,7 +10,4 @@
 
 // Event Title Format: [Region] | [Date] | [Title] | [Timezone] | [Time]
 
-$( '<h3>Upcoming Cruises</h3>
-	<p>
-	<a href="http://www.google.com" target="_blank">Event 1</a>
-	</p>' ).insertBefore( "<h3>Welcome</h3>" );
+$( '<h3>Upcoming Cruises</h3><p><a href="http://www.google.com" target="_blank">Event 1</a></p>' ).insertBefore( "<h3>Welcome</h3>" );
