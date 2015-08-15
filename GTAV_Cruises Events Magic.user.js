@@ -8,3 +8,4 @@
 // @grant        none
 // ==/UserScript==
 
+// Event Title Format: [Region] | [Date] | [Title] | [Timezone] | [Time]
