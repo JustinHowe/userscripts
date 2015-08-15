@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      0.94
+// @version      0.95
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises/
@@ -117,10 +117,10 @@ $(window).load(function(){
 
 			//getCountdownHref = "http://www.timeanddate.com/scripts/gocountdown.php?theme=text&msg=" + title.replace(/ /g, "+") + "&font=sanserif&month=" + month + "&day=" + day + "&year=" + year + "&hour=" + convertedHour + "&min=" + minute + "&sec=0&p0=%3A&p0txt=" + currentLocation;
 
-			if (title.length > 30) {
-				title = title.substring(0,30) + "...";
+			if (title.length > 25) {
+				title = title.substring(0,25) + "...";
 			}
-			eventsString = eventsString + '<strong><a href="' + href + '" target="_blank">'+ title + '</a></strong><p align="right">' + date + ' @ ' + time + '</p><br /><br />';
+			eventsString = eventsString + '<strong><a href="' + href + '" target="_blank">'+ title + '</a></strong><p align="right">' + eventParts[1] + ' @ ' + time + '</p><br /><br />';
 		}
 		$(".md").prepend('<blockquote><h3>Upcoming Cruises (' + events.length + ')</h3><p>' + eventsString + '<center><strong>Your timezone location: ' + currentLocation.replace(/\+/g, " ") + '</strong></center></p></blockquote>');
 	})
