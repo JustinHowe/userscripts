@@ -20,7 +20,7 @@ $(window).load(function(){
 	iframe.height="0px";
 	iframe.id="eventsiFrame";
 	iframe.setAttribute("src", upcomingEventsLink);
-	$("#header").prepend(iframe);
+	$("div.footer-parent").append(iframe);
 
 	// Run everything after iFrame load.
 	$("#eventsiFrame").load(function(){
