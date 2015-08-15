@@ -10,8 +10,9 @@
 
 // Event Title Format: [Region] | [Date] | [Title] | [Timezone] | [Time]
 
-function addEventDiv() {
-	$('blockquote').before('<blockquote><h3>Upcoming Cruises</h3><p><a href="http://www.google.com" target="_blank">Event 1</a></p></blockquote>');
-}
-
-addEventDiv();
+$("blockquote").before('<blockquote>
+	<h3>Upcoming Cruises</h3>
+	<p>
+	<a href="http://www.google.com" target="_blank">Event 1</a>
+	</p>
+	</blockquote>');
