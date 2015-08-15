@@ -1,18 +1,23 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      0.87
+// @version      0.88
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises/
+// @match        https://www.reddit.com/r/GTAV_Cruises
+// @match        https://www.reddit.com/r/gtav_cruises/
+// @match        https://www.reddit.com/r/gtav_cruises
 // @grant        none
-// @require		 http://cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.4/jstz.min.js
+// @require      http://cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.4/jstz.min.js
 // ==/UserScript==
 
 // Set up the iFrame for all upcoming events after page load.
 $(window).load(function(){
 	var timezone = jstz.determine();
 	var currentTimezone = timezone.name(); 
+	var currentLocation = currentTimezone.split("/");
+	currentLocation = currentLocation[1].replace(/\_/, "+");
 	var upcomingEventsLink = "https://www.reddit.com/r/GTAV_Cruises/search?q=flair%3A%22events%22&restrict_sr=on&sort=new&t=all#res-hide-options";
 	var iframe = document.createElement('iframe');
 	iframe.frameBorder=0;
@@ -38,6 +43,6 @@ $(window).load(function(){
 
 			eventsString = eventsString + '<strong><a href="' + href + '" target="_blank">'+ title + '</a></strong><br /><br />';
 		}
-		$(".md").prepend('<blockquote><h3>Upcoming Cruises (' + events.length + ')</h3><p>' + eventsString + '<center><strong>Your timezone ' + currentTimezone + '</strong></center></p></blockquote>');
+		$(".md").prepend('<blockquote><h3>Upcoming Cruises (' + events.length + ')</h3><p>' + eventsString + '<center><strong>Your timezone ' + currentLocation.replace(/\_/, " ") + '</strong></center></p></blockquote>');
 	})
 })
