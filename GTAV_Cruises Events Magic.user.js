@@ -9,8 +9,6 @@
 // @require		 http://cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.4/jstz.min.js
 // ==/UserScript==
 
-// Event Title Format: [Region] | [Date] | [Title] | [Timezone] | [Time]
-
 // Set up the iFrame for all upcoming events after page load.
 $(window).load(function(){
 	var timezone = jstz.determine();
@@ -38,8 +36,9 @@ $(window).load(function(){
 			var timezone = eventParts[3];
 			var time = eventParts[4];
 
-			eventsString = eventsString + '<strong><a href="' + href + '" target="_blank">'+ title + '</a></strong><br /><br />'
+			eventsString = eventsString + '<strong><a href="' + href + '" target="_blank">'+ title + '</a></strong><br /><br />';
 		}
 		$(".md").prepend('<blockquote><h3>Upcoming Cruises (' + events.length + ')</h3><p>' + eventsString + '<center><strong>Your timezone ' + currentTimezone + '</strong></center></p></blockquote>');
-	});
-});
+		$("#eventsiFrame").remove();
+	})
+})
