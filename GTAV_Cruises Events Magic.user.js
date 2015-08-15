@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    http://your.homepage/
-// @version      0.2
+// @version      0.3
 // @description  enter something useful
 // @author       You
 // @match        https://www.reddit.com/r/GTAV_Cruises/?count=26&before=t3_3govai
@@ -10,9 +10,9 @@
 
 // Event Title Format: [Region] | [Date] | [Title] | [Timezone] | [Time]
 
-$("blockquote").before('<blockquote>
+$('<blockquote>
 	<h3>Upcoming Cruises</h3>
 	<p>
 	<a href="http://www.google.com" target="_blank">Event 1</a>
 	</p>
-	</blockquote>');
+	</blockquote>').insertAfter('.tagline');
