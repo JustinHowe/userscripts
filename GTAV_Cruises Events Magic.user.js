@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      0.98
+// @version      0.99
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises/
@@ -51,6 +51,10 @@ $(window).load(function(){
 				var year = parseInt(date[2], 10);
 
 				var title = eventParts[2];
+				function toTitleCase(str) {
+					return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+				}
+				title = toTitleCase(title);
 
 				//Log original time and timezone
 				console.log(title + " - " + eventParts[4] + " - " + day + "/" + month + "/" + year + " - " + eventParts[3]);
