@@ -12,6 +12,8 @@
 // @require      http://cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.4/jstz.min.js
 // ==/UserScript==
 
+//[Region] | [Date] | [Title] | [GMT] | [Time]
+
 // Set up the iFrame for all upcoming events after page load.
 $(window).load(function(){
 	var timezone = jstz.determine();
@@ -37,13 +39,12 @@ $(window).load(function(){
 			var wellFormedEvent = eventString.match(/\|/g);
 			if (wellFormedEvent.length == 4) {
 				var href = $(events[i]).attr('href');
-				var eventParts = eventString.split(" | ");
+				var eventParts = eventString.split("|");
 				var region = eventParts[0];
 
 				//Determine date parts
 				var date = eventParts[1];
 				date = eventParts[1].replace(/\-/g, "/");
-				date = eventParts[1].replace(/\|/g, "/");
 				date = eventParts[1].split("/");
 				var day = parseInt(date[0], 10);
 				var month = parseInt(date[1], 10);
@@ -77,6 +78,12 @@ $(window).load(function(){
 				}
 				if (timezone.toLowerCase().indexOf("cdt") >= 0) {
 					timezone = "GMT-5";
+				}
+				if (timezone.toLowerCase().indexOf("aest") >= 0) {
+					timezone = "GMT+10";
+				}
+				if (timezone.toLowerCase().indexOf("aedt") >= 0) {
+					timezone = "GMT+11";
 				}
 
 				timezone = timezone.replace(/ /g, "");
