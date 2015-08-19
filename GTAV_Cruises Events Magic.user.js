@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      1.10
+// @version      1.11
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises/
@@ -33,11 +33,25 @@ function timerUpdate(n) {
 		h = ((countdowns[n]-s)/60 - m)/60%24;
 		d = (((countdowns[n]-s)/60 - m)/60 - h)/24;
 
-		if (d > 0) {
-			var txt = d + " Days, " + h +" Hrs, " + m + " Min";
-		} else {
-			var txt = h +" Hrs, " + m + " Min";
+		var txt;
+
+		if (d != 0) {
+			txt = d + " Days, " + h +" Hrs, " + m + " Min";
+		} 
+		if ((d == 0) && (h != 0)) {
+			txt = h +" Hrs, " + m + " Min";
 		}
+		if ((d == 0) &&(h == 0) && (m != 0)) {
+			txt = m + " Min";
+		}
+		if ((d != 0) &&(h == 0) && (m != 0)) {
+			txt = d + " Days, " + m + " Min";
+		}
+
+		if ((d != 0) &&(h != 0) && (m == 0)) {
+			txt = d + " Days, " + h + " Hrs";
+		}
+
 		document.getElementById(timerString).innerHTML = txt;
 	} else {
 		document.getElementById(timerString).innerHTML = '<font size="1">' + dates[n] + ' @ ' + times[n] + ' ' + zones[n] + '</font>';
