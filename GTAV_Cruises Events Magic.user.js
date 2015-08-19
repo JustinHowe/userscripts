@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      1.29
+// @version      1.30
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises/
@@ -55,7 +55,7 @@ function timerUpdate(n) {
 		if (txt.length >= 20) {
 			txt = '<font size="1">' + txt + '</font>';
 		}
-		if ((d == 0) && ((h >= -2) && (h <= 0)) && (m <= 0)) {
+		if ((d == 0) && ((h >= -1) && (h <= 0)) && (m <= 0)) {
 			txt = '<font color="#989742">In Progress</font>';
 			inProgress = true;
 		}
@@ -254,7 +254,6 @@ $(window).load(function(){
 
 		for (var i=0; i < events.length; i++) {
 			timerUpdate(i);
-			var funcInterval = setInterval(timerUpdate(i), 1000);
 		}
 	})
 })
