@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      1.05
+// @version      1.06
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises/
@@ -209,14 +209,14 @@ $(window).load(function(){
 				if (!isNaN(countdowns[i])) {
 					var localDate = new Date(epochFuture*1000);
 					localDate = localDate.toString().substring(0,21);
-					eventsString = eventsString + '<p style="float: left"><strong><a href="' + href + '" target="_blank">'+ titleShort + '</a></p><p style="float: right"><span id="timer' + i + '" style="color:#48a948"></span></strong></p><br /><br /><p style="float: left"><strong>' + currentLocation.replace(/\+/g, " ") + ' Time:</strong></p><p style="float: right">' + localDate + '</p><br /><p align="center"><img src="https://lh3.googleusercontent.com/6Evhp9jZ4ocalVFkHdRWgLkG9XkPrrKT0ATrQN0ruLnQ=w699-h9-no" border=0 width="100%"></p>';
+					eventsString = eventsString + '<p style="float: left"><strong><a href="' + href + '" target="_blank">'+ titleShort + '</a></p><p style="float: right"><span id="timer' + i + '" style="color:#48a948"></span></strong></p><br /><br /><p style="float: left"><strong>' + currentLocation.replace(/\+/g, " ") + ' Time:</strong></p><p style="float: right"><font size="1">' + localDate + '</font></p><br /><p align="center"><img src="https://lh3.googleusercontent.com/6Evhp9jZ4ocalVFkHdRWgLkG9XkPrrKT0ATrQN0ruLnQ=w699-h9-no" border=0 width="100%"></p>';
 				} else {
 					eventsString = eventsString + '<p style="float: left"><strong><a href="' + href + '" target="_blank">'+ titleShort + '</a></p><p style="float: right"><span id="timer' + i + '"></span></p></strong><br /><p align="center"><img src="https://lh3.googleusercontent.com/6Evhp9jZ4ocalVFkHdRWgLkG9XkPrrKT0ATrQN0ruLnQ=w699-h9-no" border=0 width="100%"></p>';
 				}
 			}
 		}
 
-		$(".md").prepend('<blockquote><h3><a href="' + upcomingEventsLink + '">Upcoming Cruises (' + events.length + ')</a></h3><div id="upcomingEventText">' + eventsString + '<center><strong>Report Widget Bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/" target="_blank">PapaSyntax</a></strong></center></div></blockquote>');
+		$(".md").prepend('<blockquote><h3><a href="' + upcomingEventsLink + '"><font color="#ffffff">Upcoming Cruises (' + events.length + ')</font></a></h3><div id="upcomingEventText">' + eventsString + '<center><strong>Report Widget Bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/" target="_blank">PapaSyntax</a></strong></center></div></blockquote>');
 
 		for (var i=0; i < events.length; i++) {
 			timerUpdate(i);
