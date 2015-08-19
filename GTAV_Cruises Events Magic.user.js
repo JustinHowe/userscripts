@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      1.04
+// @version      1.05
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises/
@@ -40,7 +40,7 @@ function timerUpdate(n) {
 		}
 		document.getElementById(timerString).innerHTML = txt;
 	} else {
-		document.getElementById(timerString).innerHTML = '<font size="5">' + dates[n] + ' @ ' + times[n] + ' ' + zones[n] + '</font>';
+		document.getElementById(timerString).innerHTML = '<font size="1">' + dates[n] + ' @ ' + times[n] + ' ' + zones[n] + '</font>';
 	}
 }
 
