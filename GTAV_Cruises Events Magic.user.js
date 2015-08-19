@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      1.02
+// @version      1.03
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises/
@@ -118,7 +118,7 @@ $(window).load(function(){
 				console.log("24hr Hour: " + hour);
 
 				var timezone = eventParts[3];
-				var zones[i] = timezone;
+				zones[i] = timezone;
 				if (timezone.toLowerCase().indexOf("pst") >= 0) {
 					timezone = "UTC-8";
 				}
