@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      1.25
+// @version      1.26
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises/
@@ -58,6 +58,10 @@ function timerUpdate(n) {
 		}
 		if ((m <= 0) && !inProgress) {
 			txt = '<font color="#e85151">Finished</font>';
+		}
+
+		if (txt.length >= 20) {
+			txt = '<font size="2">' + txt + '</font>';
 		}
 
 		document.getElementById(timerString).innerHTML = txt;
