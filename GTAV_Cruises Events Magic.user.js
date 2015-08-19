@@ -61,7 +61,7 @@ function timerUpdate(n) {
 		}
 
 		if (txt.length >= 20) {
-			txt = '<font size="2">' + txt + '</font>';
+			txt = '<font size="1">' + txt + '</font>';
 		}
 
 		document.getElementById(timerString).innerHTML = txt;
