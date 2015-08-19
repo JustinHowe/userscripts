@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      1.12
+// @version      1.13
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises/
@@ -18,7 +18,7 @@ var countdowns = [];
 var dates = [];
 var times = [];
 var zones = [];
-var tooFarOut = false;
+var dd = [];
 var s,m,h,d;
 
 console.log = function() {} //Comment to enable console logging. 
@@ -29,7 +29,7 @@ function toTitleCase(str) {
 
 function timerUpdate(n) {
 	var timerString = "timer" + n;
-	if ((!isNaN(countdowns[n])) && !tooFarOut) {
+	if ((!isNaN(countdowns[n])) && (dd[n] <= 21)) {
 		s = countdowns[n]%60;
 		m = (countdowns[n]-s)/60%60;
 		h = ((countdowns[n]-s)/60 - m)/60%24;
@@ -224,7 +224,7 @@ $(window).load(function(){
 				ss = countdowns[i]%60;
 				mm = (countdowns[i]-s)/60%60;
 				hh = ((countdowns[i]-s)/60 - m)/60%24;
-				dd = (((countdowns[i]-s)/60 - m)/60 - h)/24;
+				dd[i] = (((countdowns[i]-s)/60 - m)/60 - h)/24;
 
 				if (title.length > 25) {
 					titleShort = title.substring(0,22) + "...";
@@ -232,7 +232,7 @@ $(window).load(function(){
 					titleShort = title;
 				}
 				
-				if ((!isNaN(countdowns[i])) && (dd <= 21)) {
+				if (!isNaN(countdowns[i])) {
 					var localDate = new Date(epochFuture*1000);
 					localDate = localDate.toString().substring(0,21);
 					eventsString = eventsString + '<p style="float: left"><strong><a title="Link to: ' + title + '" href="' + href + '" target="_blank">'+ titleShort + '</a></p><p style="float: right"><span id="timer' + i + '" style="color:#48a948"></span></strong></p><br /><br /><p style="float: left"><strong>Local Time:</strong></p><p style="float: right"><strong><font size="1">' + localDate + '</font></strong></p><br /><p align="center"><img src="https://lh3.googleusercontent.com/6Evhp9jZ4ocalVFkHdRWgLkG9XkPrrKT0ATrQN0ruLnQ=w699-h9-no" border=0 width="100%"></p>';
