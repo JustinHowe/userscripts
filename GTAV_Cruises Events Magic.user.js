@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      1.14
+// @version      1.15
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises/
@@ -29,6 +29,7 @@ function toTitleCase(str) {
 
 function timerUpdate(n) {
 	var timerString = "timer" + n;
+	dd[n] = parseInt(dd[n], 10);
 	if ((!isNaN(countdowns[n])) && (dd[n] <= 21)) {
 		s = countdowns[n]%60;
 		m = (countdowns[n]-s)/60%60;
@@ -221,10 +222,13 @@ $(window).load(function(){
 				//epochFuture = 1440050400;
 				var epochNow = Math.floor(Date.now()/1000);
 				countdowns[i] = epochFuture - epochNow;
-				ss = countdowns[i]%60;
-				mm = (countdowns[i]-s)/60%60;
-				hh = ((countdowns[i]-s)/60 - m)/60%24;
-				dd[i] = (((countdowns[i]-s)/60 - m)/60 - h)/24;
+
+				if (!isNaN(countdowns[n])) {
+					ss = countdowns[i]%60;
+					mm = (countdowns[i]-s)/60%60;
+					hh = ((countdowns[i]-s)/60 - m)/60%24;
+					dd[i] = (((countdowns[i]-s)/60 - m)/60 - h)/24;
+				}
 
 				if (title.length > 25) {
 					titleShort = title.substring(0,22) + "...";
