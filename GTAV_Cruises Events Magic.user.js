@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      1.03
+// @version      1.04
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises/
@@ -40,7 +40,7 @@ function timerUpdate(n) {
 		}
 		document.getElementById(timerString).innerHTML = txt;
 	} else {
-		document.getElementById(timerString).innerHTML = dates[n] + ' @ ' + times[n] + ' ' + zones[n];
+		document.getElementById(timerString).innerHTML = '<font size="5">' + dates[n] + ' @ ' + times[n] + ' ' + zones[n] + '</font>';
 	}
 }
 
@@ -216,7 +216,7 @@ $(window).load(function(){
 			}
 		}
 
-		$(".md").prepend('<blockquote><h3>Upcoming Cruises (' + events.length + ')</h3><div id="upcomingEventText">' + eventsString + '<center><strong>Report Widget Bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/" target="_blank">PapaSyntax</a></strong></center></div></blockquote>');
+		$(".md").prepend('<blockquote><h3><a href="' + upcomingEventsLink + '">Upcoming Cruises (' + events.length + ')</a></h3><div id="upcomingEventText">' + eventsString + '<center><strong>Report Widget Bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/" target="_blank">PapaSyntax</a></strong></center></div></blockquote>');
 
 		for (var i=0; i < events.length; i++) {
 			timerUpdate(i);
