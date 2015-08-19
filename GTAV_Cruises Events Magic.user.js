@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      1.24
+// @version      1.25
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises/
@@ -68,6 +68,9 @@ function timerUpdate(n) {
 
 // Set up the iFrame for all upcoming events after page load.
 $(window).load(function(){
+	
+	$(".md").prepend('<div id="eventsWidget"><blockquote><h3>Upcoming Cruises</h3><br /><p align="center"><strong><span style="color:#48a948">Loading Events...</span></strong></p><br /><p align="center"><strong>Report Widget Bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/" target="_blank">PapaSyntax</a></strong></p></blockquote></div>');
+
 	var jstzTimezone = jstz.determine();
 	var currentTimezone = jstzTimezone.name(); 
 	var currentLocation = currentTimezone.split("/");
@@ -244,7 +247,7 @@ $(window).load(function(){
 			}
 		}
 
-		$(".md").prepend('<blockquote><h3><a href="' + upcomingEventsLink + '"><font color="#ffffff">Upcoming Cruises (' + events.length + ')</font></a></h3><div id="upcomingEventText">' + eventsString + '<center><strong>Report Widget Bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/" target="_blank">PapaSyntax</a></strong></center></div></blockquote>');
+		$("#eventsWidget").html('<blockquote><h3><a href="' + upcomingEventsLink + '"><font color="#ffffff">Upcoming Cruises (' + events.length + ')</font></a></h3>' + eventsString + '<center><strong>Report Widget Bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/" target="_blank">PapaSyntax</a></strong></center></div></blockquote>');
 
 		for (var i=0; i < events.length; i++) {
 			timerUpdate(i);
