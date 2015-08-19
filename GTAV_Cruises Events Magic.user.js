@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      1.0
+// @version      1.01
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises/
@@ -76,9 +76,9 @@ $(window).load(function(){
 				var date = eventParts[1];
 				dates[i] = eventParts[1];
 				date = eventParts[1].replace(/\-/g, "/");
-				var day;
-				var month;
-				var year;
+				var day = "d";
+				var month = "m";
+				var year = "y";
 				if (date.indexOf("/") >= 0) {
 					date = eventParts[1].split("/");
 					day = parseInt(date[0], 10);
