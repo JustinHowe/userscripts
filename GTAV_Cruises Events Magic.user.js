@@ -10,7 +10,6 @@
 // @match        https://www.reddit.com/r/gtav_cruises
 // @grant        none
 // @require      https://github.com/JustinHowe/userscripts/raw/master/jstz.min.js
-// @require      https://github.com/JustinHowe/userscripts/raw/master/jquery.xdomainajax.js
 // ==/UserScript==
 
 //[Region] | [Date] | [Title] | [GMT] | [Time]
