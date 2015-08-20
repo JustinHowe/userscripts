@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      1.38
+// @version      1.39
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises/
@@ -342,7 +342,7 @@ $(window).load(function(){
 			}
 		}
 
-		$("#eventsWidget").html('<blockquote><h3><a href="' + upcomingEventsLink + '"><font color="#ffffff">Upcoming Cruises (' + events.length + ')</font></a></h3>' + eventsString + '<center><strong>Local time detected as ' + jstzTimezone.name() + '<br />Report Widget Bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/" target="_blank">PapaSyntax</a></strong></center></div></blockquote>');
+		$("#eventsWidget").html('<blockquote><h3><a href="' + upcomingEventsLink + '"><font color="#ffffff">Upcoming Cruises (' + events.length + ')</font></a></h3>' + eventsString + '<center><strong>Local time detected as ' + currentLocation.replace(/\+/g, " ") + '<br />Report Widget Bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/" target="_blank">PapaSyntax</a></strong></center></div></blockquote>');
 
 		for (var i=0; i < events.length; i++) {
 			timerUpdate(i);
