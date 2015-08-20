@@ -19,18 +19,9 @@ Coded by [u/PapaSyntax](https://www.reddit.com/user/PapaSyntax).
 
 ## Installation
 
-To use the userscript, first install **Tampermonkey** (Google Chrome) or **Greasemonkey** (Firefox):
+1. First install **[Tampermonkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo)** (Google Chrome) or **[Greasemonkey](https://addons.mozilla.org/en-us/firefox/addon/greasemonkey/)** (Firefox).
 
-**Tampermonkey Link:**
-> https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo
-
-
-**Greasemonkey Link:**
-> https://addons.mozilla.org/en-us/firefox/addon/greasemonkey/
-
-
-Then go to this address and click the `install` button:
-
+2. Then go to the following address and click the `install` button:
 
 **Userscript Link:**
 > https://github.com/JustinHowe/userscripts/raw/master/GTAV_Cruises%20Events%20Magic.user.js
@@ -67,7 +58,7 @@ For those who are interested, the script does the following (and ONLY the follow
 4. Compares the future epoch of that UTC time to the current UTC epoch, which creates a difference, and uses that as the countdown.
 
 
-[The code is fully visible on github for the analysis of whomever wishes](https://github.com/JustinHowe/userscripts).
+**[The code is fully visible on github for the analysis of whomever wishes](https://github.com/JustinHowe/userscripts).**
 
 
 ## Next development steps:
