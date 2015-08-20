@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      1.30
+// @version      1.31
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises/
@@ -18,6 +18,9 @@ var countdowns = [];
 var dates = [];
 var times = [];
 var zones = [];
+var day = "d";
+var month = "m";
+var year = "y";
 
 console.log = function() {} //Comment to enable console logging. 
 
@@ -69,6 +72,50 @@ function timerUpdate(n) {
 	}
 }
 
+function getBadDate(badDate) {
+	if (badDate.indexOf("jan") >= 0) {
+		month = 1
+	}
+	if (badDate.indexOf("feb") >= 0) {
+		month = 2
+	}
+	if (badDate.indexOf("mar") >= 0) {
+		month = 3
+	}
+	if (badDate.indexOf("apr") >= 0) {
+		month = 4
+	}
+	if (badDate.indexOf("may") >= 0) {
+		month = 5
+	}
+	if (badDate.indexOf("jun") >= 0) {
+		month = 6
+	}
+	if (badDate.indexOf("jul") >= 0) {
+		month = 7
+	}
+	if (badDate.indexOf("aug") >= 0) {
+		month = 8
+	}
+	if (badDate.indexOf("sep") >= 0) {
+		month = 9
+	}
+	if (badDate.indexOf("oct") >= 0) {
+		month = 10
+	}
+	if (badDate.indexOf("nov") >= 0) {
+		month = 11
+	}
+	if (badDate.indexOf("dec") >= 0) {
+		month = 12
+	}
+
+	year = badDate.match(/\d{4}/);
+	day = badDate.replace(year, "");
+	day = day.replace(/\D+/g, "");
+	day = parseInt(day, 10);
+}
+
 // Set up the iFrame for all upcoming events after page load.
 $(window).load(function(){
 	
@@ -105,9 +152,6 @@ $(window).load(function(){
 				var date = eventParts[1];
 				dates[i] = eventParts[1];
 				date = eventParts[1].replace(/\-/g, "/");
-				var day = "d";
-				var month = "m";
-				var year = "y";
 				if (date.indexOf("/") >= 0) {
 					date = eventParts[1].split("/");
 					day = parseInt(date[0], 10);
@@ -126,6 +170,10 @@ $(window).load(function(){
 					}
 
 					year = parseInt(year, 10);
+				}
+
+				if ((date.indexOf("/") < 0) && (date.indexOf("2015") >= 0)) {
+					getBadDate(date.toLowerCase());
 				}
 				
 				//var title = toTitleCase(eventParts[2]); //Convert to lowercast starting with 2nd character of each word
