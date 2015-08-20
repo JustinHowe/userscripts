@@ -144,6 +144,8 @@ $(window).load(function(){
 			var eventString = events[i].innerHTML;
 			var wellFormedEvent = eventString.replace(/[^\|]/g, "").length;
 			if (wellFormedEvent == 4) {
+				eventSting = eventString.replace(/\[/, "");
+				eventSting = eventString.replace(/\]/, "");
 				var href = $(events[i]).attr('href');
 				var eventParts = eventString.split("|");
 				var region = eventParts[0];
