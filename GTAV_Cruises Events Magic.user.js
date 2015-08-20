@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      1.35
+// @version      1.36
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises/
@@ -22,7 +22,7 @@ var day = "d";
 var month = "m";
 var year = "y";
 
-//console.log = function() {} //Comment to enable console logging. 
+console.log = function() {} //Comment to enable console logging. 
 
 function toTitleCase(str) {
 	return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
@@ -144,8 +144,9 @@ $(window).load(function(){
 			var eventString = events[i].innerHTML;
 			var wellFormedEvent = eventString.replace(/[^\|]/g, "").length;
 			if (wellFormedEvent == 4) {
-				eventSting = eventString.replace(/\[/, "");
-				eventSting = eventString.replace(/\]/, "");
+				eventString = eventString.replace(/\[/g, "");
+				eventString = eventString.replace(/\]/g, "");
+				console.log("Event String: " + eventString);
 				var href = $(events[i]).attr('href');
 				var eventParts = eventString.split("|");
 				var region = eventParts[0];
@@ -154,8 +155,9 @@ $(window).load(function(){
 				var date = eventParts[1];
 				dates[i] = eventParts[1];
 				date = eventParts[1].replace(/\-/g, "/");
+				console.log("Date: " + date);
 				if (date.indexOf("/") >= 0) {
-					date = eventParts[1].split("/");
+					date = date.split("/");
 					day = parseInt(date[0], 10);
 					month = parseInt(date[1], 10);
 
@@ -197,7 +199,36 @@ $(window).load(function(){
 				console.log(title + " - " + eventParts[4] + " - " + day + "/" + month + "/" + year + " - " + eventParts[3]);
 
 				//Convert to four-digit military time and UTC time zone.
-				var time = eventParts[4].split(":");
+				var time = eventParts[4];
+				if (time.indexOf(":") < 0) {
+					if (time.toLowerCase().indexOf("am") >= 0) {
+						time = time.replace(/AM/g, "");
+						time = time.replace(/am/g, "");
+					}
+					if (time.toLowerCase().indexOf("pm") >= 0) {
+						time = time.replace(/PM/g, "");
+						time = time.replace(/pm/g, "");
+					}
+					time = time.replace(/ /g, "");
+					if (time.length == 1) {
+						time = time + ":00";
+						console.log("Converted Time " + eventParts[4] + " To: " + time);
+					} else if (time.length == 2) {
+						time = time + ":00";
+						console.log("Converted Time " + eventParts[4] + " To: " + time);
+					} else if (time.length == 3) {
+						var time1 = time.charAt(0);
+						var time2 = time.replace(time1, "");
+						time = time1 + ":" + time2;
+						console.log("Converted Time " + eventParts[4] + " To: " + time);
+					} else if (time.length == 4) {
+						var time1 = time.substring(0, 2);
+						var time2 = time.substring(2, 4);
+						time = time1 + ":" + time2;
+						console.log("Converted Time " + eventParts[4] + " To: " + time);
+					}
+				}
+				time = time.split(":");
 				times[i] = eventParts[4];
 				var hour = time[0];
 				var minute = time[1];
