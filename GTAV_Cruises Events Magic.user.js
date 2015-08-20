@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      1.32
+// @version      1.33
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises/
@@ -170,6 +170,17 @@ $(window).load(function(){
 					}
 
 					year = parseInt(year, 10);
+
+					var monthCurrentEpoch = Date.now();
+					var monthAheadEpoch = (monthCurrentEpoch + 2678400000)/1000;
+					var eventEpoch = Date.UTC(year,month-1,day,12,0)/1000;
+					console.log("Date Epochs: " + monthAheadEpoch + " / " + eventEpoch);
+
+					if (eventEpoch > monthAheadEpoch) {
+						day = parseInt(date[1], 10);
+						month = parseInt(date[0], 10);
+					}
+
 				}
 
 				if ((date.indexOf("/") < 0) && (date.indexOf("2015") >= 0)) {
