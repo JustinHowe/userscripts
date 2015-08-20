@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      1.31
+// @version      1.32
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises/
@@ -142,8 +142,8 @@ $(window).load(function(){
 		for (var i=0; i < events.length; i++) {
 			console.log("Events Found: " + events.length);
 			var eventString = events[i].innerHTML;
-			var wellFormedEvent = eventString.match(/\|/g);
-			if (wellFormedEvent.length == 4) {
+			var wellFormedEvent = eventString.replace(/[^\|]/g, "").length;
+			if (wellFormedEvent == 4) {
 				var href = $(events[i]).attr('href');
 				var eventParts = eventString.split("|");
 				var region = eventParts[0];
