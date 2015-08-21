@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/yogensia/userscripts/
-// @version      1.55
+// @version      1.56
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises*
@@ -33,6 +33,8 @@ function toTitleCase(str) {
 
 function timerUpdate(n) {
 	var timerString = "timer" + n;
+	epochNow = Math.floor(Date.now()/1000);
+	countdowns[n] = epochFuture[n] - epochNow;
 	if (!isNaN(countdowns[n])) {
 		s = countdowns[n]%60;
 		m = (countdowns[n]-s)/60%60;
@@ -92,8 +94,6 @@ function timerUpdate(n) {
 		//document.getElementById(timerString).innerHTML = dates[n] + ' @ ' + times[n] + ' ' + zones[n];
 		$("#" + timerString).html(dates[n] + ' @ ' + times[n] + ' ' + zones[n]);
 	}
-	epochNow = Math.floor(Date.now()/1000);
-	countdowns[n] = epochFuture[n] - epochNow;
 }
 
 function checkFinished() {
