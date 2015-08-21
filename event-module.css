@@ -6,11 +6,25 @@
 }
 
 .side .md blockquote.events-module h3 {
+	height: 36px;
 	margin-bottom: 6px;
+	padding: 0;
+	position: relative;
+}
+
+.side .md blockquote.events-module h3:hover {
+	background: #0f3f6f;
 }
 
 .side .md blockquote.events-module h3 a {
 	color: #fff;
+	display: block;
+	height: 20px;
+	padding: 8px 0;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
 }
 
 .side .md .event-block {
