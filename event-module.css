@@ -84,9 +84,18 @@
 }
 
 .side .md .event-timer {
-	font-size: 12px;
+	font-size: 11px;
 	font-weight: bold;
 	text-transform: uppercase;
+}
+
+.side .md .event-timer strong {
+	background: #fff;
+	border-radius: 10px;
+	box-shadow: 0 1px 0 rgba(0,0,0,0.2);
+	color: #444;
+	padding: 1px 5px;
+	text-shadow: none;
 }
 
 .side .md .event-block .block-link {
