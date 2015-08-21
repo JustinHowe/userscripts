@@ -8,6 +8,8 @@
 // @match        https://www.reddit.com/r/GTAV_Cruises
 // @match        https://www.reddit.com/r/gtav_cruises/
 // @match        https://www.reddit.com/r/gtav_cruises
+// @match        https://www.reddit.com/r/Gtav_cruises/
+// @match        https://www.reddit.com/r/Gtav_cruises
 // @grant        none
 // @require      https://github.com/yogensia/userscripts/raw/master/jstz.min.js
 // ==/UserScript==
