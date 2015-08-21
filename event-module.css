@@ -50,6 +50,7 @@
 	font-size: 14px;
 	font-weight: bold;
 	font-style: italic;
+	text-shadow: 0 1px 1px rgba(0,0,0,0.5);
 }
 
 .side .md .event-timer {
@@ -65,4 +66,12 @@
 	height: 100%;
 	top: 0;
 	left: 0;
+}
+
+.side .md .event-footer {
+	font-size: 10px;
+}
+
+.side .md .event-footer a {
+	font-weight: bold;
 }
