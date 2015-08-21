@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/yogensia/userscripts/
-// @version      1.51
+// @version      1.52
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises*
@@ -25,7 +25,7 @@ var continueLoading = false;
 var eventData = [];
 var events, epochNow;
 
-//console.log = function() {} //Comment to enable console logging.
+console.log = function() {} //Comment to enable console logging.
 
 function toTitleCase(str) {
 	return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
