@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/yogensia/userscripts/
-// @version      1.50
+// @version      1.51
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises*
@@ -17,13 +17,15 @@ var countdowns = [];
 var dates = [];
 var times = [];
 var zones = [];
+var epochFuture = [];
 var day = "d";
 var month = "m";
 var year = "y";
 var continueLoading = false;
 var eventData = [];
+var events, epochNow;
 
-console.log = function() {} //Comment to enable console logging.
+//console.log = function() {} //Comment to enable console logging.
 
 function toTitleCase(str) {
 	return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
@@ -83,10 +85,38 @@ function timerUpdate(n) {
 			$("#event-block-" + n).removeClass("state-upcoming").addClass("state-finished");
 		}
 
-		document.getElementById(timerString).innerHTML = "<strong>" + txt + "</strong>";
+		//document.getElementById(timerString).innerHTML = "<strong>" + txt + "</strong>";
+		$("#" + timerString).html("<strong>" + txt + "</strong>");
+		console.log("Updated Timer Values to: " + txt);
 	} else {
-		document.getElementById(timerString).innerHTML = dates[n] + ' @ ' + times[n] + ' ' + zones[n];
+		//document.getElementById(timerString).innerHTML = dates[n] + ' @ ' + times[n] + ' ' + zones[n];
+		$("#" + timerString).html(dates[n] + ' @ ' + times[n] + ' ' + zones[n]);
 	}
+	epochNow = Math.floor(Date.now()/1000);
+	countdowns[n] = epochFuture[n] - epochNow;
+}
+
+function checkFinished() {
+	var finishedCounter = 0;
+	for (var n = 0; n < events.length; n++) {
+		if ($('#timer' + n + ':contains("Finished")').length > 0) {
+			$("#event-block-" + n).replaceWith('<div id="event-block-' + n + '" style="display: hidden"><p id="timer' + n + '" class="event-timer"></p></div>');
+			finishedCounter++;
+		}
+	}
+
+	if (finishedCounter != 0) {
+		var newHeaderCounter = events.length - finishedCounter;
+		console.log(finishedCounter + " Events Finished, Changing Header to " + newHeaderCounter + "Events");
+		$("#eventsHeader").text(newHeaderCounter + ' Cruises Found');
+	}
+}
+
+function refreshTimer() {
+	for (var i=0; i < events.length; i++) {
+		timerUpdate(i);
+	}
+	checkFinished();
 }
 
 function getBadDate(badDate) {
@@ -160,7 +190,7 @@ $(window).load(function(){
 	// Run everything after iFrame load.
 	$("#eventsiFrame").load(function(){
 		var eventsString = "";
-		var events = $("#eventsiFrame").contents().find("header.search-result-header > span").filter(function() { return ($(this).text() === 'Event') }).next();
+		events = $("#eventsiFrame").contents().find("header.search-result-header > span").filter(function() { return ($(this).text() === 'Event') }).next();
 		console.log("Events Found: " + events.length);
 
 		if (events.length < 1) {
@@ -351,15 +381,15 @@ $(window).load(function(){
 					//Output new UTC time
 					console.log("Converted to UTC: " + title + " - " + convertedHour + ":" + minute + " - " + day + "/" + month + "/" + year);
 
-					var epochFuture = Date.UTC(year,month-1,day,convertedHour,minute);
-					console.log("Future Epoch Before MS: " + epochFuture);
-					epochFuture = Math.floor(epochFuture/1000);
+					epochFuture[i] = Date.UTC(year,month-1,day,convertedHour,minute);
+					console.log("Future Epoch Before MS: " + epochFuture[i]);
+					epochFuture[i] = Math.floor(epochFuture[i]/1000);
 					//epochFuture = 1440050400;
-					var epochNow = Math.floor(Date.now()/1000);
-					countdowns[i] = epochFuture - epochNow;
+					epochNow = Math.floor(Date.now()/1000);
+					countdowns[i] = epochFuture[i] - epochNow;
 
 					if (!isNaN(countdowns[i])) {
-						var localDate = new Date(epochFuture*1000);
+						var localDate = new Date(epochFuture[i]*1000);
 						var localDateString = localDate.toString().substring(0,21);
 						localDateString = localDateString.split(" ");
 						var localDayString = localDateString[0];
@@ -387,7 +417,7 @@ $(window).load(function(){
 						}
 						localDate = localDayString + " " + localMonth + " " + localDay + " @ " + localTimeHr + ":" + localTimeMin + "" + amPm;
 						console.log(localDate);
-						eventData[i] = [epochFuture, '<div id="event-block-' + i + '" class="event-block"><p class="event-title"><a title="Link to: ' + title + '" href="' + href + '">' + title + '</a></p><p id="timer' + i + '" class="event-timer"></p><p class="event-local-date">' + localDate + '</p><a class="block-link" a title="Link to: ' + title + '" href="' + href + '"></a></div>'];
+						eventData[i] = [epochFuture[i], '<div id="event-block-' + i + '" class="event-block"><p class="event-title"><a title="Link to: ' + title + '" href="' + href + '">' + title + '</a></p><p id="timer' + i + '" class="event-timer"></p><p class="event-local-date">' + localDate + '</p><a class="block-link" a title="Link to: ' + title + '" href="' + href + '"></a></div>'];
 					} else {
 						eventData[i] = [9999999999, '<p><a title="No Countdown Timer - Bad Date - Should be day/month/year. err_code:id10t" href="' + href + '">' + title + '</a></p><p style="float: right"><span class="event-timer' + i + '"></span></p><p align="center"><img src="https://lh3.googleusercontent.com/6Evhp9jZ4ocalVFkHdRWgLkG9XkPrrKT0ATrQN0ruLnQ=w699-h9-no" border=0 width="100%"></p>'];
 					}
@@ -406,19 +436,9 @@ $(window).load(function(){
 				timerUpdate(i);
 			}
 
-			var finishedCounter = 0;
-    		for (var n = 0; n < events.length; n++) {
-    			if ($('#timer' + n + ':contains("Finished")').length > 0) {
-    				$("#event-block-" + n).replaceWith('<div id="event-block-' + n + '" style="display: hidden"></div>');
-    				finishedCounter++;
-				}
-    		}
+			checkFinished();
 
-			if (finishedCounter != 0) {
-				var newHeaderCounter = events.length - finishedCounter;
-				console.log(finishedCounter + " Events Finished, Changing Header to " + newHeaderCounter + "Events");
-				$("#eventsHeader").text(newHeaderCounter + ' Cruises Found');
-			}
+			setInterval(refreshTimer, 30000);
 		}
 	})
 })
