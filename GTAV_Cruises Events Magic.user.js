@@ -41,12 +41,24 @@ function timerUpdate(n) {
 		var txt;
 		var inProgress = false;
 
+		if (d == 1) {
+			var textDays = " Day, ";
+		} else {
+			var textDays = " Days, ";
+		}
+
+		if (d == 1) {
+			var textHours = " Hr";
+		} else {
+			var textHours = " Hrs";
+		}
+
 		if (d != 0) {
-			txt = "Starting in " + d + " Days, " + h +" Hrs, " + m + " Min";
+			txt = "Starting in " + d + textDays + h + textHours + ", " + m + " Min";
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
 		if ((d == 0) && (h != 0)) {
-			txt = "Starting in " + h +" Hrs, " + m + " Min";
+			txt = "Starting in " + h + textHours + ", " + m + " Min";
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
 		if ((d == 0) &&(h == 0) && (m != 0)) {
@@ -54,12 +66,12 @@ function timerUpdate(n) {
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
 		if ((d != 0) &&(h == 0) && (m != 0)) {
-			txt = "Starting in " + d + " Days, " + m + " Min";
+			txt = "Starting in " + d + textDays + m + " Min";
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
 
 		if ((d != 0) &&(h != 0) && (m == 0)) {
-			txt = "Starting in " + d + " Days, " + h + " Hrs";
+			txt = "Starting in " + d + textDays + h + textHours;
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
 		if ((d == 0) && ((h >= -1) && (h <= 0)) && (m <= 0)) {
