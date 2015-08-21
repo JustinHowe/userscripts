@@ -47,7 +47,7 @@ function timerUpdate(n) {
 			var textDays = " Days, ";
 		}
 
-		if (d == 1) {
+		if (h == 1) {
 			var textHours = " Hr";
 		} else {
 			var textHours = " Hrs";
