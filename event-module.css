@@ -5,18 +5,18 @@
 	text-align: center;
 }
 
-.side .md blockquote.events-module h3 {
+.side .md blockquote.events-module h3 div {
 	height: 36px;
 	margin-bottom: 6px;
 	padding: 0;
 	position: relative;
 }
 
-.side .md blockquote.events-module h3:hover {
+.side .md blockquote.events-module h3 div:hover {
 	background: #0f3f6f;
 }
 
-.side .md blockquote.events-module h3 a {
+.side .md blockquote.events-module h3 div a {
 	color: #fff;
 	display: block;
 	height: 20px;
