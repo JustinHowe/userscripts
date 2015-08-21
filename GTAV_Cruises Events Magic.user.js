@@ -123,7 +123,7 @@ function getBadDate(badDate) {
 // Set up the iFrame for all upcoming events after page load.
 $(window).load(function(){
 
-	var eventOpenSansCSS = '<link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">';
+	var eventOpenSansCSS = '<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">';
 	var eventModuleCSS = '<link rel="stylesheet" type="text/css" href="https://raw.githubusercontent.com/yogensia/userscripts/master/event-module.css" media="all">';
 	var eventModuleHTML = '<div id="eventsWidget"><blockquote><h3>Upcoming Cruises</h3><p align="center">Loading Cruises...</p><p align="center">Report Widget Bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/">PapaSyntax</a></p></blockquote></div>';
 
