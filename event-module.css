@@ -89,6 +89,10 @@
 	text-transform: uppercase;
 }
 
+.side .md .event-block.state-progress .event-timer {
+	margin: 7px 0;
+}
+
 .side .md .event-timer strong {
 	background: #fff;
 	border-radius: 10px;
@@ -96,6 +100,12 @@
 	color: #444;
 	padding: 1px 5px;
 	text-shadow: none;
+}
+
+.side .md .event-block.state-progress .event-timer strong {
+	color: #c81414;
+	font-size: 14px;
+	padding: 0 7px;
 }
 
 .side .md .event-block .block-link {
