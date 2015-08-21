@@ -40,35 +40,39 @@ function timerUpdate(n) {
 		var inProgress = false;
 
 		if (d != 0) {
-			txt = d + " Days, " + h +" Hrs, " + m + " Min";
+			txt = "Starting in " + d + " Days, " + h +" Hrs, " + m + " Min";
+			$("#event-block-" + n).addClass("state-upcoming");
 		}
 		if ((d == 0) && (h != 0)) {
-			txt = h +" Hrs, " + m + " Min";
+			txt = "Starting in " + h +" Hrs, " + m + " Min";
+			$("#event-block-" + n).addClass("state-upcoming");
 		}
 		if ((d == 0) &&(h == 0) && (m != 0)) {
-			txt = m + " Min";
+			txt = "Starting in " + m + " Min";
+			$("#event-block-" + n).addClass("state-upcoming");
 		}
 		if ((d != 0) &&(h == 0) && (m != 0)) {
-			txt = d + " Days, " + m + " Min";
+			txt = "Starting in " + d + " Days, " + m + " Min";
+			$("#event-block-" + n).addClass("state-upcoming");
 		}
 
 		if ((d != 0) &&(h != 0) && (m == 0)) {
-			txt = d + " Days, " + h + " Hrs";
-		}
-		if (txt.length >= 20) {
-			txt = '<font size="1">' + txt + '</font>';
+			txt = "Starting in " + d + " Days, " + h + " Hrs";
+			$("#event-block-" + n).addClass("state-upcoming");
 		}
 		if ((d == 0) && ((h >= -1) && (h <= 0)) && (m <= 0)) {
-			txt = '<font color="#989742">In Progress</font>';
+			txt = 'In Progress';
+			$("#event-block-" + n).addClass("state-progress");
 			inProgress = true;
 		}
 		if ((m <= 0) && !inProgress) {
-			txt = '<font color="#e85151">Finished</font>';
+			txt = 'Finished';
+			$("#event-block-" + n).removeClass("state-upcoming").addClass("state-finished");
 		}
 
 		document.getElementById(timerString).innerHTML = txt;
 	} else {
-		document.getElementById(timerString).innerHTML = '<font size="1">' + dates[n] + ' @ ' + times[n] + ' ' + zones[n] + '</font>';
+		document.getElementById(timerString).innerHTML = dates[n] + ' @ ' + times[n] + ' ' + zones[n];
 	}
 }
 
@@ -119,10 +123,11 @@ function getBadDate(badDate) {
 // Set up the iFrame for all upcoming events after page load.
 $(window).load(function(){
 
+	var eventOpenSansCSS = '<link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">';
 	var eventModuleCSS = '<link rel="stylesheet" type="text/css" href="https://raw.githubusercontent.com/yogensia/userscripts/master/event-module.css" media="all">';
 	var eventModuleHTML = '<div id="eventsWidget"><blockquote><h3>Upcoming Cruises</h3><p align="center">Loading Cruises...</p><p align="center">Report Widget Bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/">PapaSyntax</a></p></blockquote></div>';
 
-	$(".md").prepend(eventModuleCSS + eventModuleHTML);
+	$(".md").prepend(eventOpenSansCSS + eventModuleCSS + eventModuleHTML);
 
 	var jstzTimezone = jstz.determine();
 	var currentTimezone = jstzTimezone.name();
@@ -329,23 +334,25 @@ $(window).load(function(){
 				var epochNow = Math.floor(Date.now()/1000);
 				countdowns[i] = epochFuture - epochNow;
 
+				/*
 				if (title.length > 25) {
 					titleShort = title.substring(0,22) + "...";
 				} else {
 					titleShort = title;
 				}
+				*/
 
 				if (!isNaN(countdowns[i])) {
 					var localDate = new Date(epochFuture*1000);
 					localDate = localDate.toString().substring(0,21);
-					eventsString = eventsString + '<div class="event-block"><p class="event-title"><a title="Link to: ' + title + '" href="' + href + '">' + titleShort + '</a></p><p id="timer' + i + '"></p><p class="event-local-date">' + localDate + '</p></div>';
+					eventsString = eventsString + '<div id="event-block-' + i + '" class="event-block"><p id="timer' + i + '" class="event-timer"></p><p class="event-title"><a title="Link to: ' + title + '" href="' + href + '">' + title + '</a></p><p class="event-local-date">' + localDate + '</p><a class="block-link" a title="Link to: ' + title + '" href="' + href + '"></a></div>';
 				} else {
-					eventsString = eventsString + '<p><a title="No Countdown Timer - Bad Date - Should be day/month/year. err_code:id10t" href="' + href + '">' + titleShort + '</a></p><p style="float: right"><span class="event-timer' + i + '"></span></p><p align="center"><img src="https://lh3.googleusercontent.com/6Evhp9jZ4ocalVFkHdRWgLkG9XkPrrKT0ATrQN0ruLnQ=w699-h9-no" border=0 width="100%"></p>';
+					eventsString = eventsString + '<p><a title="No Countdown Timer - Bad Date - Should be day/month/year. err_code:id10t" href="' + href + '">' + title + '</a></p><p style="float: right"><span class="event-timer' + i + '"></span></p><p align="center"><img src="https://lh3.googleusercontent.com/6Evhp9jZ4ocalVFkHdRWgLkG9XkPrrKT0ATrQN0ruLnQ=w699-h9-no" border=0 width="100%"></p>';
 				}
 			}
 		}
 
-		var eventModuleFinalHTML = '<blockquote class="events-module"><h3><a href="' + upcomingEventsLink + '">' + events.length + ' Cruises Found</a></h3>' + eventsString + '<p>Local time detected as ' + currentLocation.replace(/\+/g, " ") + '<br />Report Widget Bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/">PapaSyntax</a></blockquote>';
+		var eventModuleFinalHTML = '<blockquote class="events-module"><h3><a href="' + upcomingEventsLink + '">' + events.length + ' Cruises Found</a></h3>' + eventsString + '<div class="event-footer"><p>Local time detected as ' + currentLocation.replace(/\+/g, " ") + '<br />Report Widget Bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/">PapaSyntax</a></p></div></blockquote>';
 
 		$("#eventsWidget").html(eventModuleFinalHTML);
 
