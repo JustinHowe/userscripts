@@ -22,7 +22,7 @@ var day = "d";
 var month = "m";
 var year = "y";
 
-console.log = function() {} //Comment to enable console logging. 
+console.log = function() {} //Comment to enable console logging.
 
 function toTitleCase(str) {
 	return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
@@ -41,7 +41,7 @@ function timerUpdate(n) {
 
 		if (d != 0) {
 			txt = d + " Days, " + h +" Hrs, " + m + " Min";
-		} 
+		}
 		if ((d == 0) && (h != 0)) {
 			txt = h +" Hrs, " + m + " Min";
 		}
@@ -118,11 +118,21 @@ function getBadDate(badDate) {
 
 // Set up the iFrame for all upcoming events after page load.
 $(window).load(function(){
-	
-	$(".md").prepend('<div id="eventsWidget"><blockquote><h3>Upcoming Cruises</h3><br /><p align="center"><strong><span style="color:#48a948">Loading Cruises...</span></strong></p><br /><p align="center"><strong>Report Widget Bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/" target="_blank">PapaSyntax</a></strong></p></blockquote></div>');
+
+	var eventModuleCSS = '<link rel="stylesheet" type="text/css" href="https://raw.githubusercontent.com/yogensia/userscripts/master/event-module.css" media="all">';
+	var eventModuleHTML = '
+<div id="eventsWidget">
+	<blockquote>
+		<h3>Upcoming Cruises</h3>
+		<p align="center"><strong>Loading Cruises...</strong></p>
+		<p align="center"><strong>Report Widget Bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/">PapaSyntax</a></strong></p>
+	</blockquote>
+</div>';
+
+	$(".md").prepend(eventModuleCSS + eventModuleHTML);
 
 	var jstzTimezone = jstz.determine();
-	var currentTimezone = jstzTimezone.name(); 
+	var currentTimezone = jstzTimezone.name();
 	var currentLocation = currentTimezone.split("/");
 	currentLocation = currentLocation[1].replace(/\_/g, "+");
 	var countdownHref;
@@ -190,7 +200,7 @@ $(window).load(function(){
 				if ((date.indexOf("/") < 0) && (date.indexOf("2015") >= 0)) {
 					getBadDate(date.toLowerCase());
 				}
-				
+
 				//var title = toTitleCase(eventParts[2]); //Convert to lowercast starting with 2nd character of each word
 				var title = eventParts[2];
 				var titleShort;
@@ -310,7 +320,7 @@ $(window).load(function(){
 								month = 1;
 							}
 						}
-				
+
 					}
 				}
 
@@ -331,18 +341,26 @@ $(window).load(function(){
 				} else {
 					titleShort = title;
 				}
-				
+
 				if (!isNaN(countdowns[i])) {
 					var localDate = new Date(epochFuture*1000);
 					localDate = localDate.toString().substring(0,21);
-					eventsString = eventsString + '<p style="float: left"><strong><a title="Link to: ' + title + '" href="' + href + '" target="_blank">'+ titleShort + '</a></p><p style="float: right"><span id="timer' + i + '" style="color:#48a948"></span></strong></p><br /><br /><p style="float: left"><strong>Local Time:</strong></p><p style="float: right"><strong><font size="1">' + localDate + '</font></strong></p><br /><p align="center"><img src="https://lh3.googleusercontent.com/6Evhp9jZ4ocalVFkHdRWgLkG9XkPrrKT0ATrQN0ruLnQ=w699-h9-no" border=0 width="100%"></p>';
+					eventsString = eventsString + '<p><strong><a title="Link to: ' + title + '" href="' + href + '">' + titleShort + '</a></p><p style="float: right"><span id="timer' + i + '" style="color:#48a948"></span></strong></p><br /><br /><p><strong>Local Time:</strong></p><p style="float: right"><strong><font size="1">' + localDate + '</font></strong></p><br /><p align="center"><img src="https://lh3.googleusercontent.com/6Evhp9jZ4ocalVFkHdRWgLkG9XkPrrKT0ATrQN0ruLnQ=w699-h9-no" border=0 width="100%"></p>';
 				} else {
-					eventsString = eventsString + '<p style="float: left"><strong><a title="No Countdown Timer - Bad Date - Should be day/month/year. err_code:id10t" href="' + href + '" target="_blank">'+ titleShort + '</a></p><p style="float: right"><span id="timer' + i + '"></span></p></strong><br /><p align="center"><img src="https://lh3.googleusercontent.com/6Evhp9jZ4ocalVFkHdRWgLkG9XkPrrKT0ATrQN0ruLnQ=w699-h9-no" border=0 width="100%"></p>';
+					eventsString = eventsString + '<p><strong><a title="No Countdown Timer - Bad Date - Should be day/month/year. err_code:id10t" href="' + href + '">' + titleShort + '</a></p><p style="float: right"><span id="timer' + i + '"></span></p></strong><br /><p align="center"><img src="https://lh3.googleusercontent.com/6Evhp9jZ4ocalVFkHdRWgLkG9XkPrrKT0ATrQN0ruLnQ=w699-h9-no" border=0 width="100%"></p>';
 				}
 			}
 		}
 
-		$("#eventsWidget").html('<blockquote><h3><a href="' + upcomingEventsLink + '"><font color="#ffffff">Upcoming Cruises (' + events.length + ')</font></a></h3>' + eventsString + '<center><strong>Local time detected as ' + currentLocation.replace(/\+/g, " ") + '<br />Report Widget Bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/" target="_blank">PapaSyntax</a></strong></center></div></blockquote>');
+		var eventModuleFinalHTML = '
+<blockquote class="events-module">
+	<h3><a href="' + upcomingEventsLink + '">' + events.length + ' Cruises Found</a></h3>
+	' + eventsString + '
+	<p>Local time detected as ' + currentLocation.replace(/\+/g, " ") + '<br />
+	Report Widget Bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/">PapaSyntax</a>
+</blockquote>';
+
+		$("#eventsWidget").html(eventModuleFinalHTML);
 
 		for (var i=0; i < events.length; i++) {
 			timerUpdate(i);
