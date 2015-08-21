@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/yogensia/userscripts/
-// @version      1.45
+// @version      1.46
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises*
@@ -382,7 +382,7 @@ $(window).load(function(){
 						if (localTimeMin < 10) {
 							localTimeMin = "0" + localTimeMin;
 						}
-						localDate = localDayString + " " + localMonth + " " + localDay + " " + localTimeHr + ":" + localTimeMin + "" + amPm;
+						localDate = localDayString + " " + localMonth + " " + localDay + " @ " + localTimeHr + ":" + localTimeMin + "" + amPm;
 						console.log(localDate);
 						eventData[i] = [epochFuture, '<div id="event-block-' + i + '" class="event-block"><p class="event-title"><a title="Link to: ' + title + '" href="' + href + '">' + title + '</a></p><p id="timer' + i + '" class="event-timer"></p><p class="event-local-date">' + localDate + '</p><a class="block-link" a title="Link to: ' + title + '" href="' + href + '"></a></div>'];
 					} else {
