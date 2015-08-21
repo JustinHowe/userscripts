@@ -1,8 +1,8 @@
 .side .md .events-module {
-	text-align: center;
 	font-family: 'Open Sans', sans-serif;
 	font-size: 12px;
 	padding: 6px;
+	text-align: center;
 }
 
 .side .md blockquote.events-module h3 {
@@ -19,11 +19,11 @@
 	border-radius: 3px;
 	color: #fff;
 	display: block;
-	overflow: hidden;
-	text-shadow: 0 1px 0 rgba(0,0,0,0.35);
-	position: relative;
-	padding: 6px;
 	margin-bottom: 6px;
+	overflow: hidden;
+	padding: 6px;
+	position: relative;
+	text-shadow: 0 1px 0 rgba(0,0,0,0.35);
 }
 .side .md .event-block:hover {
 	background-position: -1430px center;
@@ -52,25 +52,25 @@
 .side .md .event-block a {
 	color: #fff!important;
 	font-size: 16px;
-	font-weight: bold;
 	font-style: italic;
+	font-weight: bold;
 	line-height: 20px;
 	text-shadow: 0 1px 1px rgba(0,0,0,0.5);
 }
 
 .side .md .event-timer {
-	text-transform: uppercase;
 	font-size: 10px;
 	font-weight: bold;
+	text-transform: uppercase;
 }
 
 .side .md .event-block .block-link {
 	display: block;
-	position: absolute;
-	width: 100%;
 	height: 100%;
-	top: 0;
+	position: absolute;
 	left: 0;
+	top: 0;
+	width: 100%;
 }
 
 .side .md .event-footer {
