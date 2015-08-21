@@ -51,24 +51,24 @@ function timerUpdate(n) {
 		}
 
 		if (d != 0) {
-			txt = "Starting in " + d + textDays + h + textHours + ", " + m + " Min";
+			txt = "Starts in " + d + textDays + h + textHours + ", " + m + " Min";
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
 		if ((d == 0) && (h != 0)) {
-			txt = "Starting in " + h + textHours + ", " + m + " Min";
+			txt = "Starts in " + h + textHours + ", " + m + " Min";
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
 		if ((d == 0) &&(h == 0) && (m != 0)) {
-			txt = "Starting in " + m + " Min";
+			txt = "Starts in " + m + " Min";
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
 		if ((d != 0) &&(h == 0) && (m != 0)) {
-			txt = "Starting in " + d + textDays + m + " Min";
+			txt = "Starts in " + d + textDays + m + " Min";
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
 
 		if ((d != 0) &&(h != 0) && (m == 0)) {
-			txt = "Starting in " + d + textDays + h + textHours;
+			txt = "Starts in " + d + textDays + h + textHours;
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
 		if ((d == 0) && ((h >= -1) && (h <= 0)) && (m <= 0)) {
