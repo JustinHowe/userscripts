@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      1.39
+// @version      1.40
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises/
@@ -21,6 +21,8 @@ var zones = [];
 var day = "d";
 var month = "m";
 var year = "y";
+var continueLoading = false;
+var eventData = [];
 
 console.log = function() {} //Comment to enable console logging. 
 
@@ -118,13 +120,16 @@ function getBadDate(badDate) {
 
 // Set up the iFrame for all upcoming events after page load.
 $(window).load(function(){
-	
-	$(".md").prepend('<div id="eventsWidget"><blockquote><h3>Upcoming Cruises</h3><br /><p align="center"><strong><span style="color:#48a948">Loading Cruises...</span></strong></p><br /><p align="center"><strong>Report Widget Bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/" target="_blank">PapaSyntax</a></strong></p></blockquote></div>');
 
 	var jstzTimezone = jstz.determine();
 	var currentTimezone = jstzTimezone.name(); 
 	var currentLocation = currentTimezone.split("/");
 	currentLocation = currentLocation[1].replace(/\_/g, "+");
+	
+	$(".md").prepend('<div id="eventsWidget"><blockquote><h3><div id="eventsHeader"></div></h3><div id="eventsContent"></div><p align="center"><strong>Local time detected as ' + currentLocation.replace(/\+/g, " ") + '<br />Report Widget Bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/" target="_blank">PapaSyntax</a></strong></p></blockquote></div>');
+	$("#eventsHeader").text('Upcoming Cruises');
+	$("#eventsContent").prepend('<p align="center"><strong><span style="color:#48a948">Loading Cruises...</span></strong></p>');
+	
 	var countdownHref;
 	var upcomingEventsLink = "https://www.reddit.com/r/GTAV_Cruises/search?q=flair%3A%22events%22&restrict_sr=on&sort=new&t=all#res-hide-options";
 	var iframe = document.createElement('iframe');
@@ -139,213 +144,244 @@ $(window).load(function(){
 	$("#eventsiFrame").load(function(){
 		var eventsString = "";
 		var events = $("#eventsiFrame").contents().find("header.search-result-header > span").filter(function() { return ($(this).text() === 'Event') }).next();
-		for (var i=0; i < events.length; i++) {
-			console.log("Events Found: " + events.length);
-			var eventString = events[i].innerHTML;
-			var wellFormedEvent = eventString.replace(/[^\|]/g, "").length;
-			if (wellFormedEvent == 4) {
-				eventString = eventString.replace(/\[/g, "");
-				eventString = eventString.replace(/\]/g, "");
-				console.log("Event String: " + eventString);
-				var href = $(events[i]).attr('href');
-				var eventParts = eventString.split("|");
-				var region = eventParts[0];
+		console.log("Events Found: " + events.length);
 
-				//Determine date parts
-				var date = eventParts[1];
-				dates[i] = eventParts[1];
-				date = eventParts[1].replace(/\-/g, "/");
-				console.log("Date: " + date);
-				if (date.indexOf("/") >= 0) {
-					date = date.split("/");
-					day = parseInt(date[0], 10);
-					month = parseInt(date[1], 10);
+		if (events.length < 1) {
+			$("#eventsContent").replaceWith('<div id="eventsContent"><p align="center"><strong><span style="color:#48a948">No Upcoming Cruises</span></strong></p></div>');
+		} else {
+			$("#eventsHeader").text('Upcoming Cruises (' + events.length + ')');
+			continueLoading = true;
+		}
+		
+		if (continueLoading) {
+			$("#eventsContent").replaceWith('<div id="eventsContent"></div>');
+			for (var i=0; i < events.length; i++) {
+				var eventString = events[i].innerHTML;
+				var wellFormedEvent = eventString.replace(/[^\|]/g, "").length;
+				if (wellFormedEvent == 4) {
+					eventString = eventString.replace(/\[/g, "");
+					eventString = eventString.replace(/\]/g, "");
+					console.log("Event String: " + eventString);
+					var href = $(events[i]).attr('href');
+					var eventParts = eventString.split("|");
+					var region = eventParts[0];
 
-					if (month > 12) {
-						day = parseInt(date[1], 10);
-						month = parseInt(date[0], 10);
-					}
+					//Determine date parts
+					var date = eventParts[1];
+					dates[i] = eventParts[1];
+					date = eventParts[1].replace(/\-/g, "/");
+					console.log("Date: " + date);
+					if (date.indexOf("/") >= 0) {
+						date = date.split("/");
+						day = parseInt(date[0], 10);
+						month = parseInt(date[1], 10);
 
-					year = date[2];
-					var yearFirstChar = year.charAt(0);
-
-					if (yearFirstChar != "2") {
-						year = "20" + year;
-					}
-
-					year = parseInt(year, 10);
-
-					var monthCurrentEpoch = Date.now();
-					var monthAheadEpoch = (monthCurrentEpoch + 2678400000)/1000;
-					var eventEpoch = Date.UTC(year,month-1,day,12,0)/1000;
-					console.log("Date Epochs: " + monthAheadEpoch + " / " + eventEpoch);
-
-					if (eventEpoch > monthAheadEpoch) {
-						day = parseInt(date[1], 10);
-						month = parseInt(date[0], 10);
-					}
-
-				}
-
-				if ((date.indexOf("/") < 0) && (date.indexOf("2015") >= 0)) {
-					getBadDate(date.toLowerCase());
-				}
-				
-				//var title = toTitleCase(eventParts[2]); //Convert to lowercast starting with 2nd character of each word
-				var title = eventParts[2];
-				var titleShort;
-
-				//Log original time and timezone
-				console.log(title + " - " + eventParts[4] + " - " + day + "/" + month + "/" + year + " - " + eventParts[3]);
-
-				//Convert to four-digit military time and UTC time zone.
-				var time = eventParts[4];
-				if (time.indexOf(":") < 0) {
-					if (time.toLowerCase().indexOf("am") >= 0) {
-						time = time.replace(/AM/g, "");
-						time = time.replace(/am/g, "");
-					}
-					if (time.toLowerCase().indexOf("pm") >= 0) {
-						time = time.replace(/PM/g, "");
-						time = time.replace(/pm/g, "");
-					}
-					time = time.replace(/ /g, "");
-					if (time.length == 1) {
-						time = time + ":00";
-						console.log("Converted Time " + eventParts[4] + " To: " + time);
-					} else if (time.length == 2) {
-						time = time + ":00";
-						console.log("Converted Time " + eventParts[4] + " To: " + time);
-					} else if (time.length == 3) {
-						var time1 = time.charAt(0);
-						var time2 = time.replace(time1, "");
-						time = time1 + ":" + time2;
-						console.log("Converted Time " + eventParts[4] + " To: " + time);
-					} else if (time.length == 4) {
-						var time1 = time.substring(0, 2);
-						var time2 = time.substring(2, 4);
-						time = time1 + ":" + time2;
-						console.log("Converted Time " + eventParts[4] + " To: " + time);
-					}
-				}
-				time = time.split(":");
-				times[i] = eventParts[4];
-				var hour = time[0];
-				var minute = time[1];
-				hour = hour.replace(/ /g, "");
-				hour = parseInt(hour, 10);
-				minute = minute.replace(/ /g, "");
-				minute = parseInt(minute, 10);
-
-				if (times[i].toLowerCase().indexOf("pm") >= 0) {
-					hour = hour + 12;
-				}
-
-				console.log("24hr Hour: " + hour);
-
-				var timezone = eventParts[3];
-				zones[i] = timezone;
-				if (timezone.toLowerCase().indexOf("pst") >= 0) {
-					timezone = "UTC-8";
-				}
-				if (timezone.toLowerCase().indexOf("pdt") >= 0) {
-					timezone = "UTC-7";
-				}
-				if (timezone.toLowerCase().indexOf("est") >= 0) {
-					timezone = "UTC-5";
-				}
-				if (timezone.toLowerCase().indexOf("edt") >= 0) {
-					timezone = "UTC-4";
-				}
-				if (timezone.toLowerCase().indexOf("cst") >= 0) {
-					timezone = "UTC-6";
-				}
-				if (timezone.toLowerCase().indexOf("cdt") >= 0) {
-					timezone = "UTC-5";
-				}
-				if (timezone.toLowerCase().indexOf("aest") >= 0) {
-					timezone = "UTC+10";
-				}
-				if (timezone.toLowerCase().indexOf("aedt") >= 0) {
-					timezone = "UTC+11";
-				}
-
-				timezone = timezone.replace(/ /g, "");
-				var substringBoundry = timezone.length;
-				console.log("Timezone Infos: " + timezone + ", length " + substringBoundry);
-
-				var convertedHour = hour;
-				console.log("Converted Hour 1: " + convertedHour);
-
-				if (substringBoundry > 4) {
-					var timezoneOffsetHours = timezone.substring(4,substringBoundry);
-					console.log("Timezone Offset Hours String: " + timezoneOffsetHours);
-					timezoneOffsetHours = parseInt(timezoneOffsetHours, 10);
-					console.log("Timezone Offset Hours Integer: " + timezoneOffsetHours);
-
-					if (timezone.indexOf("-") >= 0) {
-						convertedHour = hour + timezoneOffsetHours;
-					}
-					if (timezone.indexOf("+") >= 0) {
-						convertedHour = hour - timezoneOffsetHours;
-					}
-
-					if (convertedHour >= 24) {
-						convertedHour = convertedHour - 24;
-						day++;
-
-						var daysInMonth = 31;
-						if ([9,4,6,11].indexOf(month) >=0) {
-							daysInMonth = 30;
-						}
-						if (month == 2) {
-							daysInMonth = 28;
+						if (month > 12) {
+							day = parseInt(date[1], 10);
+							month = parseInt(date[0], 10);
 						}
 
-						if (day > daysInMonth) {
-							day = 1;
-							month++;
+						year = date[2];
+						var yearFirstChar = year.charAt(0);
 
-							if (month > 12) {
-								month = 1;
+						if (yearFirstChar != "2") {
+							year = "20" + year;
+						}
+
+						year = parseInt(year, 10);
+
+						var monthCurrentEpoch = Date.now();
+						var monthAheadEpoch = (monthCurrentEpoch + 2678400000)/1000;
+						var eventEpoch = Date.UTC(year,month-1,day,12,0)/1000;
+						console.log("Date Epochs: " + monthAheadEpoch + " / " + eventEpoch);
+
+						if (eventEpoch > monthAheadEpoch) {
+							day = parseInt(date[1], 10);
+							month = parseInt(date[0], 10);
+						}
+
+					}
+
+					if ((date.indexOf("/") < 0) && (date.indexOf("2015") >= 0)) {
+						getBadDate(date.toLowerCase());
+					}
+					
+					//var title = toTitleCase(eventParts[2]); //Convert to lowercast starting with 2nd character of each word
+					var title = eventParts[2];
+					var titleShort;
+
+					//Log original time and timezone
+					console.log(title + " - " + eventParts[4] + " - " + day + "/" + month + "/" + year + " - " + eventParts[3]);
+
+					//Convert to four-digit military time and UTC time zone.
+					var time = eventParts[4];
+					if (time.indexOf(":") < 0) {
+						if (time.toLowerCase().indexOf("am") >= 0) {
+							time = time.replace(/AM/g, "");
+							time = time.replace(/am/g, "");
+						}
+						if (time.toLowerCase().indexOf("pm") >= 0) {
+							time = time.replace(/PM/g, "");
+							time = time.replace(/pm/g, "");
+						}
+						time = time.replace(/ /g, "");
+						if (time.length == 1) {
+							time = time + ":00";
+							console.log("Converted Time " + eventParts[4] + " To: " + time);
+						} else if (time.length == 2) {
+							time = time + ":00";
+							console.log("Converted Time " + eventParts[4] + " To: " + time);
+						} else if (time.length == 3) {
+							var time1 = time.charAt(0);
+							var time2 = time.replace(time1, "");
+							time = time1 + ":" + time2;
+							console.log("Converted Time " + eventParts[4] + " To: " + time);
+						} else if (time.length == 4) {
+							var time1 = time.substring(0, 2);
+							var time2 = time.substring(2, 4);
+							time = time1 + ":" + time2;
+							console.log("Converted Time " + eventParts[4] + " To: " + time);
+						}
+					}
+					time = time.split(":");
+					times[i] = eventParts[4];
+					var hour = time[0];
+					var minute = time[1];
+					hour = hour.replace(/ /g, "");
+					hour = parseInt(hour, 10);
+					minute = minute.replace(/ /g, "");
+					minute = parseInt(minute, 10);
+
+					if (times[i].toLowerCase().indexOf("pm") >= 0) {
+						hour = hour + 12;
+					}
+
+					console.log("24hr Hour: " + hour);
+
+					var timezone = eventParts[3];
+					zones[i] = timezone;
+					if (timezone.toLowerCase().indexOf("pst") >= 0) {
+						timezone = "UTC-8";
+					}
+					if (timezone.toLowerCase().indexOf("pdt") >= 0) {
+						timezone = "UTC-7";
+					}
+					if (timezone.toLowerCase().indexOf("est") >= 0) {
+						timezone = "UTC-5";
+					}
+					if (timezone.toLowerCase().indexOf("edt") >= 0) {
+						timezone = "UTC-4";
+					}
+					if (timezone.toLowerCase().indexOf("cst") >= 0) {
+						timezone = "UTC-6";
+					}
+					if (timezone.toLowerCase().indexOf("cdt") >= 0) {
+						timezone = "UTC-5";
+					}
+					if (timezone.toLowerCase().indexOf("aest") >= 0) {
+						timezone = "UTC+10";
+					}
+					if (timezone.toLowerCase().indexOf("aedt") >= 0) {
+						timezone = "UTC+11";
+					}
+
+					timezone = timezone.replace(/ /g, "");
+					var substringBoundry = timezone.length;
+					console.log("Timezone Infos: " + timezone + ", length " + substringBoundry);
+
+					var convertedHour = hour;
+					console.log("Converted Hour 1: " + convertedHour);
+
+					if (substringBoundry > 4) {
+						var timezoneOffsetHours = timezone.substring(4,substringBoundry);
+						console.log("Timezone Offset Hours String: " + timezoneOffsetHours);
+						timezoneOffsetHours = parseInt(timezoneOffsetHours, 10);
+						console.log("Timezone Offset Hours Integer: " + timezoneOffsetHours);
+
+						if (timezone.indexOf("-") >= 0) {
+							convertedHour = hour + timezoneOffsetHours;
+						}
+						if (timezone.indexOf("+") >= 0) {
+							convertedHour = hour - timezoneOffsetHours;
+						}
+
+						if (convertedHour >= 24) {
+							convertedHour = convertedHour - 24;
+							day++;
+
+							var daysInMonth = 31;
+							if ([9,4,6,11].indexOf(month) >=0) {
+								daysInMonth = 30;
 							}
+							if (month == 2) {
+								daysInMonth = 28;
+							}
+
+							if (day > daysInMonth) {
+								day = 1;
+								month++;
+
+								if (month > 12) {
+									month = 1;
+								}
+							}
+					
 						}
-				
 					}
-				}
 
-				console.log("Converted Hour 2: " + convertedHour);
+					console.log("Converted Hour 2: " + convertedHour);
 
-				//Output new UTC time
-				console.log("Converted to UTC: " + title + " - " + convertedHour + ":" + minute + " - " + day + "/" + month + "/" + year);
+					//Output new UTC time
+					console.log("Converted to UTC: " + title + " - " + convertedHour + ":" + minute + " - " + day + "/" + month + "/" + year);
 
-				var epochFuture = Date.UTC(year,month-1,day,convertedHour,minute);
-				console.log("Future Epoch Before MS: " + epochFuture);
-				epochFuture = Math.floor(epochFuture/1000);
-				//epochFuture = 1440050400;
-				var epochNow = Math.floor(Date.now()/1000);
-				countdowns[i] = epochFuture - epochNow;
+					var epochFuture = Date.UTC(year,month-1,day,convertedHour,minute);
+					console.log("Future Epoch Before MS: " + epochFuture);
+					epochFuture = Math.floor(epochFuture/1000);
+					//epochFuture = 1440050400;
+					var epochNow = Math.floor(Date.now()/1000);
+					countdowns[i] = epochFuture - epochNow;
 
-				if (title.length > 25) {
-					titleShort = title.substring(0,22) + "...";
-				} else {
-					titleShort = title;
-				}
-				
-				if (!isNaN(countdowns[i])) {
-					var localDate = new Date(epochFuture*1000);
-					localDate = localDate.toString().substring(0,21);
-					eventsString = eventsString + '<p style="float: left"><strong><a title="Link to: ' + title + '" href="' + href + '" target="_blank">'+ titleShort + '</a></p><p style="float: right"><span id="timer' + i + '" style="color:#48a948"></span></strong></p><br /><br /><p style="float: left"><strong>Local Time:</strong></p><p style="float: right"><strong><font size="1">' + localDate + '</font></strong></p><br /><p align="center"><img src="https://lh3.googleusercontent.com/6Evhp9jZ4ocalVFkHdRWgLkG9XkPrrKT0ATrQN0ruLnQ=w699-h9-no" border=0 width="100%"></p>';
-				} else {
-					eventsString = eventsString + '<p style="float: left"><strong><a title="No Countdown Timer - Bad Date - Should be day/month/year. err_code:id10t" href="' + href + '" target="_blank">'+ titleShort + '</a></p><p style="float: right"><span id="timer' + i + '"></span></p></strong><br /><p align="center"><img src="https://lh3.googleusercontent.com/6Evhp9jZ4ocalVFkHdRWgLkG9XkPrrKT0ATrQN0ruLnQ=w699-h9-no" border=0 width="100%"></p>';
+					if (title.length > 25) {
+						titleShort = title.substring(0,22) + "...";
+					} else {
+						titleShort = title;
+					}
+					
+					if (!isNaN(countdowns[i])) {
+						var localDate = new Date(epochFuture*1000);
+						localDate = localDate.toString().substring(0,21);
+						eventData[i] = [epochFuture, '<div id="event' + i + 'Data" style="display: block"><p style="float: left"><strong><a title="Link to: ' + title + '" href="' + href + '" target="_blank">'+ titleShort + '</a></p><p style="float: right"><span id="timer' + i + '" style="color:#48a948"></span></strong></p><br /><br /><p style="float: left"><strong>Local Time:</strong></p><p style="float: right"><strong><font size="1">' + localDate + '</font></strong></p><br /><p align="center"><img src="https://lh3.googleusercontent.com/6Evhp9jZ4ocalVFkHdRWgLkG9XkPrrKT0ATrQN0ruLnQ=w699-h9-no" border=0 width="100%"></p></div>'];
+					} else {
+						eventData[i] = [9999999999, '<p style="float: left"><strong><a title="No Countdown Timer - Bad Date - Should be day/month/year. err_code:id10t" href="' + href + '" target="_blank">'+ titleShort + '</a></p><p style="float: right"><span id="timer' + i + '"></span></p></strong><br /><p align="center"><img src="https://lh3.googleusercontent.com/6Evhp9jZ4ocalVFkHdRWgLkG9XkPrrKT0ATrQN0ruLnQ=w699-h9-no" border=0 width="100%"></p>'];
+					}
 				}
 			}
-		}
 
-		$("#eventsWidget").html('<blockquote><h3><a href="' + upcomingEventsLink + '"><font color="#ffffff">Upcoming Cruises (' + events.length + ')</font></a></h3>' + eventsString + '<center><strong>Local time detected as ' + currentLocation.replace(/\+/g, " ") + '<br />Report Widget Bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/" target="_blank">PapaSyntax</a></strong></center></div></blockquote>');
+			eventData.sort(function(a,b) {
+        		return b[0]-a[0]
+    		});
 
-		for (var i=0; i < events.length; i++) {
-			timerUpdate(i);
+    		for (var n = 0; n < events.length; n++) {
+    			$("#eventsContent").prepend(eventData[n][1]);
+    		}
+
+    		for (var n = 0; n < events.length; n++) {
+    			timerUpdate(n);
+    		}
+
+    		var finishedCounter = 0;
+    		for (var n = 0; n < events.length; n++) {
+    			if ($('#timer' + n + ':contains("Finished")').length > 0) {
+    				$("#event" + n + "Data").replaceWith('<div id="event' + i + 'Data" style="display: hidden"></div>');
+    				finishedCounter++;
+				}
+    		}
+
+			if (finishedCounter != 0) {
+				var newHeaderCounter = events.length - finishedCounter;
+				console.log(finishedCounter + " Events Finished, Changing Header to " + newHeaderCounter + "Events");
+				$("#eventsHeader").text('Upcoming Cruises (' + newHeaderCounter + ')');
+			}
 		}
 	})
 })
