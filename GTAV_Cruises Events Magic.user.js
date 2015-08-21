@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
-// @namespace    https://github.com/JustinHowe/userscripts/
+// @namespace    https://github.com/yogensia/userscripts/
 // @version      1.39
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
@@ -9,7 +9,7 @@
 // @match        https://www.reddit.com/r/gtav_cruises/
 // @match        https://www.reddit.com/r/gtav_cruises
 // @grant        none
-// @require      https://github.com/JustinHowe/userscripts/raw/master/jstz.min.js
+// @require      https://github.com/yogensia/userscripts/raw/master/jstz.min.js
 // ==/UserScript==
 
 //[Region] | [Date] | [Title] | [GMT] | [Time]
