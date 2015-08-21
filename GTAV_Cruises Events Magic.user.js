@@ -120,14 +120,7 @@ function getBadDate(badDate) {
 $(window).load(function(){
 
 	var eventModuleCSS = '<link rel="stylesheet" type="text/css" href="https://raw.githubusercontent.com/yogensia/userscripts/master/event-module.css" media="all">';
-	var eventModuleHTML = '
-<div id="eventsWidget">
-	<blockquote>
-		<h3>Upcoming Cruises</h3>
-		<p align="center"><strong>Loading Cruises...</strong></p>
-		<p align="center"><strong>Report Widget Bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/">PapaSyntax</a></strong></p>
-	</blockquote>
-</div>';
+	var eventModuleHTML = '<div id="eventsWidget"><blockquote><h3>Upcoming Cruises</h3><p align="center"><strong>Loading Cruises...</strong></p><p align="center"><strong>Report Widget Bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/">PapaSyntax</a></strong></p></blockquote></div>';
 
 	$(".md").prepend(eventModuleCSS + eventModuleHTML);
 
@@ -352,13 +345,7 @@ $(window).load(function(){
 			}
 		}
 
-		var eventModuleFinalHTML = '
-<blockquote class="events-module">
-	<h3><a href="' + upcomingEventsLink + '">' + events.length + ' Cruises Found</a></h3>
-	' + eventsString + '
-	<p>Local time detected as ' + currentLocation.replace(/\+/g, " ") + '<br />
-	Report Widget Bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/">PapaSyntax</a>
-</blockquote>';
+		var eventModuleFinalHTML = '<blockquote class="events-module"><h3><a href="' + upcomingEventsLink + '">' + events.length + ' Cruises Found</a></h3>' + eventsString + '<p>Local time detected as ' + currentLocation.replace(/\+/g, " ") + '<br />Report Widget Bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/">PapaSyntax</a></blockquote>';
 
 		$("#eventsWidget").html(eventModuleFinalHTML);
 
