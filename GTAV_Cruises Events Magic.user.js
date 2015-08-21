@@ -4,12 +4,9 @@
 // @version      1.39
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
-// @match        https://www.reddit.com/r/GTAV_Cruises/
-// @match        https://www.reddit.com/r/GTAV_Cruises
-// @match        https://www.reddit.com/r/gtav_cruises/
-// @match        https://www.reddit.com/r/gtav_cruises
-// @match        https://www.reddit.com/r/Gtav_cruises/
-// @match        https://www.reddit.com/r/Gtav_cruises
+// @match        https://www.reddit.com/r/GTAV_Cruises*
+// @match        https://www.reddit.com/r/gtav_cruises*
+// @match        https://www.reddit.com/r/Gtav_cruises*
 // @grant        none
 // @require      https://github.com/yogensia/userscripts/raw/master/jstz.min.js
 // ==/UserScript==
@@ -141,7 +138,7 @@ $(window).load(function(){
 	var eventModuleCSS = '<link rel="stylesheet" type="text/css" href="https://rawgit.com/yogensia/userscripts/master/event-module.css" media="all">';
 	var eventModuleHTML = '<div id="eventsWidget"><blockquote><h3>Upcoming Cruises</h3><p align="center">Loading Cruises...</p><p align="center">Report Widget Bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/">PapaSyntax</a></p></blockquote></div>';
 
-	$(".md").prepend(eventOpenSansCSS + eventModuleCSS + eventModuleHTML);
+	$(".side .md").prepend(eventOpenSansCSS + eventModuleCSS + eventModuleHTML);
 
 	var jstzTimezone = jstz.determine();
 	var currentTimezone = jstzTimezone.name();
