@@ -1,64 +1,68 @@
 .side .md .events-module {
-    text-align: center;
-    font-family: 'Open Sans', sans-serif;
-    font-size: 11px;
+	text-align: center;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 11px;
+	padding: 6px;
 }
 
 .side .md blockquote.events-module h3 {
-    margin-bottom: 6px;
+	margin-bottom: 6px;
 }
 
 .side .md blockquote.events-module h3 a {
-    color: #fff;
+	color: #fff;
 }
 
 .side .md .event-block {
-    background: #03a3ec;
-    border-radius: 3px;
-    color: #fff;
-    display: block;
-    overflow: hidden;
-    text-shadow: 0 1px 0 rgba(0,0,0,0.35);
-    position: relative;
-    padding: 6px;
-    margin-bottom: 6px;
+	background: #03a3ec url(https://rawgit.com/yogensia/userscripts/master/img/background.jpg);
+	background-position: -286px center;
+	border-radius: 3px;
+	color: #fff;
+	display: block;
+	overflow: hidden;
+	text-shadow: 0 1px 0 rgba(0,0,0,0.35);
+	position: relative;
+	padding: 6px;
+	margin-bottom: 6px;
 }
 .side .md .event-block:hover {
-    background: #2dbdff;
+	background-position: -1430px center;
 }
 
 .side .md .event-block.state-finished {
-    background: #f15838;
+	background-color: #f15838;
+	background-position: 0 center;
 }
 .side .md .event-block.state-finished:hover {
-    background: #ff6a4b;
+	background-position: -1144px center;
 }
 
 .side .md .event-block.state-progress {
-    background: #adc23a;
+	background-position: -572px center;
+	background-color: #adc23a;
 }
 .side .md .event-block.state-progress:hover {
-    background: #c6db4e;
+	background-position: -1716px center;
 }
 
 .side .md .event-block a {
-    color: #fff!important;
-    font-size: 14px;
-    font-weight: bold;
-    font-style: italic;
+	color: #fff!important;
+	font-size: 14px;
+	font-weight: bold;
+	font-style: italic;
 }
 
 .side .md .event-timer {
-    text-transform: uppercase;
-    font-size: 10px;
-    font-weight: bold;
+	text-transform: uppercase;
+	font-size: 10px;
+	font-weight: bold;
 }
 
 .side .md .event-block .block-link {
-    display: block;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
+	display: block;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
 }
