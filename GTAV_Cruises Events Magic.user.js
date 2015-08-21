@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/yogensia/userscripts/
-// @version      1.49
+// @version      1.50
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises*
@@ -379,8 +379,8 @@ $(window).load(function(){
 						if (localTimeHr == 12) {
 							amPm = "pm";
 						}
-						if (localTimeMin == 0) {
-							localTimeMin = "12";
+						if (localTimeHr == 0) {
+							localTimeHr = "12";
 						}
 						if (localTimeMin < 10) {
 							localTimeMin = "0" + localTimeMin;
