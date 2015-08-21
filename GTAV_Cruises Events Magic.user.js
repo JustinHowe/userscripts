@@ -120,7 +120,7 @@ function getBadDate(badDate) {
 $(window).load(function(){
 
 	var eventModuleCSS = '<link rel="stylesheet" type="text/css" href="https://raw.githubusercontent.com/yogensia/userscripts/master/event-module.css" media="all">';
-	var eventModuleHTML = '<div id="eventsWidget"><blockquote><h3>Upcoming Cruises</h3><p align="center"><strong>Loading Cruises...</strong></p><p align="center"><strong>Report Widget Bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/">PapaSyntax</a></strong></p></blockquote></div>';
+	var eventModuleHTML = '<div id="eventsWidget"><blockquote><h3>Upcoming Cruises</h3><p align="center">Loading Cruises...</p><p align="center">Report Widget Bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/">PapaSyntax</a></p></blockquote></div>';
 
 	$(".md").prepend(eventModuleCSS + eventModuleHTML);
 
@@ -338,9 +338,9 @@ $(window).load(function(){
 				if (!isNaN(countdowns[i])) {
 					var localDate = new Date(epochFuture*1000);
 					localDate = localDate.toString().substring(0,21);
-					eventsString = eventsString + '<p><strong><a title="Link to: ' + title + '" href="' + href + '">' + titleShort + '</a></p><p style="float: right"><span id="timer' + i + '" style="color:#48a948"></span></strong></p><br /><br /><p><strong>Local Time:</strong></p><p style="float: right"><strong><font size="1">' + localDate + '</font></strong></p><br /><p align="center"><img src="https://lh3.googleusercontent.com/6Evhp9jZ4ocalVFkHdRWgLkG9XkPrrKT0ATrQN0ruLnQ=w699-h9-no" border=0 width="100%"></p>';
+					eventsString = eventsString + '<div class="event-block"><p class="event-title"><a title="Link to: ' + title + '" href="' + href + '">' + titleShort + '</a></p><p id="timer' + i + '"></p><p class="event-local-date">' + localDate + '</p></div>';
 				} else {
-					eventsString = eventsString + '<p><strong><a title="No Countdown Timer - Bad Date - Should be day/month/year. err_code:id10t" href="' + href + '">' + titleShort + '</a></p><p style="float: right"><span id="timer' + i + '"></span></p></strong><br /><p align="center"><img src="https://lh3.googleusercontent.com/6Evhp9jZ4ocalVFkHdRWgLkG9XkPrrKT0ATrQN0ruLnQ=w699-h9-no" border=0 width="100%"></p>';
+					eventsString = eventsString + '<p><a title="No Countdown Timer - Bad Date - Should be day/month/year. err_code:id10t" href="' + href + '">' + titleShort + '</a></p><p style="float: right"><span class="event-timer' + i + '"></span></p><p align="center"><img src="https://lh3.googleusercontent.com/6Evhp9jZ4ocalVFkHdRWgLkG9XkPrrKT0ATrQN0ruLnQ=w699-h9-no" border=0 width="100%"></p>';
 				}
 			}
 		}
