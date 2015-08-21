@@ -143,7 +143,7 @@ $(window).load(function(){
 
 	var eventOpenSansCSS = '<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700italic,700" rel="stylesheet" type="text/css">';
 	var eventModuleCSS = '<link rel="stylesheet" type="text/css" href="https://rawgit.com/yogensia/userscripts/master/event-module.css" media="all">';
-	var eventModuleHTML = '<div id="eventsWidget"><blockquote class="events-module"><h3 id="eventsHeader"></h3><div id="eventsContent"></div><p align="center"><strong>Local time detected as ' + currentLocation.replace(/\+/g, " ") + '<br />Report Widget Bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/" target="_blank">PapaSyntax</a></strong></p></blockquote></div>';
+	var eventModuleHTML = '<div id="eventsWidget"><blockquote class="events-module"><h3><a id="eventsHeader" href="' + upcomingEventsLink + '"></a></h3><div id="eventsContent"></div><p align="center"><strong>Local time detected as ' + currentLocation.replace(/\+/g, " ") + '<br />Report Widget Bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/" target="_blank">PapaSyntax</a></strong></p></blockquote></div>';
 
 	$(".side .md").prepend(eventOpenSansCSS + eventModuleCSS + eventModuleHTML);
 
