@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
-// @namespace    https://github.com/yogensia/userscripts/
-// @version      1.39
+// @namespace    https://github.com/JustinHowe/userscripts/
+// @version      1.40
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises*
@@ -370,11 +370,5 @@ $(window).load(function(){
 		for (var i=0; i < events.length; i++) {
 			timerUpdate(i);
 		}
-
-		// Reorder events: 1st: Header, 2nd: In Progress Events, Last: Footer, 2nd Last: Finished Events, (TODO Bad Date Events)
-		$(".state-progress").prependTo(".events-module");
-		$(".events-module > h3").prependTo(".events-module");
-		$(".state-finished").appendTo(".events-module");
-		$(".event-footer").appendTo(".events-module");
 	})
 })
