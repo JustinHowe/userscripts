@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      1.44
+// @version      1.48
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises*
@@ -360,7 +360,30 @@ $(window).load(function(){
 
 					if (!isNaN(countdowns[i])) {
 						var localDate = new Date(epochFuture*1000);
-						localDate = localDate.toString().substring(0,21);
+						var localDateString = localDate.toString().substring(0,21);
+						localDateString = localDateString.split(" ");
+						var localDayString = localDateString[0];
+						var localMonth = localDateString[1];
+						var localDay = localDateString[2];
+						var localTimeHr = localDate.getHours();
+						console.log("Local Hour: " + localTimeHr);
+						var localTimeMin = localDate.getMinutes();
+						var amPm;
+						if (localTimeHr < 12) {
+							amPm = "am";
+						}
+						if (localTimeHr > 12) {
+							localTimeHr = localTimeHr - 12;
+							amPm = "pm";
+						}
+						if (localTimeHr == 12) {
+							amPm = "pm";
+						}
+						if (localTimeMin < 10) {
+							localTimeMin = "0" + localTimeMin;
+						}
+						localDate = localDayString + " " + localMonth + " " + localDay + " @ " + localTimeHr + ":" + localTimeMin + "" + amPm;
+						console.log(localDate);
 						eventData[i] = [epochFuture, '<div id="event-block-' + i + '" class="event-block"><p class="event-title"><a title="Link to: ' + title + '" href="' + href + '">' + title + '</a></p><p id="timer' + i + '" class="event-timer"></p><p class="event-local-date">' + localDate + '</p><a class="block-link" a title="Link to: ' + title + '" href="' + href + '"></a></div>'];
 					} else {
 						eventData[i] = [9999999999, '<p><a title="No Countdown Timer - Bad Date - Should be day/month/year. err_code:id10t" href="' + href + '">' + title + '</a></p><p style="float: right"><span class="event-timer' + i + '"></span></p><p align="center"><img src="https://lh3.googleusercontent.com/6Evhp9jZ4ocalVFkHdRWgLkG9XkPrrKT0ATrQN0ruLnQ=w699-h9-no" border=0 width="100%"></p>'];
