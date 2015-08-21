@@ -1,13 +1,12 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
-// @namespace    https://github.com/JustinHowe/userscripts/
-// @version      1.40
+// @namespace    https://github.com/yogensia/userscripts/
+// @version      1.41
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
-// @match        https://www.reddit.com/r/GTAV_Cruises/
-// @match        https://www.reddit.com/r/GTAV_Cruises
-// @match        https://www.reddit.com/r/gtav_cruises/
-// @match        https://www.reddit.com/r/gtav_cruises
+// @match        https://www.reddit.com/r/GTAV_Cruises*
+// @match        https://www.reddit.com/r/gtav_cruises*
+// @match        https://www.reddit.com/r/Gtav_cruises*
 // @grant        none
 // @require      https://github.com/JustinHowe/userscripts/raw/master/jstz.min.js
 // ==/UserScript==
@@ -24,7 +23,7 @@ var year = "y";
 var continueLoading = false;
 var eventData = [];
 
-console.log = function() {} //Comment to enable console logging. 
+console.log = function() {} //Comment to enable console logging.
 
 function toTitleCase(str) {
 	return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
@@ -41,36 +40,52 @@ function timerUpdate(n) {
 		var txt;
 		var inProgress = false;
 
+		if (d == 1) {
+			var textDays = " Day, ";
+		} else {
+			var textDays = " Days, ";
+		}
+
+		if (h == 1) {
+			var textHours = " Hr";
+		} else {
+			var textHours = " Hrs";
+		}
+
 		if (d != 0) {
-			txt = d + " Days, " + h +" Hrs, " + m + " Min";
-		} 
+			txt = "Starts in " + d + textDays + h + textHours + ", " + m + " Min";
+			$("#event-block-" + n).addClass("state-upcoming");
+		}
 		if ((d == 0) && (h != 0)) {
-			txt = h +" Hrs, " + m + " Min";
+			txt = "Starts in " + h + textHours + ", " + m + " Min";
+			$("#event-block-" + n).addClass("state-upcoming");
 		}
 		if ((d == 0) &&(h == 0) && (m != 0)) {
-			txt = m + " Min";
+			txt = "Starts in " + m + " Min";
+			$("#event-block-" + n).addClass("state-upcoming");
 		}
 		if ((d != 0) &&(h == 0) && (m != 0)) {
-			txt = d + " Days, " + m + " Min";
+			txt = "Starts in " + d + textDays + m + " Min";
+			$("#event-block-" + n).addClass("state-upcoming");
 		}
 
 		if ((d != 0) &&(h != 0) && (m == 0)) {
-			txt = d + " Days, " + h + " Hrs";
-		}
-		if (txt.length >= 20) {
-			txt = '<font size="1">' + txt + '</font>';
+			txt = "Starts in " + d + textDays + h + textHours;
+			$("#event-block-" + n).addClass("state-upcoming");
 		}
 		if ((d == 0) && ((h >= -1) && (h <= 0)) && (m <= 0)) {
-			txt = '<font color="#989742">In Progress</font>';
+			txt = 'In Progress';
+			$("#event-block-" + n).addClass("state-progress");
 			inProgress = true;
 		}
 		if ((m <= 0) && !inProgress) {
-			txt = '<font color="#e85151">Finished</font>';
+			txt = 'Finished';
+			$("#event-block-" + n).removeClass("state-upcoming").addClass("state-finished");
 		}
 
 		document.getElementById(timerString).innerHTML = txt;
 	} else {
-		document.getElementById(timerString).innerHTML = '<font size="1">' + dates[n] + ' @ ' + times[n] + ' ' + zones[n] + '</font>';
+		document.getElementById(timerString).innerHTML = dates[n] + ' @ ' + times[n] + ' ' + zones[n];
 	}
 }
 
@@ -122,14 +137,16 @@ function getBadDate(badDate) {
 $(window).load(function(){
 
 	var jstzTimezone = jstz.determine();
-	var currentTimezone = jstzTimezone.name(); 
+	var currentTimezone = jstzTimezone.name();
 	var currentLocation = currentTimezone.split("/");
 	currentLocation = currentLocation[1].replace(/\_/g, "+");
-	
-	$(".md").prepend('<div id="eventsWidget"><blockquote><h3><div id="eventsHeader"></div></h3><div id="eventsContent"></div><p align="center"><strong>Local time detected as ' + currentLocation.replace(/\+/g, " ") + '<br />Report Widget Bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/" target="_blank">PapaSyntax</a></strong></p></blockquote></div>');
-	$("#eventsHeader").text('Upcoming Cruises');
-	$("#eventsContent").prepend('<p align="center"><strong><span style="color:#48a948">Loading Cruises...</span></strong></p>');
-	
+
+	var eventOpenSansCSS = '<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700italic,700" rel="stylesheet" type="text/css">';
+	var eventModuleCSS = '<link rel="stylesheet" type="text/css" href="https://rawgit.com/yogensia/userscripts/master/event-module.css" media="all">';
+	var eventModuleHTML = '<div id="eventsWidget"><blockquote class="events-module"><h3 id="eventsHeader"></h3><div id="eventsContent"></div><p align="center"><strong>Local time detected as ' + currentLocation.replace(/\+/g, " ") + '<br />Report Widget Bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/" target="_blank">PapaSyntax</a></strong></p></blockquote></div>';
+
+	$(".side .md").prepend(eventOpenSansCSS + eventModuleCSS + eventModuleHTML);
+
 	var countdownHref;
 	var upcomingEventsLink = "https://www.reddit.com/r/GTAV_Cruises/search?q=flair%3A%22events%22&restrict_sr=on&sort=new&t=all#res-hide-options";
 	var iframe = document.createElement('iframe');
@@ -149,7 +166,7 @@ $(window).load(function(){
 		if (events.length < 1) {
 			$("#eventsContent").replaceWith('<div id="eventsContent"><p align="center"><strong><span style="color:#48a948">No Upcoming Cruises</span></strong></p></div>');
 		} else {
-			$("#eventsHeader").text('Upcoming Cruises (' + events.length + ')');
+			$("#eventsHeader").text(events.length + ' Cruises Found');
 			continueLoading = true;
 		}
 		
@@ -205,7 +222,7 @@ $(window).load(function(){
 					if ((date.indexOf("/") < 0) && (date.indexOf("2015") >= 0)) {
 						getBadDate(date.toLowerCase());
 					}
-					
+
 					//var title = toTitleCase(eventParts[2]); //Convert to lowercast starting with 2nd character of each word
 					var title = eventParts[2];
 					var titleShort;
@@ -325,7 +342,7 @@ $(window).load(function(){
 									month = 1;
 								}
 							}
-					
+
 						}
 					}
 
@@ -341,18 +358,12 @@ $(window).load(function(){
 					var epochNow = Math.floor(Date.now()/1000);
 					countdowns[i] = epochFuture - epochNow;
 
-					if (title.length > 25) {
-						titleShort = title.substring(0,22) + "...";
-					} else {
-						titleShort = title;
-					}
-					
 					if (!isNaN(countdowns[i])) {
 						var localDate = new Date(epochFuture*1000);
 						localDate = localDate.toString().substring(0,21);
-						eventData[i] = [epochFuture, '<div id="event' + i + 'Data" style="display: block"><p style="float: left"><strong><a title="Link to: ' + title + '" href="' + href + '" target="_blank">'+ titleShort + '</a></p><p style="float: right"><span id="timer' + i + '" style="color:#48a948"></span></strong></p><br /><br /><p style="float: left"><strong>Local Time:</strong></p><p style="float: right"><strong><font size="1">' + localDate + '</font></strong></p><br /><p align="center"><img src="https://lh3.googleusercontent.com/6Evhp9jZ4ocalVFkHdRWgLkG9XkPrrKT0ATrQN0ruLnQ=w699-h9-no" border=0 width="100%"></p></div>'];
+						eventData[i] = [epochFuture, '<div id="event-block-' + i + '" class="event-block"><p id="timer' + i + '" class="event-timer"></p><p class="event-title"><a title="Link to: ' + title + '" href="' + href + '">' + title + '</a></p><p class="event-local-date">' + localDate + '</p><a class="block-link" a title="Link to: ' + title + '" href="' + href + '"></a></div>'];
 					} else {
-						eventData[i] = [9999999999, '<p style="float: left"><strong><a title="No Countdown Timer - Bad Date - Should be day/month/year. err_code:id10t" href="' + href + '" target="_blank">'+ titleShort + '</a></p><p style="float: right"><span id="timer' + i + '"></span></p></strong><br /><p align="center"><img src="https://lh3.googleusercontent.com/6Evhp9jZ4ocalVFkHdRWgLkG9XkPrrKT0ATrQN0ruLnQ=w699-h9-no" border=0 width="100%"></p>'];
+						eventData[i] = [9999999999, '<p><a title="No Countdown Timer - Bad Date - Should be day/month/year. err_code:id10t" href="' + href + '">' + title + '</a></p><p style="float: right"><span class="event-timer' + i + '"></span></p><p align="center"><img src="https://lh3.googleusercontent.com/6Evhp9jZ4ocalVFkHdRWgLkG9XkPrrKT0ATrQN0ruLnQ=w699-h9-no" border=0 width="100%"></p>'];
 					}
 				}
 			}
@@ -361,18 +372,18 @@ $(window).load(function(){
         		return b[0]-a[0]
     		});
 
-    		for (var n = 0; n < events.length; n++) {
+			for (var n = 0; n < events.length; n++) {
     			$("#eventsContent").prepend(eventData[n][1]);
     		}
 
-    		for (var n = 0; n < events.length; n++) {
-    			timerUpdate(n);
-    		}
+			for (var i=0; i < events.length; i++) {
+				timerUpdate(i);
+			}
 
-    		var finishedCounter = 0;
+			var finishedCounter = 0;
     		for (var n = 0; n < events.length; n++) {
     			if ($('#timer' + n + ':contains("Finished")').length > 0) {
-    				$("#event" + n + "Data").replaceWith('<div id="event' + i + 'Data" style="display: hidden"></div>');
+    				$("#event-block-" + n).replaceWith('<div id="event-block-' + n + '" style="display: hidden"></div>');
     				finishedCounter++;
 				}
     		}
@@ -380,8 +391,14 @@ $(window).load(function(){
 			if (finishedCounter != 0) {
 				var newHeaderCounter = events.length - finishedCounter;
 				console.log(finishedCounter + " Events Finished, Changing Header to " + newHeaderCounter + "Events");
-				$("#eventsHeader").text('Upcoming Cruises (' + newHeaderCounter + ')');
+				$("#eventsHeader").text(newHeaderCounter + ' Cruises Found');
 			}
+
+			// Reorder events: 1st: Header, 2nd: In Progress Events, Last: Footer, 2nd Last: Finished Events, (TODO Bad Date Events)
+			$(".state-progress").prependTo(".events-module");
+			$(".events-module > h3").prependTo(".events-module");
+			$(".state-finished").appendTo(".events-module");
+			$(".event-footer").appendTo(".events-module");
 		}
 	})
 })
