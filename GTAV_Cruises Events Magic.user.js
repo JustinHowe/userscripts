@@ -1,14 +1,14 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      1.58
+// @version      1.60
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises*
 // @match        https://www.reddit.com/r/gtav_cruises*
 // @match        https://www.reddit.com/r/Gtav_cruises*
 // @grant        none
-// @require      https://github.com/yogensia/userscripts/raw/master/jstz.min.js
+// @require      https://github.com/JustinHowe/userscripts/raw/master/jstz.min.js
 // ==/UserScript==
 
 //[Region] | [Date] | [Title] | [GMT] | [Time]
@@ -25,7 +25,6 @@ var continueLoading = false;
 var eventData = [];
 var events, epochNow;
 var updateCounter = 0;
-var finishedCounter = 0;
 
 console.log = function() {} //Comment to enable console logging.
 
@@ -58,57 +57,36 @@ function timerUpdate(n) {
 			var textHours = " Hrs";
 		}
 
-		if (d != 0) {
+		if (d > 0) {
 			txt = "Starts in " + d + textDays + h + textHours + ", " + m + " Min";
-			if (updateCounter > 0) {
-				$("#event-block-" + n).removeClass("state-upcoming");
-			}
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
-		if ((d == 0) && (h != 0)) {
+		if ((d == 0) && (h > 0)) {
 			txt = "Starts in " + h + textHours + ", " + m + " Min";
-			if (updateCounter > 0) {
-				$("#event-block-" + n).removeClass("state-upcoming");
-			}
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
-		if ((d == 0) &&(h == 0) && (m != 0)) {
+		if ((d == 0) &&(h == 0) && (m > 0)) {
 			txt = "Starts in " + m + " Min";
-			if (updateCounter > 0) {
-				$("#event-block-" + n).removeClass("state-upcoming");
-			}
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
-		if ((d != 0) &&(h == 0) && (m != 0)) {
+		if ((d > 0) &&(h == 0) && (m > 0)) {
 			txt = "Starts in " + d + textDays + m + " Min";
-			if (updateCounter > 0) {
-				$("#event-block-" + n).removeClass("state-upcoming");
-			}
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
 
-		if ((d != 0) &&(h != 0) && (m == 0)) {
+		if ((d > 0) &&(h > 0) && (m == 0)) {
 			txt = "Starts in " + d + textDays + h + textHours;
-			if (updateCounter > 0) {
-				$("#event-block-" + n).removeClass("state-upcoming");
-			}
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
 		if ((d == 0) && ((h >= -1) && (h <= 0)) && (m <= 0)) {
 			txt = 'In Progress';
-			if (updateCounter > 0) {
-				$("#event-block-" + n).removeClass("state-progress");
-			}
 			$("#event-block-" + n).addClass("state-progress");
 			inProgress = true;
 		}
-		if ((m <= 0) && !inProgress) {
+		if ((m < 0) && !inProgress) {
 			txt = 'Finished';
-			if ( ! $("#event-block-" + n).hasClass("state-hidden") ) {
-				$("#event-block-" + n).addClass("state-hidden").hide();
-				finishedCounter++;
-				console.log("EVENT #" + n + " HAS FINISHED, HIDDING... (" + finishedCounter + " events hidden so far)");
-			}
+			$("#event-block-" + n).removeClass("state-progress").addClass("state-finished");
+			$("#event-block-" + n).hide();
 		}
 
 		document.getElementById(timerString).innerHTML = "<strong>" + txt + "</strong>";
@@ -120,11 +98,17 @@ function timerUpdate(n) {
 }
 
 function checkFinished() {
+	var finishedCounter = 0;
+	for (var n = 0; n < events.length; n++) {
+		if ($('#timer' + n + ':contains("Finished")').length > 0) {
+			finishedCounter++;
+		}
+	}
+
 	if (finishedCounter != 0) {
 		var newHeaderCounter = events.length - finishedCounter;
 		console.log(finishedCounter + " Events Finished, Changing Header to " + newHeaderCounter + "Events");
 		$("#eventsHeader").text(newHeaderCounter + ' Cruises Found');
-		finishedCounter = 0;
 	}
 }
 
@@ -434,7 +418,7 @@ $(window).load(function(){
 						console.log(localDate);
 						eventData[i] = [epochFuture[i], '<div id="event-block-' + i + '" class="event-block"><p class="event-title"><a title="Link to: ' + title + '" href="' + href + '">' + title + '</a></p><p id="timer' + i + '" class="event-timer"></p><p class="event-local-date">' + localDate + '</p><a class="block-link" a title="Link to: ' + title + '" href="' + href + '"></a></div>'];
 					} else {
-						eventData[i] = [9999999999, '<div id="event-block-' + i + '" class="event-block"><p class="event-title"><a title="No Countdown Timer - Bad Date - Should be day/month/year. err_code:id10t" href="' + href + '">' + title + '</a></p><p id="timer' + i + '" class="event-timer"></p><p class="event-local-date">' + localDate + '</p><a class="block-link" a title="No Countdown Timer - Bad Date - Should be day/month/year. err_code:id10t" href="' + href + '"></a>'];
+						eventData[i] = [9999999999, '<div id="event-block-' + i + '" class="event-block"><p class="event-title"><a title="No Countdown Timer - Bad Date - Should be day/month/year. err_code:id10t" href="' + href + '">' + title + '</a></p><p id="timer' + i + '" class="event-timer"></p><p class="event-local-date">' + localDate + '</p><a class="block-link" a title="No Countdown Timer - Bad Date - Should be day/month/year. err_code:id10t" href="' + href + '"></a></div>'];
 					}
 				}
 			}
