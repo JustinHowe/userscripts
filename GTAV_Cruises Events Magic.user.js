@@ -25,6 +25,7 @@ var continueLoading = false;
 var eventData = [];
 var events, epochNow;
 var updateCounter = 0;
+var finishedCounter = 0;
 
 console.log = function() {} //Comment to enable console logging.
 
@@ -103,11 +104,11 @@ function timerUpdate(n) {
 		}
 		if ((m <= 0) && !inProgress) {
 			txt = 'Finished';
-			/*if (updateCounter > 0) {
-				$("#event-block-" + n).removeClass("state-finished").addClass("state-finished");
-			} else {
-				$("#event-block-" + n).removeClass("state-progress").addClass("state-finished");
-			}*/
+			if ( ! $("#event-block-" + n).hasClass("state-hidden") ) {
+				$("#event-block-" + n).addClass("state-hidden").hide();
+				finishedCounter++;
+				console.log("EVENT #" + n + " HAS FINISHED, HIDDING... (" + finishedCounter + " events hidden so far)");
+			}
 		}
 
 		document.getElementById(timerString).innerHTML = "<strong>" + txt + "</strong>";
@@ -119,18 +120,11 @@ function timerUpdate(n) {
 }
 
 function checkFinished() {
-	var finishedCounter = 0;
-	for (var n = 0; n < events.length; n++) {
-		if ($('#timer' + n + ':contains("Finished")').length > 0) {
-			$("#event-block-" + n).replaceWith('<div id="event-block-' + n + '" style="display: hidden"><p id="timer' + n + '" class="event-timer"></p></div>');
-			finishedCounter++;
-		}
-	}
-
 	if (finishedCounter != 0) {
 		var newHeaderCounter = events.length - finishedCounter;
 		console.log(finishedCounter + " Events Finished, Changing Header to " + newHeaderCounter + "Events");
 		$("#eventsHeader").text(newHeaderCounter + ' Cruises Found');
+		finishedCounter = 0;
 	}
 }
 
