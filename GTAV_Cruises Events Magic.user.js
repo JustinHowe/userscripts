@@ -1,7 +1,12 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
+<<<<<<< HEAD
 // @namespace    https://github.com/JustinHowe/userscripts/
 // @version      1.48
+=======
+// @namespace    https://github.com/yogensia/userscripts/
+// @version      1.58
+>>>>>>> JustinHowe/master
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises*
@@ -17,11 +22,14 @@ var countdowns = [];
 var dates = [];
 var times = [];
 var zones = [];
+var epochFuture = [];
 var day = "d";
 var month = "m";
 var year = "y";
 var continueLoading = false;
 var eventData = [];
+var events, epochNow;
+var updateCounter = 0;
 
 console.log = function() {} //Comment to enable console logging.
 
@@ -31,6 +39,8 @@ function toTitleCase(str) {
 
 function timerUpdate(n) {
 	var timerString = "timer" + n;
+	epochNow = Math.floor(Date.now()/1000);
+	countdowns[n] = epochFuture[n] - epochNow;
 	if (!isNaN(countdowns[n])) {
 		s = countdowns[n]%60;
 		m = (countdowns[n]-s)/60%60;
@@ -54,39 +64,86 @@ function timerUpdate(n) {
 
 		if (d != 0) {
 			txt = "Starts in " + d + textDays + h + textHours + ", " + m + " Min";
+			if (updateCounter > 0) {
+				$("#event-block-" + n).removeClass("state-upcoming");
+			}
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
 		if ((d == 0) && (h != 0)) {
 			txt = "Starts in " + h + textHours + ", " + m + " Min";
+			if (updateCounter > 0) {
+				$("#event-block-" + n).removeClass("state-upcoming");
+			}
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
 		if ((d == 0) &&(h == 0) && (m != 0)) {
 			txt = "Starts in " + m + " Min";
+			if (updateCounter > 0) {
+				$("#event-block-" + n).removeClass("state-upcoming");
+			}
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
 		if ((d != 0) &&(h == 0) && (m != 0)) {
 			txt = "Starts in " + d + textDays + m + " Min";
+			if (updateCounter > 0) {
+				$("#event-block-" + n).removeClass("state-upcoming");
+			}
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
 
 		if ((d != 0) &&(h != 0) && (m == 0)) {
 			txt = "Starts in " + d + textDays + h + textHours;
+			if (updateCounter > 0) {
+				$("#event-block-" + n).removeClass("state-upcoming");
+			}
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
 		if ((d == 0) && ((h >= -1) && (h <= 0)) && (m <= 0)) {
 			txt = 'In Progress';
+			if (updateCounter > 0) {
+				$("#event-block-" + n).removeClass("state-progress");
+			}
 			$("#event-block-" + n).addClass("state-progress");
 			inProgress = true;
 		}
 		if ((m <= 0) && !inProgress) {
 			txt = 'Finished';
-			$("#event-block-" + n).removeClass("state-upcoming").addClass("state-finished");
+			/*if (updateCounter > 0) {
+				$("#event-block-" + n).removeClass("state-finished").addClass("state-finished");
+			} else {
+				$("#event-block-" + n).removeClass("state-progress").addClass("state-finished");
+			}*/
 		}
 
 		document.getElementById(timerString).innerHTML = "<strong>" + txt + "</strong>";
+		console.log("Updated Timer Values to: " + txt);
 	} else {
 		document.getElementById(timerString).innerHTML = dates[n] + ' @ ' + times[n] + ' ' + zones[n];
 	}
+	updateCounter++;
+}
+
+function checkFinished() {
+	var finishedCounter = 0;
+	for (var n = 0; n < events.length; n++) {
+		if ($('#timer' + n + ':contains("Finished")').length > 0) {
+			$("#event-block-" + n).replaceWith('<div id="event-block-' + n + '" style="display: hidden"><p id="timer' + n + '" class="event-timer"></p></div>');
+			finishedCounter++;
+		}
+	}
+
+	if (finishedCounter != 0) {
+		var newHeaderCounter = events.length - finishedCounter;
+		console.log(finishedCounter + " Events Finished, Changing Header to " + newHeaderCounter + "Events");
+		$("#eventsHeader").text(newHeaderCounter + ' Cruises Found');
+	}
+}
+
+function refreshTimer() {
+	for (var i=0; i < events.length; i++) {
+		timerUpdate(i);
+	}
+	checkFinished();
 }
 
 function getBadDate(badDate) {
@@ -144,7 +201,7 @@ $(window).load(function(){
 
 	var eventOpenSansCSS = '<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700italic,700" rel="stylesheet" type="text/css">';
 	var eventModuleCSS = '<link rel="stylesheet" type="text/css" href="https://rawgit.com/yogensia/userscripts/master/event-module.css" media="all">';
-	var eventModuleHTML = '<div id="eventsWidget"><blockquote class="events-module"><h3><a id="eventsHeader" href="' + upcomingEventsLink + '"></a></h3><div id="eventsContent"></div><p align="center"><strong>Local time detected as ' + currentLocation.replace(/\+/g, " ") + '<br />Report widget bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/" target="_blank">PapaSyntax</a></strong></p></blockquote></div>';
+	var eventModuleHTML = '<div id="eventsWidget"><blockquote class="events-module"><h3><a id="eventsHeader" href="' + upcomingEventsLink + '"></a></h3><strong>Countdown timers auto-update</strong><div id="eventsContent"></div><p align="center"><strong>Local time detected as ' + currentLocation.replace(/\+/g, " ") + '<br />Report widget bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/" target="_blank">PapaSyntax</a></strong></p></blockquote></div>';
 
 	$(".side .md").prepend(eventOpenSansCSS + eventModuleCSS + eventModuleHTML);
 
@@ -160,7 +217,7 @@ $(window).load(function(){
 	// Run everything after iFrame load.
 	$("#eventsiFrame").load(function(){
 		var eventsString = "";
-		var events = $("#eventsiFrame").contents().find("header.search-result-header > span").filter(function() { return ($(this).text() === 'Event') }).next();
+		events = $("#eventsiFrame").contents().find("header.search-result-header > span").filter(function() { return ($(this).text() === 'Event') }).next();
 		console.log("Events Found: " + events.length);
 
 		if (events.length < 1) {
@@ -171,7 +228,6 @@ $(window).load(function(){
 		}
 
 		if (continueLoading) {
-			$("#eventsContent").replaceWith('<div id="eventsContent"></div>');
 			for (var i=0; i < events.length; i++) {
 				var eventString = events[i].innerHTML;
 				var wellFormedEvent = eventString.replace(/[^\|]/g, "").length;
@@ -351,15 +407,15 @@ $(window).load(function(){
 					//Output new UTC time
 					console.log("Converted to UTC: " + title + " - " + convertedHour + ":" + minute + " - " + day + "/" + month + "/" + year);
 
-					var epochFuture = Date.UTC(year,month-1,day,convertedHour,minute);
-					console.log("Future Epoch Before MS: " + epochFuture);
-					epochFuture = Math.floor(epochFuture/1000);
+					epochFuture[i] = Date.UTC(year,month-1,day,convertedHour,minute);
+					console.log("Future Epoch Before MS: " + epochFuture[i]);
+					epochFuture[i] = Math.floor(epochFuture[i]/1000);
 					//epochFuture = 1440050400;
-					var epochNow = Math.floor(Date.now()/1000);
-					countdowns[i] = epochFuture - epochNow;
+					epochNow = Math.floor(Date.now()/1000);
+					countdowns[i] = epochFuture[i] - epochNow;
 
 					if (!isNaN(countdowns[i])) {
-						var localDate = new Date(epochFuture*1000);
+						var localDate = new Date(epochFuture[i]*1000);
 						var localDateString = localDate.toString().substring(0,21);
 						localDateString = localDateString.split(" ");
 						var localDayString = localDateString[0];
@@ -379,12 +435,15 @@ $(window).load(function(){
 						if (localTimeHr == 12) {
 							amPm = "pm";
 						}
+						if (localTimeHr == 0) {
+							localTimeHr = "12";
+						}
 						if (localTimeMin < 10) {
 							localTimeMin = "0" + localTimeMin;
 						}
 						localDate = localDayString + " " + localMonth + " " + localDay + " @ " + localTimeHr + ":" + localTimeMin + "" + amPm;
 						console.log(localDate);
-						eventData[i] = [epochFuture, '<div id="event-block-' + i + '" class="event-block"><p class="event-title"><a title="Link to: ' + title + '" href="' + href + '">' + title + '</a></p><p id="timer' + i + '" class="event-timer"></p><p class="event-local-date">' + localDate + '</p><a class="block-link" a title="Link to: ' + title + '" href="' + href + '"></a></div>'];
+						eventData[i] = [epochFuture[i], '<div id="event-block-' + i + '" class="event-block"><p class="event-title"><a title="Link to: ' + title + '" href="' + href + '">' + title + '</a></p><p id="timer' + i + '" class="event-timer"></p><p class="event-local-date">' + localDate + '</p><a class="block-link" a title="Link to: ' + title + '" href="' + href + '"></a></div>'];
 					} else {
 						eventData[i] = [9999999999, '<div id="event-block-' + i + '" class="event-block"><p class="event-title"><a title="No Countdown Timer - Bad Date - Should be day/month/year. err_code:id10t" href="' + href + '">' + title + '</a></p><p id="timer' + i + '" class="event-timer"></p><p class="event-local-date">' + localDate + '</p><a class="block-link" a title="No Countdown Timer - Bad Date - Should be day/month/year. err_code:id10t" href="' + href + '"></a>'];
 					}
@@ -403,19 +462,9 @@ $(window).load(function(){
 				timerUpdate(i);
 			}
 
-			var finishedCounter = 0;
-    		for (var n = 0; n < events.length; n++) {
-    			if ($('#timer' + n + ':contains("Finished")').length > 0) {
-    				$("#event-block-" + n).replaceWith('<div id="event-block-' + n + '" style="display: hidden"></div>');
-    				finishedCounter++;
-				}
-    		}
+			checkFinished();
 
-			if (finishedCounter != 0) {
-				var newHeaderCounter = events.length - finishedCounter;
-				console.log(finishedCounter + " Events Finished, Changing Header to " + newHeaderCounter + "Events");
-				$("#eventsHeader").text(newHeaderCounter + ' Cruises Found');
-			}
+			setInterval(refreshTimer, 30000);
 		}
 	})
 })
