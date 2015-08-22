@@ -10,15 +10,8 @@
 }
 
 .side .md blockquote.events-module h3 {
-	margin-bottom: 6px;
-}
-
-.side .md blockquote.events-module h3 a {
-	color: #fff;
-}
-
-.side .md blockquote.events-module h3 {
 	height: 36px;
+	margin-bottom: 6px;
 	padding: 0;
 	position: relative;
 }
