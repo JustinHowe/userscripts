@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/yogensia/userscripts/
-// @version      1.73
+// @version      1.74
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises*
@@ -91,9 +91,7 @@ function timerUpdate(n) {
 			txt = 'Finished';
 			$("#event-block-" + n).removeClass("state-progress").addClass("state-finished");
 			$("#event-block-" + n).hide();
-			finishedCounter++;
-			var newHeaderCounter = goodEvents.length - finishedCounter;
-			$("#eventsHeader").text(newHeaderCounter + ' Cruises Found');
+			checkFinished();
 		}
 
 		document.getElementById(timerString).innerHTML = "<strong>" + txt + "</strong>";
@@ -101,14 +99,28 @@ function timerUpdate(n) {
 	} else {
 		document.getElementById(timerString).innerHTML = dates[n] + ' @ ' + times[n] + ' ' + zones[n];
 	}
-	updateCounter++;
 }
 
 function refreshTimer() {
 	for (var i=0; i < goodEvents.length; i++) {
 		timerUpdate(i);
 	}
-	//checkFinished();
+	checkFinished();
+}
+
+function checkFinished() {
+	var finishedCounter = 0;
+	for (var n = 0; n < goodEvents.length; n++) {
+		if ($('#timer' + n + ':contains("Finished")').length > 0) {
+			finishedCounter++;
+		}
+	}
+
+	if (finishedCounter != 0) {
+		var newHeaderCounter = goodEvents.length - finishedCounter;
+		console.log(finishedCounter + " Events Finished, Changing Header to " + newHeaderCounter + "Events");
+		$("#eventsHeader").text(newHeaderCounter + ' Cruises Found');
+	}
 }
 
 function getBadDate(badDate) {
