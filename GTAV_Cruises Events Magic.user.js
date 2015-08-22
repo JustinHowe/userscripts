@@ -2,6 +2,7 @@
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
 // @version      1.62
+// @version      1.74
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises*
@@ -23,8 +24,12 @@ var month = "m";
 var year = "y";
 var continueLoading = false;
 var eventData = [];
+var goodEvents = [];
+var goodEventsCounter = 0;
+var badEventsCounter = 0;
 var events, epochNow;
 var updateCounter = 0;
+var finishedCounter = 0;
 
 console.log = function() {} //Comment to enable console logging.
 
@@ -95,6 +100,7 @@ function timerUpdate(n) {
 			txt = 'Finished';
 			$("#event-block-" + n).removeClass("state-progress").addClass("state-finished");
 			$("#event-block-" + n).hide();
+			checkFinished();
 		}
 
 		document.getElementById(timerString).innerHTML = "<strong>" + txt + "</strong>";
@@ -102,29 +108,28 @@ function timerUpdate(n) {
 	} else {
 		document.getElementById(timerString).innerHTML = dates[n] + ' @ ' + times[n] + ' ' + zones[n];
 	}
-	updateCounter++;
+}
+
+function refreshTimer() {
+	for (var i=0; i < goodEvents.length; i++) {
+		timerUpdate(i);
+	}
+	checkFinished();
 }
 
 function checkFinished() {
 	var finishedCounter = 0;
-	for (var n = 0; n < events.length; n++) {
+	for (var n = 0; n < goodEvents.length; n++) {
 		if ($('#timer' + n + ':contains("Finished")').length > 0) {
 			finishedCounter++;
 		}
 	}
 
 	if (finishedCounter != 0) {
-		var newHeaderCounter = events.length - finishedCounter;
+		var newHeaderCounter = goodEvents.length - finishedCounter;
 		console.log(finishedCounter + " Events Finished, Changing Header to " + newHeaderCounter + "Events");
 		$("#eventsHeader").text(newHeaderCounter + ' Cruises Found');
 	}
-}
-
-function refreshTimer() {
-	for (var i=0; i < events.length; i++) {
-		timerUpdate(i);
-	}
-	checkFinished();
 }
 
 function getBadDate(badDate) {
@@ -201,22 +206,44 @@ $(window).load(function(){
 		events = $("#eventsiFrame").contents().find("header.search-result-header > span").filter(function() { return ($(this).text() === 'Event') }).next();
 		console.log("Events Found: " + events.length);
 
-		if (events.length < 1) {
+		for (var j = 0; j < events.length; j++) {
+			var tempEvent = events[j].innerHTML;
+			tempEvent = tempEvent.replace(/[^\|]/g, "").length;
+			if (tempEvent == 4) {
+				goodEvents[goodEventsCounter] = events[j];
+				goodEventsCounter++;
+			} else {
+				badEventsCounter++;
+			}
+		}
+
+		if (badEventsCounter > 0) {
+			var errorCruise = "cruises";
+			if (badEventsCounter == 1) {
+				errorCruise = "cruise";
+			} 
+
+			$("#footer").prepend('<font color="#d72e2e">Omitting ' + badEventsCounter + ' ' + errorCruise + ' - Invalid title format</font><br />');
+		}
+
+		console.log("Good Events Found: " + goodEvents.length);
+
+		if (goodEvents.length < 1) {
 			$("#eventsContent").replaceWith('<div id="eventsContent"><p align="center"><strong><span style="color:#48a948">No Upcoming Cruises</span></strong></p></div>');
 		} else {
-			$("#eventsHeader").text(events.length + ' Cruises Found');
+			$("#eventsHeader").text(goodEvents.length + ' Cruises Found');
 			continueLoading = true;
 		}
 
 		if (continueLoading) {
-			for (var i=0; i < events.length; i++) {
-				var eventString = events[i].innerHTML;
+			for (var i=0; i < goodEvents.length; i++) {
+				var eventString = goodEvents[i].innerHTML;
 				var wellFormedEvent = eventString.replace(/[^\|]/g, "").length;
 				if (wellFormedEvent == 4) {
 					eventString = eventString.replace(/\[/g, "");
 					eventString = eventString.replace(/\]/g, "");
 					console.log("Event String: " + eventString);
-					var href = $(events[i]).attr('href');
+					var href = $(goodEvents[i]).attr('href');
 					var eventParts = eventString.split("|");
 					var region = eventParts[0];
 
@@ -434,16 +461,11 @@ $(window).load(function(){
 			eventData.sort(function(a,b) {
 				return b[0]-a[0]
 			});
+			for (var n = 0; n < goodEvents.length; n++) {
+    			$("#eventsContent").prepend(eventData[n][1]);
+    		}
 
-			for (var n = 0; n < events.length; n++) {
-				$("#eventsContent").prepend(eventData[n][1]);
-			}
-
-			for (var i=0; i < events.length; i++) {
-				timerUpdate(i);
-			}
-
-			checkFinished();
+			refreshTimer();
 
 			setInterval(refreshTimer, 30000);
 		}
