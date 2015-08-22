@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/yogensia/userscripts/
-// @version      1.64
+// @version      1.70
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises*
@@ -25,7 +25,6 @@ var continueLoading = false;
 var eventData = [];
 var events, epochNow;
 var updateCounter = 0;
-var eventNames = [];
 
 console.log = function() {} //Comment to enable console logging.
 
@@ -35,7 +34,6 @@ function toTitleCase(str) {
 
 function timerUpdate(n) {
 	var timerString = "timer" + n;
-	var txt;
 	epochNow = Math.floor(Date.now()/1000);
 	countdowns[n] = epochFuture[n] - epochNow;
 	if (!isNaN(countdowns[n])) {
@@ -44,6 +42,7 @@ function timerUpdate(n) {
 		h = ((countdowns[n]-s)/60 - m)/60%24;
 		d = (((countdowns[n]-s)/60 - m)/60 - h)/24;
 
+		var txt;
 		var inProgress = false;
 
 		if (d == 1) {
@@ -88,24 +87,36 @@ function timerUpdate(n) {
 			txt = 'Finished';
 			$("#event-block-" + n).removeClass("state-progress").addClass("state-finished");
 			$("#event-block-" + n).hide();
-			updateCounter++;
-			var newHeaderCounter = events.length - updateCounter;
-			$("#eventsHeader").text(newHeaderCounter + ' Cruises Found');
 		}
 
 		document.getElementById(timerString).innerHTML = "<strong>" + txt + "</strong>";
 		console.log("Updated Timer Values to: " + txt);
 	} else {
-		txt = dates[n] + ' @ ' + times[n] + ' ' + zones[n];
-		document.getElementById(timerString).innerHTML = txt;
+		document.getElementById(timerString).innerHTML = dates[n] + ' @ ' + times[n] + ' ' + zones[n];
 	}
-	return txt;
+	updateCounter++;
+}
+
+function checkFinished() {
+	var finishedCounter = 0;
+	for (var n = 0; n < events.length; n++) {
+		if ($('#timer' + n + ':contains("Finished")').length > 0) {
+			finishedCounter++;
+		}
+	}
+
+	if (finishedCounter != 0) {
+		var newHeaderCounter = events.length - finishedCounter;
+		console.log(finishedCounter + " Events Finished, Changing Header to " + newHeaderCounter + "Events");
+		$("#eventsHeader").text(newHeaderCounter + ' Cruises Found');
+	}
 }
 
 function refreshTimer() {
-	for (var i=0; i < eventData.length; i++) {
+	for (var i=0; i < events.length; i++) {
 		timerUpdate(i);
 	}
+	checkFinished();
 }
 
 function getBadDate(badDate) {
@@ -191,10 +202,9 @@ $(window).load(function(){
 		
 		if (continueLoading) {
 			for (var i=0; i < events.length; i++) {
-				console.log()
 				var eventString = events[i].innerHTML;
 				var wellFormedEvent = eventString.replace(/[^\|]/g, "").length;
-				if (wellFormedEvent == 4) { 
+				if (wellFormedEvent == 4) {
 					eventString = eventString.replace(/\[/g, "");
 					eventString = eventString.replace(/\]/g, "");
 					console.log("Event String: " + eventString);
@@ -247,7 +257,6 @@ $(window).load(function(){
 					var titleShort;
 
 					//Log original time and timezone
-					eventNames[i] = title;
 					console.log(title + " - " + eventParts[4] + " - " + day + "/" + month + "/" + year + " - " + eventParts[3]);
 
 					//Convert to four-digit military time and UTC time zone.
@@ -407,27 +416,26 @@ $(window).load(function(){
 						}
 						localDate = localDayString + " " + localMonth + " " + localDay + " @ " + localTimeHr + ":" + localTimeMin + "" + amPm;
 						console.log(localDate);
-						console.log(eventNames[i] + " IS INDEX " + i);
 						eventData[i] = [epochFuture[i], '<div id="event-block-' + i + '" class="event-block"><p class="event-title"><a title="Link to: ' + title + '" href="' + href + '">' + title + '</a></p><p id="timer' + i + '" class="event-timer"></p><p class="event-local-date">' + localDate + '</p><a class="block-link" a title="Link to: ' + title + '" href="' + href + '"></a></div>'];
 					} else {
 						eventData[i] = [9999999999, '<div id="event-block-' + i + '" class="event-block"><p class="event-title"><a title="No Countdown Timer - Bad Date - Should be day/month/year. err_code:id10t" href="' + href + '">' + title + '</a></p><p id="timer' + i + '" class="event-timer"></p><p class="event-local-date">' + localDate + '</p><a class="block-link" a title="No Countdown Timer - Bad Date - Should be day/month/year. err_code:id10t" href="' + href + '"></a></div>'];
 					}
-				} 
+				}
 			}
 
-    		console.log("EVENT DATA LENGTH: " + eventData.length)
+			eventData.sort(function(a,b) {
+        		return b[0]-a[0]
+    		});
 
-			for (var n = 0; n < eventData.length ; n++) {
-				if (n == 0) {
-					eventData.sort(function(a,b) {
-        			return b[0]-a[0]
-    				});
-				}
+			for (var n = 0; n < events.length; n++) {
     			$("#eventsContent").prepend(eventData[n][1]);
-    			console.log("Updating Timer for Index " + n);
     		}
 
-    		refreshTimer();
+			for (var i=0; i < events.length; i++) {
+				timerUpdate(i);
+			}
+
+			checkFinished();
 
 			setInterval(refreshTimer, 30000);
 		}
