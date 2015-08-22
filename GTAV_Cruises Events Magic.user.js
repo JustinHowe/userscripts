@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/yogensia/userscripts/
-// @version      1.58
+// @version      1.59
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises*
@@ -57,57 +57,36 @@ function timerUpdate(n) {
 			var textHours = " Hrs";
 		}
 
-		if (d != 0) {
+		if (d > 0) {
 			txt = "Starts in " + d + textDays + h + textHours + ", " + m + " Min";
-			if (updateCounter > 0) {
-				$("#event-block-" + n).removeClass("state-upcoming");
-			}
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
-		if ((d == 0) && (h != 0)) {
+		if ((d == 0) && (h > 0)) {
 			txt = "Starts in " + h + textHours + ", " + m + " Min";
-			if (updateCounter > 0) {
-				$("#event-block-" + n).removeClass("state-upcoming");
-			}
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
-		if ((d == 0) &&(h == 0) && (m != 0)) {
+		if ((d == 0) &&(h == 0) && (m > 0)) {
 			txt = "Starts in " + m + " Min";
-			if (updateCounter > 0) {
-				$("#event-block-" + n).removeClass("state-upcoming");
-			}
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
-		if ((d != 0) &&(h == 0) && (m != 0)) {
+		if ((d > 0) &&(h == 0) && (m > 0)) {
 			txt = "Starts in " + d + textDays + m + " Min";
-			if (updateCounter > 0) {
-				$("#event-block-" + n).removeClass("state-upcoming");
-			}
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
 
-		if ((d != 0) &&(h != 0) && (m == 0)) {
+		if ((d > 0) &&(h > 0) && (m == 0)) {
 			txt = "Starts in " + d + textDays + h + textHours;
-			if (updateCounter > 0) {
-				$("#event-block-" + n).removeClass("state-upcoming");
-			}
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
 		if ((d == 0) && ((h >= -1) && (h <= 0)) && (m <= 0)) {
 			txt = 'In Progress';
-			if (updateCounter > 0) {
-				$("#event-block-" + n).removeClass("state-progress");
-			}
 			$("#event-block-" + n).addClass("state-progress");
 			inProgress = true;
 		}
 		if ((m <= 0) && !inProgress) {
 			txt = 'Finished';
-			/*if (updateCounter > 0) {
-				$("#event-block-" + n).removeClass("state-finished").addClass("state-finished");
-			} else {
-				$("#event-block-" + n).removeClass("state-progress").addClass("state-finished");
-			}*/
+			$("#event-block-" + n).removeClass("state-progress").addClass("state-finished");
+			$("#event-block-" + n).hide();
 		}
 
 		document.getElementById(timerString).innerHTML = "<strong>" + txt + "</strong>";
@@ -122,7 +101,6 @@ function checkFinished() {
 	var finishedCounter = 0;
 	for (var n = 0; n < events.length; n++) {
 		if ($('#timer' + n + ':contains("Finished")').length > 0) {
-			$("#event-block-" + n).replaceWith('<div id="event-block-' + n + '" style="display: hidden"><p id="timer' + n + '" class="event-timer"></p></div>');
 			finishedCounter++;
 		}
 	}
