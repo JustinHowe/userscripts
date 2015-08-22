@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/yogensia/userscripts/
-// @version      1.56
+// @version      1.57
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises*
@@ -87,12 +87,10 @@ function timerUpdate(n) {
 			$("#event-block-" + n).removeClass("state-upcoming").addClass("state-finished");
 		}
 
-		//document.getElementById(timerString).innerHTML = "<strong>" + txt + "</strong>";
-		$("#" + timerString).html("<strong>" + txt + "</strong>");
+		document.getElementById(timerString).innerHTML = "<strong>" + txt + "</strong>";
 		console.log("Updated Timer Values to: " + txt);
 	} else {
-		//document.getElementById(timerString).innerHTML = dates[n] + ' @ ' + times[n] + ' ' + zones[n];
-		$("#" + timerString).html(dates[n] + ' @ ' + times[n] + ' ' + zones[n]);
+		document.getElementById(timerString).innerHTML = dates[n] + ' @ ' + times[n] + ' ' + zones[n];
 	}
 }
 
