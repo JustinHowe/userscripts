@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/yogensia/userscripts/
-// @version      1.70
+// @version      1.71
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises*
@@ -23,10 +23,14 @@ var month = "m";
 var year = "y";
 var continueLoading = false;
 var eventData = [];
+var goodEvents = [];
+var goodEventsCounter = 0;
+var badEventsCounter = 0;
 var events, epochNow;
 var updateCounter = 0;
+var finishedCounter = 0;
 
-console.log = function() {} //Comment to enable console logging.
+//console.log = function() {} //Comment to enable console logging.
 
 function toTitleCase(str) {
 	return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
@@ -87,6 +91,9 @@ function timerUpdate(n) {
 			txt = 'Finished';
 			$("#event-block-" + n).removeClass("state-progress").addClass("state-finished");
 			$("#event-block-" + n).hide();
+			finishedCounter++;
+			var newHeaderCounter = goodEvents.length - finishedCounter;
+			$("#eventsHeader").text(newHeaderCounter + ' Cruises Found');
 		}
 
 		document.getElementById(timerString).innerHTML = "<strong>" + txt + "</strong>";
@@ -97,7 +104,7 @@ function timerUpdate(n) {
 	updateCounter++;
 }
 
-function checkFinished() {
+/*function checkFinished() {
 	var finishedCounter = 0;
 	for (var n = 0; n < events.length; n++) {
 		if ($('#timer' + n + ':contains("Finished")').length > 0) {
@@ -110,13 +117,13 @@ function checkFinished() {
 		console.log(finishedCounter + " Events Finished, Changing Header to " + newHeaderCounter + "Events");
 		$("#eventsHeader").text(newHeaderCounter + ' Cruises Found');
 	}
-}
+}*/
 
 function refreshTimer() {
-	for (var i=0; i < events.length; i++) {
+	for (var i=0; i < goodEvents.length; i++) {
 		timerUpdate(i);
 	}
-	checkFinished();
+	//checkFinished();
 }
 
 function getBadDate(badDate) {
@@ -174,7 +181,7 @@ $(window).load(function(){
 
 	var eventOpenSansCSS = '<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700italic,700" rel="stylesheet" type="text/css">';
 	var eventModuleCSS = '<link rel="stylesheet" type="text/css" href="https://rawgit.com/yogensia/userscripts/master/event-module.css" media="all">';
-	var eventModuleHTML = '<div id="eventsWidget"><blockquote class="events-module"><h3><a id="eventsHeader" href="' + upcomingEventsLink + '"></a></h3><strong>Countdown timers auto-update</strong><div id="eventsContent"></div><p align="center"><strong>Local time detected as ' + currentLocation.replace(/\+/g, " ") + '<br />Report widget bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/" target="_blank">PapaSyntax</a></strong></p></blockquote></div>';
+	var eventModuleHTML = '<div id="eventsWidget"><blockquote class="events-module"><h3><a id="eventsHeader" href="' + upcomingEventsLink + '"></a></h3><strong>Countdown timers auto-update</strong><div id="eventsContent"></div><p align="center"><strong id="footer">Local time detected as ' + currentLocation.replace(/\+/g, " ") + '<br />Report widget bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/" target="_blank">PapaSyntax</a></strong></p></blockquote></div>';
 
 	$(".side .md").prepend(eventOpenSansCSS + eventModuleCSS + eventModuleHTML);
 
@@ -193,22 +200,44 @@ $(window).load(function(){
 		events = $("#eventsiFrame").contents().find("header.search-result-header > span").filter(function() { return ($(this).text() === 'Event') }).next();
 		console.log("Events Found: " + events.length);
 
-		if (events.length < 1) {
+		for (var j = 0; j < events.length; j++) {
+			var tempEvent = events[j].innerHTML;
+			tempEvent = tempEvent.replace(/[^\|]/g, "").length;
+			if (tempEvent == 4) {
+				goodEvents[goodEventsCounter] = events[j];
+				goodEventsCounter++;
+			} else {
+				badEventsCounter++;
+			}
+		}
+
+		if (badEventsCounter > 0) {
+			var errorCruise = "cruises";
+			if (badEventsCounter == 1) {
+				errorCruise = "cruise";
+			} 
+
+			$("#footer").prepend('<font color="#d72e2e">Omitting ' + badEventsCounter + ' ' + errorCruise + ' - Invalid Title Format</font><br />');
+		}
+
+		console.log("Good Events Found: " + goodEvents.length);
+
+		if (goodEvents.length < 1) {
 			$("#eventsContent").replaceWith('<div id="eventsContent"><p align="center"><strong><span style="color:#48a948">No Upcoming Cruises</span></strong></p></div>');
 		} else {
-			$("#eventsHeader").text(events.length + ' Cruises Found');
+			$("#eventsHeader").text(goodEvents.length + ' Cruises Found');
 			continueLoading = true;
 		}
 		
 		if (continueLoading) {
-			for (var i=0; i < events.length; i++) {
-				var eventString = events[i].innerHTML;
+			for (var i=0; i < goodEvents.length; i++) {
+				var eventString = goodEvents[i].innerHTML;
 				var wellFormedEvent = eventString.replace(/[^\|]/g, "").length;
 				if (wellFormedEvent == 4) {
 					eventString = eventString.replace(/\[/g, "");
 					eventString = eventString.replace(/\]/g, "");
 					console.log("Event String: " + eventString);
-					var href = $(events[i]).attr('href');
+					var href = $(goodEvents[i]).attr('href');
 					var eventParts = eventString.split("|");
 					var region = eventParts[0];
 
@@ -427,15 +456,11 @@ $(window).load(function(){
         		return b[0]-a[0]
     		});
 
-			for (var n = 0; n < events.length; n++) {
+			for (var n = 0; n < goodEvents.length; n++) {
     			$("#eventsContent").prepend(eventData[n][1]);
     		}
 
-			for (var i=0; i < events.length; i++) {
-				timerUpdate(i);
-			}
-
-			checkFinished();
+			refreshTimer();
 
 			setInterval(refreshTimer, 30000);
 		}
