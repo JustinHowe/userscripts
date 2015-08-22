@@ -1,12 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
-<<<<<<< HEAD
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      1.48
-=======
-// @namespace    https://github.com/yogensia/userscripts/
 // @version      1.58
->>>>>>> JustinHowe/master
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises*
