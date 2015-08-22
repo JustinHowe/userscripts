@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/yogensia/userscripts/
-// @version      1.72
+// @version      1.73
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises*
@@ -202,7 +202,7 @@ $(window).load(function(){
 				errorCruise = "cruise";
 			} 
 
-			$("#footer").prepend('<font color="#d72e2e">Omitting ' + badEventsCounter + ' ' + errorCruise + ' - Invalid Title Format</font><br />');
+			$("#footer").prepend('<font color="#d72e2e">Omitting ' + badEventsCounter + ' ' + errorCruise + ' - Invalid title format</font><br />');
 		}
 
 		console.log("Good Events Found: " + goodEvents.length);
