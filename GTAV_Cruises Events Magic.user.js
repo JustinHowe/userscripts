@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/yogensia/userscripts/
-// @version      1.71
+// @version      1.72
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises*
@@ -30,7 +30,7 @@ var events, epochNow;
 var updateCounter = 0;
 var finishedCounter = 0;
 
-//console.log = function() {} //Comment to enable console logging.
+console.log = function() {} //Comment to enable console logging.
 
 function toTitleCase(str) {
 	return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
@@ -103,21 +103,6 @@ function timerUpdate(n) {
 	}
 	updateCounter++;
 }
-
-/*function checkFinished() {
-	var finishedCounter = 0;
-	for (var n = 0; n < events.length; n++) {
-		if ($('#timer' + n + ':contains("Finished")').length > 0) {
-			finishedCounter++;
-		}
-	}
-
-	if (finishedCounter != 0) {
-		var newHeaderCounter = events.length - finishedCounter;
-		console.log(finishedCounter + " Events Finished, Changing Header to " + newHeaderCounter + "Events");
-		$("#eventsHeader").text(newHeaderCounter + ' Cruises Found');
-	}
-}*/
 
 function refreshTimer() {
 	for (var i=0; i < goodEvents.length; i++) {
