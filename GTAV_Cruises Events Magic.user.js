@@ -30,9 +30,9 @@ console.log = function() {} //Comment to enable console logging.
 
 // Image Preload
 function preload(arrayOfImages) {
-    $(arrayOfImages).each(function(){
-        $('<img/>')[0].src = this;
-    });
+	$(arrayOfImages).each(function(){
+		$('<img/>')[0].src = this;
+	});
 }
 preload(['https://raw.githubusercontent.com/yogensia/userscripts/master/background.jpg']);
 
@@ -182,7 +182,7 @@ $(window).load(function(){
 
 	var eventOpenSansCSS = '<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700italic,700" rel="stylesheet" type="text/css">';
 	var eventModuleCSS = '<link rel="stylesheet" type="text/css" href="https://rawgit.com/yogensia/userscripts/master/event-module.css" media="all">';
-	var eventModuleHTML = '<div id="eventsWidget"><blockquote class="events-module" style="text-align:center"><h3><a id="eventsHeader" href="' + upcomingEventsLink + '">Loading Cruises...</a></h3><p><strong>Countdown timers auto-update</strong><p/><div id="eventsContent"></div><p><strong>Local time detected as ' + currentLocation.replace(/\+/g, " ") + '<br />Report widget bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/" target="_blank">PapaSyntax</a></strong></p></blockquote></div>';
+	var eventModuleHTML = '<div id="eventsWidget"><blockquote class="events-module" style="text-align:center"><h3><a id="eventsHeader" href="' + upcomingEventsLink + '" style="color:#fff">Loading Cruises...</a></h3><p><strong>Countdown timers auto-update</strong><p/><div id="eventsContent"></div><p><strong>Local time detected as ' + currentLocation.replace(/\+/g, " ") + '<br />Report widget bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/" target="_blank">PapaSyntax</a></strong></p></blockquote></div>';
 
 	$(".side .md").prepend(eventOpenSansCSS + eventModuleCSS + eventModuleHTML);
 
