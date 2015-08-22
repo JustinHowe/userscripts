@@ -59,7 +59,7 @@
 	text-shadow: 0 1px 0 rgba(0,0,0,0.35);
 }
 .side .md .event-block:hover {
-	background-position: -1430px center;
+	background-position: -1144px center;
 }
 
 .side .md .event-block.state-finished {
@@ -67,7 +67,7 @@
 	background-position: 0 center;
 }
 .side .md .event-block.state-finished:hover {
-	background-position: -1144px center;
+	background-position: -858px center;
 }
 
 .side .md .event-block.state-progress {
@@ -75,7 +75,7 @@
 	background-color: #adc23a;
 }
 .side .md .event-block.state-progress:hover {
-	background-position: -1716px center;
+	background-position: -1430px center;
 }
 
 .side .md .event-block p {
