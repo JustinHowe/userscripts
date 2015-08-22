@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/yogensia/userscripts/
-// @version      1.57
+// @version      1.58
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises*
@@ -24,6 +24,7 @@ var year = "y";
 var continueLoading = false;
 var eventData = [];
 var events, epochNow;
+var updateCounter = 0;
 
 console.log = function() {} //Comment to enable console logging.
 
@@ -58,33 +59,55 @@ function timerUpdate(n) {
 
 		if (d != 0) {
 			txt = "Starts in " + d + textDays + h + textHours + ", " + m + " Min";
+			if (updateCounter > 0) {
+				$("#event-block-" + n).removeClass("state-upcoming");
+			}
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
 		if ((d == 0) && (h != 0)) {
 			txt = "Starts in " + h + textHours + ", " + m + " Min";
+			if (updateCounter > 0) {
+				$("#event-block-" + n).removeClass("state-upcoming");
+			}
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
 		if ((d == 0) &&(h == 0) && (m != 0)) {
 			txt = "Starts in " + m + " Min";
+			if (updateCounter > 0) {
+				$("#event-block-" + n).removeClass("state-upcoming");
+			}
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
 		if ((d != 0) &&(h == 0) && (m != 0)) {
 			txt = "Starts in " + d + textDays + m + " Min";
+			if (updateCounter > 0) {
+				$("#event-block-" + n).removeClass("state-upcoming");
+			}
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
 
 		if ((d != 0) &&(h != 0) && (m == 0)) {
 			txt = "Starts in " + d + textDays + h + textHours;
+			if (updateCounter > 0) {
+				$("#event-block-" + n).removeClass("state-upcoming");
+			}
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
 		if ((d == 0) && ((h >= -1) && (h <= 0)) && (m <= 0)) {
 			txt = 'In Progress';
+			if (updateCounter > 0) {
+				$("#event-block-" + n).removeClass("state-progress");
+			}
 			$("#event-block-" + n).addClass("state-progress");
 			inProgress = true;
 		}
 		if ((m <= 0) && !inProgress) {
 			txt = 'Finished';
-			$("#event-block-" + n).removeClass("state-upcoming").addClass("state-finished");
+			/*if (updateCounter > 0) {
+				$("#event-block-" + n).removeClass("state-finished").addClass("state-finished");
+			} else {
+				$("#event-block-" + n).removeClass("state-progress").addClass("state-finished");
+			}*/
 		}
 
 		document.getElementById(timerString).innerHTML = "<strong>" + txt + "</strong>";
@@ -92,6 +115,7 @@ function timerUpdate(n) {
 	} else {
 		document.getElementById(timerString).innerHTML = dates[n] + ' @ ' + times[n] + ' ' + zones[n];
 	}
+	updateCounter++;
 }
 
 function checkFinished() {
@@ -199,7 +223,6 @@ $(window).load(function(){
 		}
 		
 		if (continueLoading) {
-			$("#eventsContent").replaceWith('<div id="eventsContent"></div>');
 			for (var i=0; i < events.length; i++) {
 				var eventString = events[i].innerHTML;
 				var wellFormedEvent = eventString.replace(/[^\|]/g, "").length;
