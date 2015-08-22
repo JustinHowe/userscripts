@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/yogensia/userscripts/
-// @version      1.59
+// @version      1.60
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises*
@@ -83,7 +83,7 @@ function timerUpdate(n) {
 			$("#event-block-" + n).addClass("state-progress");
 			inProgress = true;
 		}
-		if ((m <= 0) && !inProgress) {
+		if ((m < 0) && !inProgress) {
 			txt = 'Finished';
 			$("#event-block-" + n).removeClass("state-progress").addClass("state-finished");
 			$("#event-block-" + n).hide();
