@@ -99,17 +99,18 @@ function timerUpdate(n) {
 			txt = 'Finished';
 			$("#event-block-" + n).removeClass("state-progress").addClass("state-finished");
 			$("#event-block-" + n).hide();
-			checkFinished();
 		}
 
 		document.getElementById(timerString).innerHTML = "<strong>" + txt + "</strong>";
-		console.log("Updated Timer Values to: " + txt);
+		console.log("Updated Timer #" + n + " Value to: " + txt);
 	} else {
 		document.getElementById(timerString).innerHTML = dates[n] + ' @ ' + times[n] + ' ' + zones[n];
 	}
 }
 
 function refreshTimer() {
+	updateCounter++;
+	console.log("Timer refresh iteration #" + updateCounter);
 	for (var i=0; i < goodEvents.length; i++) {
 		timerUpdate(i);
 	}
@@ -126,7 +127,7 @@ function checkFinished() {
 
 	if (finishedCounter != 0) {
 		var newHeaderCounter = goodEvents.length - finishedCounter;
-		console.log(finishedCounter + " Events Finished, Changing Header to " + newHeaderCounter + "Events");
+		console.log(finishedCounter + " Events Finished, Changing Header to " + newHeaderCounter + " Events");
 		$("#eventsHeader").text(newHeaderCounter + ' Cruises Found');
 	}
 }
@@ -221,7 +222,7 @@ $(window).load(function(){
 			var errorCruise = "cruises";
 			if (badEventsCounter == 1) {
 				errorCruise = "cruise";
-			} 
+			}
 
 			$("#footer").prepend('<font color="#d72e2e">Omitting ' + badEventsCounter + ' ' + errorCruise + ' - Invalid title format</font><br />');
 		}
@@ -434,14 +435,14 @@ $(window).load(function(){
 						var localTimeMin = localDate.getMinutes();
 						var amPm;
 						if (localTimeHr < 12) {
-							amPm = "AM";
+							amPm = " AM";
 						}
 						if (localTimeHr > 12) {
 							localTimeHr = localTimeHr - 12;
-							amPm = "PM";
+							amPm = " PM";
 						}
 						if (localTimeHr == 12) {
-							amPm = "PM";
+							amPm = " PM";
 						}
 						if (localTimeHr == 0) {
 							localTimeHr = "12";
