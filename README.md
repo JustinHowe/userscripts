@@ -3,7 +3,6 @@
 Tampermonkey/Greasemonkey userscript that lists upcoming, in progress and recent online events for the GTAV subredit [r/GTAV_Cruises](https://www.reddit.com/r/GTAV_Cruises/)
 
 Coded by [u/PapaSyntax](https://www.reddit.com/user/PapaSyntax). 
-
 GUI created by [u/Yogensya](https://www.reddit.com/user/Yogensya).
 
 ---
