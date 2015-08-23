@@ -100,11 +100,13 @@ function timerUpdate(n) {
 			$("#event-block-" + n).removeClass("state-progress").addClass("state-finished");
 			$("#event-block-" + n).hide();
 		}
-
 		document.getElementById(timerString).innerHTML = "<strong>" + txt + "</strong>";
 		console.log("Updated Timer #" + n + " Value to: " + txt);
 	} else {
-		document.getElementById(timerString).innerHTML = dates[n] + ' @ ' + times[n] + ' ' + zones[n];
+		$("#event-block-" + n).removeClass("state-progress, state-upcoming").addClass("state-warning");
+		var badDateTxt = dates[n] + ' @ ' + times[n] + ' ' + zones[n];
+		document.getElementById(timerString).innerHTML = badDateTxt;
+		console.log("Updated Timer #" + n + " Value with BAD date: " + badDateTxt);
 	}
 }
 
@@ -463,8 +465,8 @@ $(window).load(function(){
 				return b[0]-a[0]
 			});
 			for (var n = 0; n < goodEvents.length; n++) {
-    			$("#eventsContent").prepend(eventData[n][1]);
-    		}
+				$("#eventsContent").prepend(eventData[n][1]);
+			}
 
 			refreshTimer();
 
