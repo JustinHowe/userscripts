@@ -35,10 +35,12 @@ GUI created by [u/Yogensya](https://www.reddit.com/user/Yogensya).
 
 * Error handling for invalid event titles (which are not formatted correctly). Invalid event titles are displayed at the bottom, indicating the number of events omitted as well as their title(s) and link(s) to event(s).
 
----
+
 **Here is a screenshot of what it looks like:**
 
 ![screenshot](http://i.imgur.com/agvyvbd.png)
+
+---
 
 ## Installation
 
