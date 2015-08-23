@@ -1,22 +1,26 @@
-.side .md .events-module {
+.side .md blockquote.events-module {
 	font-family: 'Open Sans', sans-serif;
 	font-size: 12px;
 	padding: 6px;
 	text-align: center;
 }
 
-.side .md blockquote.events-module h3 div {
+.side .md blockquote.events-module p {
+	margin-bottom: 6px;
+}
+
+.side .md blockquote.events-module h3 {
 	height: 36px;
 	margin-bottom: 6px;
 	padding: 0;
 	position: relative;
 }
 
-.side .md blockquote.events-module h3 div:hover {
+.side .md blockquote.events-module h3:hover {
 	background: #0f3f6f;
 }
 
-.side .md blockquote.events-module h3 div a {
+.side .md blockquote.events-module h3 a {
 	color: #fff;
 	display: block;
 	height: 20px;
@@ -27,8 +31,22 @@
 	width: 100%;
 }
 
+.side .md #eventsWrapper {
+	display: none;
+}
+
+.side .md #eventsContent {
+	padding: 0;
+}
+
+.side .md #contentsLoading {
+	color: #48a948;
+	font-size: 15px;
+	font-weight: bold;
+}
+
 .side .md .event-block {
-	background: #03a3ec url(https://raw.githubusercontent.com/yogensia/userscripts/master/img/background.jpg);
+	background: #1977b8 url(https://raw.githubusercontent.com/yogensia/userscripts/master/background.jpg);
 	background-position: -286px center;
 	border-radius: 3px;
 	color: #fff;
@@ -40,23 +58,26 @@
 	text-shadow: 0 1px 0 rgba(0,0,0,0.35);
 }
 .side .md .event-block:hover {
-	background-position: -1430px center;
-}
-
-.side .md .event-block.state-finished {
-	background-color: #f15838;
-	background-position: 0 center;
-}
-.side .md .event-block.state-finished:hover {
+	background-color: #1d8fd2;
 	background-position: -1144px center;
 }
 
+.side .md .event-block.state-warning {
+	background-color: #9b403c;
+	background-position: 0 center;
+}
+.side .md .event-block.state-warning:hover {
+	background-color: #ab4744;
+	background-position: -858px center;
+}
+
 .side .md .event-block.state-progress {
+	background-color: #548c3f;
 	background-position: -572px center;
-	background-color: #adc23a;
 }
 .side .md .event-block.state-progress:hover {
-	background-position: -1716px center;
+	background-color: #68a448;
+	background-position: -1430px center;
 }
 
 .side .md .event-block p {
@@ -73,9 +94,28 @@
 }
 
 .side .md .event-timer {
-	font-size: 10px;
+	font-size: 11px;
 	font-weight: bold;
 	text-transform: uppercase;
+}
+
+.side .md .event-block.state-progress .event-timer {
+	margin: 7px 0;
+}
+
+.side .md .event-timer strong {
+	background: #fff;
+	border-radius: 10px;
+	box-shadow: 0 1px 0 rgba(0,0,0,0.2);
+	color: #444;
+	padding: 1px 5px;
+	text-shadow: none;
+}
+
+.side .md .event-block.state-progress .event-timer strong {
+	color: #c81414;
+	font-size: 14px;
+	padding: 0 7px;
 }
 
 .side .md .event-block .block-link {
