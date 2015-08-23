@@ -11,7 +11,7 @@
 // @require      https://github.com/JustinHowe/userscripts/raw/master/jstz.min.js
 // ==/UserScript==
 
-//[Region] | [Date] | [Title] | [GMT] | [Time]
+// [Region] | [Date] | [Title] | [GMT] | [Time]
 
 var countdowns = [];
 var dates = [];
@@ -30,7 +30,8 @@ var events, epochNow;
 var updateCounter = 0;
 var finishedCounter = 0;
 
-console.log = function() {} //Comment to enable console logging.
+//Comment to enable console logging.
+console.log = function() {}
 
 // Image Preload
 function preload(arrayOfImages) {
@@ -44,6 +45,7 @@ function toTitleCase(str) {
 	return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 }
 
+// Update the countdown timer on the selected event
 function timerUpdate(n) {
 	var timerString = "timer" + n;
 	epochNow = Math.floor(Date.now()/1000);
@@ -110,6 +112,7 @@ function timerUpdate(n) {
 	}
 }
 
+// Refresh countdown loop and run checkFinished()
 function refreshTimer() {
 	updateCounter++;
 	console.log("Timer refresh iteration #" + updateCounter);
@@ -119,6 +122,7 @@ function refreshTimer() {
 	checkFinished();
 }
 
+// Check number of events finished and update Header string
 function checkFinished() {
 	var finishedCounter = 0;
 	for (var n = 0; n < goodEvents.length; n++) {
@@ -464,6 +468,7 @@ $(window).load(function(){
 			eventData.sort(function(a,b) {
 				return b[0]-a[0]
 			});
+
 			for (var n = 0; n < goodEvents.length; n++) {
 				$("#eventsContent").prepend(eventData[n][1]);
 			}
