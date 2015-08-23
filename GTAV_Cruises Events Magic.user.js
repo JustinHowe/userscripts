@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      1.77
+// @version      1.78
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises*
@@ -11,7 +11,7 @@
 // @require      https://github.com/JustinHowe/userscripts/raw/master/jstz.min.js
 // ==/UserScript==
 
-//[Region] | [Date] | [Title] | [GMT] | [Time]
+// Event Title Format: [Region] | [Date] | [Title] | [GMT] | [Time]
 
 var countdowns = [];
 var dates = [];
@@ -31,12 +31,22 @@ var events, epochNow;
 var updateCounter = 0;
 var finishedCounter = 0;
 
-console.log = function() {} //Comment to enable console logging.
+//Comment to enable console logging.
+console.log = function() {}
+
+// Image Preload
+function preload(arrayOfImages) {
+	$(arrayOfImages).each(function(){
+		$('<img/>')[0].src = this;
+	});
+}
+preload(['https://raw.githubusercontent.com/yogensia/userscripts/master/background.jpg']);
 
 function toTitleCase(str) {
 	return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 }
 
+// Update the countdown timer on the selected event
 function timerUpdate(n) {
 	var timerString = "timer" + n;
 	epochNow = Math.floor(Date.now()/1000);
@@ -46,22 +56,18 @@ function timerUpdate(n) {
 		m = (countdowns[n]-s)/60%60;
 		h = ((countdowns[n]-s)/60 - m)/60%24;
 		d = (((countdowns[n]-s)/60 - m)/60 - h)/24;
-
 		var txt;
 		var inProgress = false;
-
 		if (d == 1) {
 			var textDays = " Day, ";
 		} else {
 			var textDays = " Days, ";
 		}
-
 		if (h == 1) {
 			var textHours = " Hr";
 		} else {
 			var textHours = " Hrs";
 		}
-
 		if (d > 0) {
 			txt = "Starts in " + d + textDays + h + textHours + ", " + m + " Min";
 			$("#event-block-" + n).addClass("state-upcoming");
@@ -78,7 +84,6 @@ function timerUpdate(n) {
 			txt = "Starts in " + d + textDays + m + " Min";
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
-
 		if ((d > 0) &&(h > 0) && (m == 0)) {
 			txt = "Starts in " + d + textDays + h + textHours;
 			$("#event-block-" + n).addClass("state-upcoming");
@@ -92,23 +97,28 @@ function timerUpdate(n) {
 			txt = 'Finished';
 			$("#event-block-" + n).removeClass("state-progress").addClass("state-finished");
 			$("#event-block-" + n).hide();
-			checkFinished();
 		}
-
 		document.getElementById(timerString).innerHTML = "<strong>" + txt + "</strong>";
-		console.log("Updated Timer Values to: " + txt);
+		console.log("Updated Timer #" + n + " Value to: " + txt);
 	} else {
-		document.getElementById(timerString).innerHTML = dates[n] + ' @ ' + times[n] + ' ' + zones[n];
+		$("#event-block-" + n).removeClass("state-progress, state-upcoming").addClass("state-warning");
+		var badDateTxt = dates[n] + ' @ ' + times[n] + ' ' + zones[n];
+		document.getElementById(timerString).innerHTML = badDateTxt;
+		console.log("Updated Timer #" + n + " Value with BAD date: " + badDateTxt);
 	}
 }
 
+// Refresh countdown loop and run checkFinished()
 function refreshTimer() {
+	updateCounter++;
+	console.log("Timer refresh iteration #" + updateCounter);
 	for (var i=0; i < goodEvents.length; i++) {
 		timerUpdate(i);
 	}
 	checkFinished();
 }
 
+// Check number of events finished and update Header string
 function checkFinished() {
 	var finishedCounter = 0;
 	for (var n = 0; n < goodEvents.length; n++) {
@@ -119,7 +129,7 @@ function checkFinished() {
 
 	if (finishedCounter != 0) {
 		var newHeaderCounter = goodEvents.length - finishedCounter;
-		console.log(finishedCounter + " Events Finished, Changing Header to " + newHeaderCounter + "Events");
+		console.log(finishedCounter + " Events Finished, Changing Header to " + newHeaderCounter + " Events");
 		$("#eventsHeader").text(newHeaderCounter + ' Cruises Found');
 	}
 }
@@ -179,10 +189,10 @@ $(window).load(function(){
 
 	var eventOpenSansCSS = '<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700italic,700" rel="stylesheet" type="text/css">';
 	var eventModuleCSS = '<link rel="stylesheet" type="text/css" href="https://rawgit.com/yogensia/userscripts/master/event-module.css" media="all">';
-	var eventModuleHTML = '<div id="eventsWidget"><blockquote class="events-module"><h3><a id="eventsHeader" href="' + upcomingEventsLink + '"></a></h3><strong>Countdown timers auto-update</strong><div id="eventsContent"></div><p align="center"><strong id="footer">Local time detected as ' + currentLocation.replace(/\+/g, " ") + '<br />Report widget bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/" target="_blank">PapaSyntax</a></strong></p></blockquote></div>';
-
-	$(".side .md").prepend(eventOpenSansCSS + eventModuleCSS + eventModuleHTML);
-	$("#eventsContent").prepend('<strong id="contentsLoading"><p style="font-size:15px; color:#48a948">Cruises Loading...</p></strong>');
+	var eventModuleHTML = '<div id="eventsWidget"><blockquote class="events-module" style="text-align:center"><h3><a id="eventsHeader" href="' + upcomingEventsLink + '" style="color:#fff">Cruises loading...</a></h3><p><strong>Countdown timers auto-update</strong><p/><div id="eventsContent"></div><p><strong>Local time detected as ' + currentLocation.replace(/\+/g, " ") + '<br />Report widget bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/" target="_blank">PapaSyntax</a></strong></p></blockquote></div>';
+ 
+	$("head").append(eventOpenSansCSS + eventModuleCSS);
+	$(".side .md").prepend(eventModuleHTML);
 
 	var countdownHref;
 	var iframe = document.createElement('iframe');
@@ -216,17 +226,13 @@ $(window).load(function(){
 			var errorCruise = "cruises";
 			if (badEventsCounter == 1) {
 				errorCruise = "cruise";
-			} 
+			}
 
-			
-			
 			for (var k = 0; k < badEventUrl.length; k++) {
 				$("#footer").prepend('<p style="font-size:10px; color:#f45a5a"><a href="' + badEventUrl[k][1] + '" target="_blank">' + badEventUrl[k][0] + '</p><br />');
 			}
 
 			$("#footer").prepend('<p style="color:#d72e2e">Omitting ' + badEventsCounter + ' ' + errorCruise + ' - Invalid title format</p>');
-
-			
 		}
 
 		console.log("Good Events Found: " + goodEvents.length);
@@ -437,14 +443,14 @@ $(window).load(function(){
 						var localTimeMin = localDate.getMinutes();
 						var amPm;
 						if (localTimeHr < 12) {
-							amPm = "am";
+							amPm = " AM";
 						}
 						if (localTimeHr > 12) {
 							localTimeHr = localTimeHr - 12;
-							amPm = "pm";
+							amPm = " PM";
 						} 
 						if (localTimeHr == 12) {
-							amPm = "pm";
+							amPm = " PM";
 						}
 						if (localTimeHr == 0) {
 							localTimeHr = "12";
@@ -465,13 +471,12 @@ $(window).load(function(){
         		return b[0]-a[0]
     		});
 
-    		$("#contentsLoading").remove('');
-
 			for (var n = 0; n < goodEvents.length; n++) {
     			$("#eventsContent").prepend(eventData[n][1]);
     		}
 
 			refreshTimer();
+			checkFinished();
 
 			setInterval(refreshTimer, 30000);
 		}
