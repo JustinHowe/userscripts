@@ -4,13 +4,15 @@ Tampermonkey/Greasemonkey userscript that lists upcoming, in progress and recent
 
 **Coded by** [u/PapaSyntax](https://www.reddit.com/user/PapaSyntax).
 
-**GUI created by** [u/Yogensya](https://www.reddit.com/user/Yogensya). 
+**GUI created by** [u/Yogensya](https://www.reddit.com/user/Yogensya).
+
 ---
 > Hi all,
 >
 > Hi all, I just deployed a tampermonkey/greasemonkey userscript that I created to display our upcoming cruises/events in a much better way. Tired of reading through all posts to find events, then converting them to your own timezone and figuring out when they are? This script does that for you and adds a countdown timer in-line with the title of the event, all conveniently on the right sidebar (as well as a link to go to the full event, and a converted time for when the event is in your timezone, and more). Just bring up our subreddit page and you'll see all upcoming events quickly and with their own countdown timers.
 
 [See original post on reddit](https://www.reddit.com/r/GTAV_Cruises/comments/3hkafk/events_magic_show_upcoming_cruises_wcountdown/).
+
 ---
 ## Features
 
@@ -44,6 +46,7 @@ Tampermonkey/Greasemonkey userscript that lists upcoming, in progress and recent
 2. Then **[click here to open the script](https://github.com/JustinHowe/userscripts/raw/master/GTAV_Cruises%20Events%20Magic.user.js)** and click the `install` button.
 
 That's it! Just reload the subreddit page and you'll see the cruises/events box appear on the sidebar after a couple of seconds.
+
 ---
 ## Notes for event hosts
 
@@ -58,6 +61,7 @@ That's it! Just reload the subreddit page and you'll see the cruises/events box 
 * **TIME:** Please use 24 hour time. The script will do its best to convert 12 hour format to 24, but just use 24 hour to mitigate edge case issues.
 
 * The script does have other fixes to attempt to resolve human formatting errors, but plase follow these guideline to minimize possible issues. **The most important thing is to always use day/month/year for your date.**
+
 ---
 ## How it works
 
@@ -73,10 +77,12 @@ For those who are interested, the script does the following (and ONLY the follow
 
 
 **[The code is fully visible on github for the analysis of whomever wishes](https://github.com/JustinHowe/userscripts).**
+
 ---
 ## Next development steps:
 
 * Create overlay for "Create an event" page so that event hosts only need to choose the date, time, etc from dropdown boxes and input fields. This will ensure events are recorded in the correct format for this script to use, as well as ensure hosts enter what is needed but not too much and not too little.
+
 ---
 ## Changelog:
 
