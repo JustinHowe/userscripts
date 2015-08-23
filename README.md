@@ -1,4 +1,4 @@
-# Events sidebar module for r/GTAV_Cruises
+# Events sidebar widget for r/GTAV_Cruises
 
 Tampermonkey/Greasemonkey userscript that lists upcoming, in progress and recent online events for the GTAV subredit [r/GTAV_Cruises](https://www.reddit.com/r/GTAV_Cruises/)
 
