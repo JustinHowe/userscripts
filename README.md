@@ -14,7 +14,28 @@ GUI created by [u/Yogensya](https://www.reddit.com/user/Yogensya).
 
 [See original post on reddit](https://www.reddit.com/r/GTAV_Cruises/comments/3hkafk/events_magic_show_upcoming_cruises_wcountdown/).
 
+---
+## Features
 
+* Displays ALL upcoming and in-progress events/cruises in right-sidebar above Welcome section, on all pages of our subreddit.
+
+* Event posted time converted to your local time.
+
+* Automatic chronological sorting of events, soonest event(s) first.
+
+* Countdown timers for each event.
+
+* Countdown timers automatically update ever 30 seconds.
+
+* Your local date and time of event shown underneath countdown timer.
+
+* Event(s) convert to "In Progress" status, with custom GUI styling, when countdown timer reaches zero.
+
+* Event(s) convert to "Finished" status, which hides the entire event, if countdown timer has been in "In Progress" status for 2 hours.
+
+* Error handling for invalid event titles (which are not formatted correctly). Invalid event titles are displayed at the bottom, indicating the number of events omitted as well as their title(s) and link(s) to event(s).
+
+---
 **Here is a screenshot of what it looks like:**
 
 ![screenshot](http://i.imgur.com/agvyvbd.png)
