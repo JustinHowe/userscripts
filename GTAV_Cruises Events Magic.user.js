@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/yogensia/userscripts/
-// @version      1.75
+// @version      1.76
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises*
@@ -208,7 +208,7 @@ $(window).load(function(){
 			} else {
 				badEventsCounter++;
 				var badEventIndex = badEventsCounter - 1;
-				badEventUrl[badEventIndex] = $(events[j]).text();
+				badEventUrl[badEventIndex] = [$(events[j]).text(), $(events[j]).attr('href')];
 			}
 		}
 
@@ -221,7 +221,7 @@ $(window).load(function(){
 			
 			
 			for (var k = 0; k < badEventUrl.length; k++) {
-				$("#footer").prepend('<p style="font-size:10px; color:#f45a5a">' + badEventUrl[k] + '</p><br />');
+				$("#footer").prepend('<p style="font-size:10px; color:#f45a5a"><a href="' + badEventUrl[k][1] + '" target="_blank">' + badEventUrl[k][0] + '</p><br />');
 			}
 
 			$("#footer").prepend('<p style="color:#d72e2e">Omitting ' + badEventsCounter + ' ' + errorCruise + ' - Invalid title format</p>');
