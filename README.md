@@ -89,6 +89,9 @@ For those who are interested, the script does the following (and ONLY the follow
 
 * Create overlay for "Create an event" page so that event hosts only need to choose the date, time, etc from dropdown boxes and input fields. This will ensure events are recorded in the correct format for this script to use, as well as ensure hosts enter what is needed but not too much and not too little.
 
+---
+## Changelog:
+
 * Added "In Progress" and "Finished" statuses to replace countdown if condition(s) met. In Progress will show for the first two hours of an event since starting.
 
 * Added loading text while events are loading and changed widget to appear immediately after page load.
