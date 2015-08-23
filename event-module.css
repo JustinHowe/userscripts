@@ -56,11 +56,11 @@
 	background-position: -1144px center;
 }
 
-.side .md .event-block.state-finished {
+.side .md .event-block.state-warning {
 	background-color: #9b403c;
 	background-position: 0 center;
 }
-.side .md .event-block.state-finished:hover {
+.side .md .event-block.state-warning:hover {
 	background-color: #ab4744;
 	background-position: -858px center;
 }
