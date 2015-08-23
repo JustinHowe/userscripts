@@ -189,7 +189,8 @@ $(window).load(function(){
 	var eventModuleCSS = '<link rel="stylesheet" type="text/css" href="https://rawgit.com/yogensia/userscripts/master/event-module.css" media="all">';
 	var eventModuleHTML = '<div id="eventsWidget"><blockquote class="events-module" style="text-align:center"><h3><a id="eventsHeader" href="' + upcomingEventsLink + '" style="color:#fff">Loading Cruises...</a></h3><p><strong>Countdown timers auto-update</strong><p/><div id="eventsContent"></div><p><strong>Local time detected as ' + currentLocation.replace(/\+/g, " ") + '<br />Report widget bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/" target="_blank">PapaSyntax</a></strong></p></blockquote></div>';
 
-	$(".side .md").prepend(eventOpenSansCSS + eventModuleCSS + eventModuleHTML);
+	$("head").append(eventOpenSansCSS + eventModuleCSS);
+	$(".side .md").prepend(eventModuleHTML);
 
 	var countdownHref;
 	var iframe = document.createElement('iframe');
