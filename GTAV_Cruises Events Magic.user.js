@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      1.74
+// @version      1.76
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises*
@@ -26,6 +26,7 @@ var eventData = [];
 var goodEvents = [];
 var goodEventsCounter = 0;
 var badEventsCounter = 0;
+var badEventUrl = [];
 var events, epochNow;
 var updateCounter = 0;
 var finishedCounter = 0;
@@ -193,10 +194,11 @@ $(window).load(function(){
 
 	var eventOpenSansCSS = '<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700italic,700" rel="stylesheet" type="text/css">';
 	var eventModuleCSS = '<link rel="stylesheet" type="text/css" href="https://rawgit.com/yogensia/userscripts/master/event-module.css" media="all">';
-	var eventModuleHTML = '<div id="eventsWidget"><blockquote class="events-module" style="text-align:center"><h3><a id="eventsHeader" href="' + upcomingEventsLink + '" style="color:#fff">Loading Cruises...</a></h3><p><strong>Countdown timers auto-update</strong><p/><div id="eventsContent"></div><p><strong>Local time detected as ' + currentLocation.replace(/\+/g, " ") + '<br />Report widget bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/" target="_blank">PapaSyntax</a></strong></p></blockquote></div>';
+	var eventModuleHTML = '<div id="eventsWidget"><blockquote class="events-module" style="text-align:center"><h3><a id="eventsHeader" href="' + upcomingEventsLink + '" style="color:#fff">Cruises loading...</a></h3><p><strong>Countdown timers auto-update</strong><p/><div id="eventsContent"></div><p><strong>Local time detected as ' + currentLocation.replace(/\+/g, " ") + '<br />Report widget bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/" target="_blank">PapaSyntax</a></strong></p></blockquote></div>';
 
 	$("head").append(eventOpenSansCSS + eventModuleCSS);
 	$(".side .md").prepend(eventModuleHTML);
+	$("#eventsContent").prepend('<p id="contentsLoading">Cruises Loading...</p>');
 
 	var countdownHref;
 	var iframe = document.createElement('iframe');
@@ -221,6 +223,8 @@ $(window).load(function(){
 				goodEventsCounter++;
 			} else {
 				badEventsCounter++;
+				var badEventIndex = badEventsCounter - 1;
+				badEventUrl[badEventIndex] = [$(events[j]).text(), $(events[j]).attr('href')];
 			}
 		}
 
@@ -230,7 +234,11 @@ $(window).load(function(){
 				errorCruise = "cruise";
 			}
 
-			$("#footer").prepend('<font color="#d72e2e">Omitting ' + badEventsCounter + ' ' + errorCruise + ' - Invalid title format</font><br />');
+			for (var k = 0; k < badEventUrl.length; k++) {
+				$("#footer").prepend('<p style="font-size:10px; color:#f45a5a"><a href="' + badEventUrl[k][1] + '" target="_blank">' + badEventUrl[k][0] + '</p><br />');
+			}
+
+			$("#footer").prepend('<p style="color:#d72e2e">Omitting ' + badEventsCounter + ' ' + errorCruise + ' - Invalid title format</p>');
 		}
 
 		console.log("Good Events Found: " + goodEvents.length);
@@ -468,6 +476,8 @@ $(window).load(function(){
 			eventData.sort(function(a,b) {
 				return b[0]-a[0]
 			});
+
+    		$("#contentsLoading").remove('');
 
 			for (var n = 0; n < goodEvents.length; n++) {
 				$("#eventsContent").prepend(eventData[n][1]);
