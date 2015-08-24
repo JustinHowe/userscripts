@@ -50,6 +50,7 @@
 	display: block;
 	margin-bottom: 6px;
 	padding: 6px;
+	overflow: hidden;
 	position: relative;
 	text-shadow: 0 1px 0 rgba(0,0,0,0.35);
 }
@@ -89,6 +90,10 @@
 	text-shadow: 0 1px 1px rgba(0,0,0,0.5);
 }
 
+.side .md .event-block.state-warning a {
+	font-size: 14px;
+}
+
 
 /* Timer */
 .side .md .event-timer {
@@ -117,22 +122,11 @@
 }
 
 
-/* Other */
-.side .md .event-block .block-link {
-	display: block;
-	height: 100%;
-	position: absolute;
-	left: 0;
-	top: 0;
-	width: 100%;
-}
-
-
 /* Attendance */
 .side .md .event-attendance {
 	position: absolute;
-	right: -3px;
-	top: 2px;
+	right: 0;
+	top: 0;
 	padding-left: 27px;
 	opacity: 0;
 	transition: all 0.3s;
@@ -148,13 +142,13 @@
 	display: block;
 	width: 0;
 	padding: 5px 0;
-	height: 16px;
+	height: 18px;
 	transition: all 0.15s;
 	overflow: hidden;
 }
 .side .md .event-attendance:hover a {
 	padding: 5px;
-	width: 16px;
+	width: 17px;
 }
 
 .side .md .event-attendance a span {
@@ -169,7 +163,7 @@
 	background: #ffba00;
 }
 .side .md .event-attendance .attendance-list span {
-	margin: 1px 0 0 1px;
+	margin: 2px 0 0 1px;
 	height: 15px;
 	width: 14px;
 }
@@ -182,7 +176,7 @@
 }
 .side .md .event-attendance .attendance-yes span {
 	background-position: -14px 0;
-	margin: 1px 0 0 1px;
+	margin: 2px 0 0 1px;
 	height: 15px;
 	width: 15px;
 }
@@ -195,9 +189,25 @@
 }
 .side .md .event-attendance .attendance-no span {
 	background-position: -29px 0;
-	margin: 1px 0 0 2px;
+	margin: 2px 0 0 2px;
 	height: 15px;
 	width: 12px;
+}
+
+
+/* Other */
+.side .md .event-block .block-link {
+	display: block;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+}
+
+.events-error {
+	color: #d72e2e;
+	font-weight: bold;
 }
 
 

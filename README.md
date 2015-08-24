@@ -43,7 +43,7 @@ Tampermonkey/Greasemonkey userscript that lists upcoming, in progress and recent
 
 ---
 
-**[Here is a screenshot of what it looks like](http://i.imgur.com/agvyvbd.png)**
+**[Here is a screenshot of what it looks like](http://i.imgur.com/agvyvbd.png).**
 
 
 ---

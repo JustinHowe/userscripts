@@ -31,7 +31,7 @@ var events, epochNow;
 var updateCounter = 0;
 var finishedCounter = 0;
 
-//Comment to enable console logging.
+// Comment to enable console logging.
 console.log = function() {}
 
 // Image Preload
@@ -207,9 +207,12 @@ $(window).load(function(){
 	// Run everything after iFrame load.
 	$("#eventsiFrame").load(function(){
 		var eventsString = "";
+
+		// Get events from iframe
 		events = $("#eventsiFrame").contents().find("header.search-result-header > span").filter(function() { return ($(this).text() === 'Event') }).next();
 		console.log("Events Found: " + events.length);
 
+		// Do initial format check and store found events
 		for (var j = 0; j < events.length; j++) {
 			var tempEvent = events[j].innerHTML;
 			tempEvent = tempEvent.replace(/[^\|]/g, "").length;
@@ -223,6 +226,7 @@ $(window).load(function(){
 			}
 		}
 
+		// Check for bad formated events and print them separately
 		if (badEventsCounter > 0) {
 			var errorCruise = "cruises";
 			if (badEventsCounter == 1) {
@@ -230,21 +234,24 @@ $(window).load(function(){
 			}
 
 			for (var k = 0; k < badEventUrl.length; k++) {
-				$("#footer").prepend('<p style="font-size:10px; color:#f45a5a"><a href="' + badEventUrl[k][1] + '" target="_blank">' + badEventUrl[k][0] + '</p><br />');
+				$("#eventsContent").prepend('<p class="event-block state-warning"><a href="' + badEventUrl[k][1] + '" target="_blank">' + badEventUrl[k][0] + '</a><a class="block-link" href="' + badEventUrl[k][1] + '" target="_blank"></a></p>');
 			}
 
-			$("#footer").prepend('<p style="color:#d72e2e">Omitting ' + badEventsCounter + ' ' + errorCruise + ' - Invalid title format</p>');
+			$("#eventsContent").prepend('<p class="events-error">Omitting ' + badEventsCounter + ' ' + errorCruise + ' - Invalid title format:</p>');
 		}
 
 		console.log("Good Events Found: " + goodEvents.length);
+		console.log("Bad Events Found: " + badEventsCounter);
 
-		if (goodEvents.length < 1) {
+		// If no events found show  a message, otherwise update header and continue
+		if (goodEvents.length < 1 && badEventsCounter < 1) {
 			$("#eventsContent").replaceWith('<div id="eventsContent"><p align="center"><strong><span style="color:#48a948">No Upcoming Cruises</span></strong></p></div>');
 		} else {
 			$("#eventsHeader").text(goodEvents.length + ' Cruises Found');
 			continueLoading = true;
 		}
 
+		// Date and time conversion wizardry
 		if (continueLoading) {
 			for (var i=0; i < goodEvents.length; i++) {
 				var eventString = goodEvents[i].innerHTML;
@@ -302,7 +309,7 @@ $(window).load(function(){
 					var titleShort;
 
 					//Log original time and timezone
-					console.log(title + " - " + eventParts[4] + " - " + day + "/" + month + "/" + year + " - " + eventParts[3]);
+					console.log("Event title: " + title + " - " + eventParts[4] + " - " + day + "/" + month + "/" + year + " - " + eventParts[3]);
 
 					//Convert to four-digit military time and UTC time zone.
 					var time = eventParts[4];
