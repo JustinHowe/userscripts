@@ -1,3 +1,4 @@
+/* General structure and typography */
 .side .md blockquote.events-module {
 	font-family: 'Open Sans', sans-serif;
 	font-size: 12px;
@@ -39,12 +40,8 @@
 	padding: 0;
 }
 
-.side .md #contentsLoading {
-	color: #48a948;
-	font-size: 15px;
-	font-weight: bold;
-}
 
+/* Event block common styles */
 .side .md .event-block {
 	background: #1977b8 url(https://raw.githubusercontent.com/yogensia/userscripts/master/background.jpg);
 	background-position: -286px center;
@@ -52,7 +49,6 @@
 	color: #fff;
 	display: block;
 	margin-bottom: 6px;
-	overflow: hidden;
 	padding: 6px;
 	position: relative;
 	text-shadow: 0 1px 0 rgba(0,0,0,0.35);
@@ -93,6 +89,8 @@
 	text-shadow: 0 1px 1px rgba(0,0,0,0.5);
 }
 
+
+/* Timer */
 .side .md .event-timer {
 	font-size: 11px;
 	font-weight: bold;
@@ -118,6 +116,8 @@
 	padding: 0 7px;
 }
 
+
+/* Other */
 .side .md .event-block .block-link {
 	display: block;
 	height: 100%;
@@ -127,6 +127,81 @@
 	width: 100%;
 }
 
+
+/* Attendance */
+.side .md .event-attendance {
+	position: absolute;
+	right: -3px;
+	top: 2px;
+	padding-left: 27px;
+	opacity: 0;
+	transition: all 0.3s;
+}
+.side .md .event-block:hover .event-attendance {
+	opacity: 1;
+}
+
+.side .md .event-attendance a {
+	background: rgba(0,0,0,0.3);
+	border-style: solid;
+	border-width: 0 3px 0 0;
+	display: block;
+	width: 0;
+	padding: 5px 0;
+	height: 16px;
+	transition: all 0.15s;
+	overflow: hidden;
+}
+.side .md .event-attendance:hover a {
+	padding: 5px;
+	width: 16px;
+}
+
+.side .md .event-attendance a span {
+	background: url(https://raw.githubusercontent.com/yogensia/userscripts/master/icons-attendance.png);
+	display: block;
+}
+
+.side .md .attendance-list {
+	border-color: #ffba00;
+}
+.side .md .attendance-list:hover {
+	background: #ffba00;
+}
+.side .md .event-attendance .attendance-list span {
+	margin: 1px 0 0 1px;
+	height: 15px;
+	width: 14px;
+}
+
+.side .md .attendance-yes {
+	border-color: #51ce44;
+}
+.side .md .attendance-yes:hover {
+	background: #51ce44;
+}
+.side .md .event-attendance .attendance-yes span {
+	background-position: -14px 0;
+	margin: 1px 0 0 1px;
+	height: 15px;
+	width: 15px;
+}
+
+.side .md .attendance-no {
+	border-color: #bf3636;
+}
+.side .md .attendance-no:hover {
+	background: #bf3636;
+}
+.side .md .event-attendance .attendance-no span {
+	background-position: -29px 0;
+	margin: 1px 0 0 2px;
+	height: 15px;
+	width: 12px;
+}
+
+
+/* Footer */
 .side .md .event-footer {
 	font-size: 10px;
 }
