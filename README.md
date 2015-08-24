@@ -4,9 +4,9 @@ Tampermonkey/Greasemonkey userscript that lists upcoming, in progress and recent
 
 ---
 
-* ***Coded by** [u/PapaSyntax](https://www.reddit.com/user/PapaSyntax) (Syntax in-game).
+* **Coded by** [u/PapaSyntax](https://www.reddit.com/user/PapaSyntax) (Syntax in-game).
 
-* **GUI created by** [u/Yogensya](https://www.reddit.com/user/Yogensya).
+* **GUI created by** [u/Yogensya](https://www.reddit.com/user/Yogensya) (Yogensia in-game).
 
 ---
 
