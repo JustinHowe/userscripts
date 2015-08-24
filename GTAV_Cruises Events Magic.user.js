@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      1.76
+// @version      1.78
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises*
@@ -11,7 +11,7 @@
 // @require      https://github.com/JustinHowe/userscripts/raw/master/jstz.min.js
 // ==/UserScript==
 
-// [Region] | [Date] | [Title] | [GMT] | [Time]
+// Event Title Format: [Region] | [Date] | [Title] | [GMT] | [Time]
 
 var countdowns = [];
 var dates = [];
@@ -56,22 +56,18 @@ function timerUpdate(n) {
 		m = (countdowns[n]-s)/60%60;
 		h = ((countdowns[n]-s)/60 - m)/60%24;
 		d = (((countdowns[n]-s)/60 - m)/60 - h)/24;
-
 		var txt;
 		var inProgress = false;
-
 		if (d == 1) {
 			var textDays = " Day, ";
 		} else {
 			var textDays = " Days, ";
 		}
-
 		if (h == 1) {
 			var textHours = " Hr";
 		} else {
 			var textHours = " Hrs";
 		}
-
 		if (d > 0) {
 			txt = "Starts in " + d + textDays + h + textHours + ", " + m + " Min";
 			$("#event-block-" + n).addClass("state-upcoming");
@@ -88,7 +84,6 @@ function timerUpdate(n) {
 			txt = "Starts in " + d + textDays + m + " Min";
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
-
 		if ((d > 0) &&(h > 0) && (m == 0)) {
 			txt = "Starts in " + d + textDays + h + textHours;
 			$("#event-block-" + n).addClass("state-upcoming");
@@ -198,7 +193,6 @@ $(window).load(function(){
 
 	$("head").append(eventOpenSansCSS + eventModuleCSS);
 	$(".side .md").prepend(eventModuleHTML);
-	$("#eventsContent").prepend('<p id="contentsLoading">Cruises Loading...</p>');
 
 	var countdownHref;
 	var iframe = document.createElement('iframe');
@@ -477,13 +471,12 @@ $(window).load(function(){
 				return b[0]-a[0]
 			});
 
-    		$("#contentsLoading").remove('');
-
 			for (var n = 0; n < goodEvents.length; n++) {
 				$("#eventsContent").prepend(eventData[n][1]);
 			}
 
 			refreshTimer();
+			checkFinished();
 
 			setInterval(refreshTimer, 30000);
 		}
