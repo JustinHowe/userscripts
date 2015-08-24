@@ -4,7 +4,9 @@ Tampermonkey/Greasemonkey userscript that lists upcoming, in progress and recent
 
 **Coded by** [u/PapaSyntax](https://www.reddit.com/user/PapaSyntax).
 
-**GUI created by** [u/Yogensya](https://www.reddit.com/user/Yogensya).&nbsp;
+**GUI created by** [u/Yogensya](https://www.reddit.com/user/Yogensya).
+
+
 ---
 > Hi all,
 >
