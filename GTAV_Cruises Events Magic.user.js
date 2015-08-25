@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      1.80
+// @version      1.81
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises*
@@ -72,8 +72,12 @@ function timerUpdate(n) {
 			txt = "Starts in " + d + textDays + h + textHours + ", " + m + " Min";
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
-		if ((d == 0) && (h > 0)) {
+		if ((d == 0) && (h > 0) && (m > 0)) {
 			txt = "Starts in " + h + textHours + ", " + m + " Min";
+			$("#event-block-" + n).addClass("state-upcoming");
+		}
+		if ((d == 0) && (h > 0) && (m == 0)) {
+			txt = "Starts in " + h + textHours;
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
 		if ((d == 0) &&(h == 0) && (m > 0)) {
