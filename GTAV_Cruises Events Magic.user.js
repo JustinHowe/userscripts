@@ -40,8 +40,7 @@ function preload(arrayOfImages) {
 		$('<img/>')[0].src = this;
 	});
 }
-preload(['https://raw.githubusercontent.com/yogensia/userscripts/master/background.jpg',
-	'https://raw.githubusercontent.com/yogensia/userscripts/master/icons-attendance.png']);
+preload(['https://raw.githubusercontent.com/yogensia/userscripts/master/background.jpg']);
 
 function toTitleCase(str) {
 	return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
@@ -468,9 +467,9 @@ $(window).load(function(){
 						}
 						localDate = localDayString + " " + localMonth + " " + localDay + " @ " + localTimeHr + ":" + localTimeMin + "" + amPm;
 						console.log(localDate);
-						eventData[i] = [epochFuture[i], '<div id="event-block-' + i + '" class="event-block"><p class="event-title"><a title="Link to: ' + title + '" href="' + href + '">' + title + '</a></p><p id="timer' + i + '" class="event-timer"></p><p class="event-local-date">' + localDate + '</p><a class="block-link" a title="Link to: ' + title + '" href="' + href + '"></a><div class="event-attendance"><a href="#" class="attendance-list"><span></span></a><a href="#" class="attendance-yes"><span></span></a><a href="#" class="attendance-no"><span></span></a></div></div>'];
+						eventData[i] = [epochFuture[i], '<div id="event-block-' + i + '" class="event-block"><p class="event-title"><a title="Link to: ' + title + '" href="' + href + '">' + title + '</a></p><p id="timer' + i + '" class="event-timer"></p><p class="event-local-date">' + localDate + '</p><a class="block-link" a title="Link to: ' + title + '" href="' + href + '"></a></div>'];
 					} else {
-						eventData[i] = [9999999999, '<div id="event-block-' + i + '" class="event-block"><p class="event-title"><a title="No Countdown Timer - Bad Date - Should be day/month/year. err_code:id10t" href="' + href + '">' + title + '</a></p><p id="timer' + i + '" class="event-timer"></p><p class="event-local-date">' + localDate + '</p><a class="block-link" a title="No Countdown Timer - Bad Date - Should be day/month/year. err_code:id10t" href="' + href + '"></a><div class="event-attendance"><a href="#" class="attendance-list"><span></span></a><a href="#" class="attendance-yes"><span></span></a><a href="#" class="attendance-no"><span></span></a></div></div>'];
+						eventData[i] = [9999999999, '<div id="event-block-' + i + '" class="event-block"><p class="event-title"><a title="No Countdown Timer - Bad Date - Should be day/month/year. err_code:id10t" href="' + href + '">' + title + '</a></p><p id="timer' + i + '" class="event-timer"></p><p class="event-local-date">' + localDate + '</p><a class="block-link" a title="No Countdown Timer - Bad Date - Should be day/month/year. err_code:id10t" href="' + href + '"></a></div>'];
 					}
 				}
 			}
