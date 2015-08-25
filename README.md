@@ -140,3 +140,7 @@ For those who are interested, the script does the following (and ONLY the follow
 * v1.77 | Cosmetic change in code.
 
 * v1.78 | Cosmetic changes in code and better comment documentation.
+
+* v1.79 | Added handling for if somebody posts an event with 24hr time greater than the 12'th hour and adds a PM as well. Such events will not advance +12 hours in the future because of the PM now.
+
+* v1.80 | Added more styling for event blocks that have invalid title formats.

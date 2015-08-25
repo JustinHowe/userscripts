@@ -68,31 +68,38 @@ function timerUpdate(n) {
 		} else {
 			var textHours = " Hrs";
 		}
+		// DAYS HRS MIN
 		if (d > 0) {
 			txt = "Starts in " + d + textDays + h + textHours + ", " + m + " Min";
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
+		// HRS MIN
 		if ((d == 0) && (h > 0)) {
 			txt = "Starts in " + h + textHours + ", " + m + " Min";
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
+		// MIN
 		if ((d == 0) &&(h == 0) && (m > 0)) {
 			txt = "Starts in " + m + " Min";
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
+		// DAYS MIN
 		if ((d > 0) &&(h == 0) && (m > 0)) {
 			txt = "Starts in " + d + textDays + m + " Min";
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
+		// DAYS HRS
 		if ((d > 0) &&(h > 0) && (m == 0)) {
 			txt = "Starts in " + d + textDays + h + textHours;
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
+		// IN PROGRESS
 		if ((d == 0) && ((h >= -1) && (h <= 0)) && (m <= 0)) {
 			txt = 'In Progress';
 			$("#event-block-" + n).addClass("state-progress");
 			inProgress = true;
 		}
+		// FINISHED
 		if ((m < 0) && !inProgress) {
 			txt = 'Finished';
 			$("#event-block-" + n).removeClass("state-progress").addClass("state-finished");
