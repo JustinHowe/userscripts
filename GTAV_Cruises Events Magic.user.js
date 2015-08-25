@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      1.78
+// @version      1.79
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises*
@@ -343,7 +343,9 @@ $(window).load(function(){
 					minute = parseInt(minute, 10);
 
 					if (times[i].toLowerCase().indexOf("pm") >= 0) {
-						hour = hour + 12;
+						if (hour < 12) {
+							hour = hour + 12;
+						}
 					}
 
 					console.log("24hr Hour: " + hour);
