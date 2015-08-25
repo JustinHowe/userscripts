@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      1.79
+// @version      1.80
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises*
@@ -189,7 +189,7 @@ $(window).load(function(){
 
 	var eventOpenSansCSS = '<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700italic,700" rel="stylesheet" type="text/css">';
 	var eventModuleCSS = '<link rel="stylesheet" type="text/css" href="https://rawgit.com/yogensia/userscripts/master/event-module.css" media="all">';
-	var eventModuleHTML = '<div id="eventsWidget"><blockquote class="events-module" style="text-align:center"><h3><a id="eventsHeader" href="' + upcomingEventsLink + '" style="color:#fff">Cruises loading...</a></h3><p><strong>Countdown timers auto-update</strong><p/><div id="eventsContent"></div><p><strong>Local time detected as ' + currentLocation.replace(/\+/g, " ") + '<br />Report widget bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/" target="_blank">PapaSyntax</a></strong></p></blockquote></div>';
+	var eventModuleHTML = '<div id="eventsWidget"><blockquote class="events-module" style="text-align:center"><h3><a id="eventsHeader" href="' + upcomingEventsLink + '" style="color:#fff">Cruises loading...</a></h3><p><strong>Countdown timers auto-update</strong><p/><div id="eventsContent"></div><div id="footer"><strong>Local time detected as ' + currentLocation.replace(/\+/g, " ") + '<br />Report widget bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/" target="_blank">PapaSyntax</a></strong></div></blockquote></div>';
  
 	$("head").append(eventOpenSansCSS + eventModuleCSS);
 	$(".side .md").prepend(eventModuleHTML);
@@ -229,16 +229,16 @@ $(window).load(function(){
 			}
 
 			for (var k = 0; k < badEventUrl.length; k++) {
-				$("#footer").prepend('<p style="font-size:10px; color:#f45a5a"><a href="' + badEventUrl[k][1] + '" target="_blank">' + badEventUrl[k][0] + '</p><br />');
+				$("#footer").prepend('<p class="event-block state-warning"><a href="' + badEventUrl[k][1] + '" target="_blank">' + badEventUrl[k][0] + '</a><a class="block-link" href="' + badEventUrl[k][1] + '" target="_blank"></a></p>');
 			}
 
-			$("#footer").prepend('<p style="color:#d72e2e">Omitting ' + badEventsCounter + ' ' + errorCruise + ' - Invalid title format</p>');
+			$("#footer").prepend('<p class="events-error">Omitting ' + badEventsCounter + ' ' + errorCruise + ' - Invalid title format:</p>');
 		}
 
 		console.log("Good Events Found: " + goodEvents.length);
 
 		if (goodEvents.length < 1) {
-			$("#eventsContent").replaceWith('<div id="eventsContent"><p align="center"><strong><span style="color:#48a948">No Upcoming Cruises</span></strong></p></div>');
+			$("#eventsContent").replaceWith('<div id="eventsContent"><p align="center"><strong><span style="color:#48a948">0 Cruises Found</span></strong></p></div>');
 		} else {
 			$("#eventsHeader").text(goodEvents.length + ' Cruises Found');
 			continueLoading = true;
