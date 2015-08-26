@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      1.80
+// @version      1.84
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises*
@@ -74,8 +74,13 @@ function timerUpdate(n) {
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
 		// HRS MIN
-		if ((d == 0) && (h > 0)) {
+		if ((d == 0) && (h > 0) && (m > 0)) {
 			txt = "Starts in " + h + textHours + ", " + m + " Min";
+			$("#event-block-" + n).addClass("state-upcoming");
+		}
+		// HRS
+		if ((d == 0) && (h > 0) && (m == 0)) {
+			txt = "Starts in " + h + textHours;
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
 		// MIN
@@ -95,7 +100,20 @@ function timerUpdate(n) {
 		}
 		// IN PROGRESS
 		if ((d == 0) && ((h >= -1) && (h <= 0)) && (m <= 0)) {
-			txt = 'In Progress';
+			txt = 'Just Started';
+			if ((h == 0) && (m < 0)) {
+				m = m.toString().replace(/\-/, "");
+				txt = 'Started ' + m + " Min ago";
+			}
+			if (h == -1) {
+				h = h.toString().replace(/\-/, "");
+				if (m == 0) {
+					txt = 'Started ' + h + " Hr ago";
+				} else {
+					m = m.toString().replace(/\-/, "");
+					txt = 'Started ' + h + " Hr, " + m + " Min ago";
+				}
+			}
 			$("#event-block-" + n).addClass("state-progress");
 			inProgress = true;
 		}
