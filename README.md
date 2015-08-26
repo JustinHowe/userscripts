@@ -144,3 +144,9 @@ For those who are interested, the script does the following (and ONLY the follow
 * v1.79 | Added handling for if somebody posts an event with 24hr time greater than the 12'th hour and adds a PM as well. Such events will not advance +12 hours in the future because of the PM now.
 
 * v1.80 | Added more styling for event blocks that have invalid title formats.
+
+* v1.81 | Updated countdown timer text to exclude minutes if minute is 0 and hour > 0. Ex: 4 HRS, 0 MIN will show as 4 HRS.
+
+* v1.82 | Updated In Progress events to show, "JUST STARTED" or "STARTED n HRS, m MIN AGO" instead of "IN PROGRESS".
+
+* v1.84 | Cosmetic changes with text.
