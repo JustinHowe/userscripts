@@ -31,7 +31,7 @@ var events, epochNow;
 var updateCounter = 0;
 var finishedCounter = 0;
 
-//Comment to enable console logging.
+// Comment to enable console logging.
 console.log = function() {}
 
 // Image Preload
@@ -68,30 +68,37 @@ function timerUpdate(n) {
 		} else {
 			var textHours = " Hrs";
 		}
+		// DAYS HRS MIN
 		if (d > 0) {
 			txt = "Starts in " + d + textDays + h + textHours + ", " + m + " Min";
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
+		// HRS MIN
 		if ((d == 0) && (h > 0) && (m > 0)) {
 			txt = "Starts in " + h + textHours + ", " + m + " Min";
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
+		// HRS
 		if ((d == 0) && (h > 0) && (m == 0)) {
 			txt = "Starts in " + h + textHours;
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
+		// MIN
 		if ((d == 0) &&(h == 0) && (m > 0)) {
 			txt = "Starts in " + m + " Min";
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
+		// DAYS MIN
 		if ((d > 0) &&(h == 0) && (m > 0)) {
 			txt = "Starts in " + d + textDays + m + " Min";
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
+		// DAYS HRS
 		if ((d > 0) &&(h > 0) && (m == 0)) {
 			txt = "Starts in " + d + textDays + h + textHours;
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
+		// IN PROGRESS
 		if ((d == 0) && ((h >= -1) && (h <= 0)) && (m <= 0)) {
 			txt = 'Just Started';
 			if ((h == 0) && (m < 0)) {
@@ -110,6 +117,7 @@ function timerUpdate(n) {
 			$("#event-block-" + n).addClass("state-progress");
 			inProgress = true;
 		}
+		// FINISHED
 		if ((m < 0) && !inProgress) {
 			txt = 'Finished';
 			$("#event-block-" + n).removeClass("state-progress").addClass("state-finished");
@@ -206,9 +214,10 @@ $(window).load(function(){
 
 	var eventOpenSansCSS = '<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700italic,700" rel="stylesheet" type="text/css">';
 	var eventModuleCSS = '<link rel="stylesheet" type="text/css" href="https://rawgit.com/yogensia/userscripts/master/event-module.css" media="all">';
+	var eventAttendanceCSS = '<link rel="stylesheet" type="text/css" href="https://rawgit.com/yogensia/userscripts/master/event-attendance.css" media="all">';
 	var eventModuleHTML = '<div id="eventsWidget"><blockquote class="events-module" style="text-align:center"><h3><a id="eventsHeader" href="' + upcomingEventsLink + '" style="color:#fff">Cruises loading...</a></h3><p><strong>Countdown timers auto-update</strong><p/><div id="eventsContent"></div><div id="footer"><strong>Local time detected as ' + currentLocation.replace(/\+/g, " ") + '<br />Report widget bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/" target="_blank">PapaSyntax</a></strong></div></blockquote></div>';
- 
-	$("head").append(eventOpenSansCSS + eventModuleCSS);
+
+	$("head").append(eventOpenSansCSS + eventModuleCSS + eventAttendanceCSS);
 	$(".side .md").prepend(eventModuleHTML);
 
 	var countdownHref;
@@ -223,9 +232,12 @@ $(window).load(function(){
 	// Run everything after iFrame load.
 	$("#eventsiFrame").load(function(){
 		var eventsString = "";
+
+		// Get events from iframe
 		events = $("#eventsiFrame").contents().find("header.search-result-header > span").filter(function() { return ($(this).text() === 'Event') }).next();
 		console.log("Events Found: " + events.length);
 
+		// Do initial format check and store found events
 		for (var j = 0; j < events.length; j++) {
 			var tempEvent = events[j].innerHTML;
 			tempEvent = tempEvent.replace(/[^\|]/g, "").length;
@@ -239,6 +251,7 @@ $(window).load(function(){
 			}
 		}
 
+		// Check for bad formated events and print them separately
 		if (badEventsCounter > 0) {
 			var errorCruise = "cruises";
 			if (badEventsCounter == 1) {
@@ -253,6 +266,7 @@ $(window).load(function(){
 		}
 
 		console.log("Good Events Found: " + goodEvents.length);
+		console.log("Bad Events Found: " + badEventsCounter);
 
 		if (goodEvents.length < 1) {
 			$("#eventsContent").replaceWith('<div id="eventsContent"><p align="center"><strong><span style="color:#48a948">0 Cruises Found</span></strong></p></div>');
@@ -260,7 +274,8 @@ $(window).load(function(){
 			$("#eventsHeader").text(goodEvents.length + ' Cruises Found');
 			continueLoading = true;
 		}
-		
+
+		// Date and time conversion wizardry
 		if (continueLoading) {
 			for (var i=0; i < goodEvents.length; i++) {
 				var eventString = goodEvents[i].innerHTML;
@@ -318,7 +333,7 @@ $(window).load(function(){
 					var titleShort;
 
 					//Log original time and timezone
-					console.log(title + " - " + eventParts[4] + " - " + day + "/" + month + "/" + year + " - " + eventParts[3]);
+					console.log("Event title: " + title + " - " + eventParts[4] + " - " + day + "/" + month + "/" + year + " - " + eventParts[3]);
 
 					//Convert to four-digit military time and UTC time zone.
 					var time = eventParts[4];
@@ -467,7 +482,7 @@ $(window).load(function(){
 						if (localTimeHr > 12) {
 							localTimeHr = localTimeHr - 12;
 							amPm = " PM";
-						} 
+						}
 						if (localTimeHr == 12) {
 							amPm = " PM";
 						}
@@ -487,12 +502,12 @@ $(window).load(function(){
 			}
 
 			eventData.sort(function(a,b) {
-        		return b[0]-a[0]
-    		});
+				return b[0]-a[0]
+			});
 
 			for (var n = 0; n < goodEvents.length; n++) {
-    			$("#eventsContent").prepend(eventData[n][1]);
-    		}
+				$("#eventsContent").prepend(eventData[n][1]);
+			}
 
 			refreshTimer();
 			checkFinished();

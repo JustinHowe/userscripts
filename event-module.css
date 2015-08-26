@@ -1,3 +1,4 @@
+/* General structure and typography */
 .side .md blockquote.events-module {
 	font-family: 'Open Sans', sans-serif;
 	font-size: 12px;
@@ -39,12 +40,8 @@
 	padding: 0;
 }
 
-.side .md #contentsLoading {
-	color: #48a948;
-	font-size: 15px;
-	font-weight: bold;
-}
 
+/* Event block common styles */
 .side .md .event-block {
 	background: #1977b8 url(https://raw.githubusercontent.com/yogensia/userscripts/master/background.jpg);
 	background-position: -286px center;
@@ -93,6 +90,12 @@
 	text-shadow: 0 1px 1px rgba(0,0,0,0.5);
 }
 
+.side .md .event-block.state-warning a {
+	font-size: 14px;
+}
+
+
+/* Timer */
 .side .md .event-timer {
 	font-size: 11px;
 	font-weight: bold;
@@ -118,6 +121,8 @@
 	padding: 0 7px;
 }
 
+
+/* Other */
 .side .md .event-block .block-link {
 	display: block;
 	height: 100%;
@@ -127,6 +132,13 @@
 	width: 100%;
 }
 
+.events-error {
+	color: #d72e2e;
+	font-weight: bold;
+}
+
+
+/* Footer */
 .side .md .event-footer {
 	font-size: 10px;
 }
