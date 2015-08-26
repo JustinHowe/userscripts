@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      1.83
+// @version      1.84
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises*
@@ -101,10 +101,10 @@ function timerUpdate(n) {
 			if (h == -1) {
 				h = h.toString().replace(/\-/, "");
 				if (m == 0) {
-					txt = 'Started ' + h + "Hr ago";
+					txt = 'Started ' + h + " Hr ago";
 				} else {
 					m = m.toString().replace(/\-/, "");
-					txt = 'Started ' + h + "Hr, " + m + " Min ago";
+					txt = 'Started ' + h + " Hr, " + m + " Min ago";
 				}
 			}
 			$("#event-block-" + n).addClass("state-progress");
