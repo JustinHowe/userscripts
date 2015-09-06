@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      1.88
+// @version      1.89
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises
@@ -154,9 +154,10 @@ function checkFinished() {
 			finishedCounter++;
 		}
 	}
+    
+    var newHeaderCounter = goodEvents.length - finishedCounter;
 
 	if (finishedCounter != 0) {
-		var newHeaderCounter = goodEvents.length - finishedCounter;
 		console.log(finishedCounter + " Events Finished, Changing Header to " + newHeaderCounter + " Events");
 		$("#eventsHeader").text(newHeaderCounter + ' Cruises Found');
 	}
@@ -165,6 +166,10 @@ function checkFinished() {
          $("#eventsHeader").text("It's Lonely Around Here...");
          $("#topBodyText").text("");
 		 $("#eventsContent").replaceWith('<div id="eventsContent"><p align="center"><strong><span style="color:#48a948; font-size:150%">No Cruises Found.</span> <br /><br /><span style="color:#48a948; font-size:100%">Won\'t you liven things up a bit and create one?</span></strong></p></div>');
+    }
+    
+    if (newHeaderCounter == 1) {
+        $("#eventsHeader").text(newHeaderCounter + ' Cruise Found');
     }
 }
 
