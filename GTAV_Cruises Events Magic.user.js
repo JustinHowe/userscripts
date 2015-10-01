@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      1.91
+// @version      1.92
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises
@@ -34,9 +34,10 @@ var events, epochNow;
 var updateCounter = 0;
 var finishedCounter = 0;
 var intervalTimer;
+var continueTimer = 1;
 
 // Comment to enable console logging.
-//console.log = function() {}
+console.log = function() {}
 
 // Image Preload
 function preload(arrayOfImages) {
@@ -167,6 +168,7 @@ function checkFinished() {
          $("#eventsHeader").text("It's Quiet Around Here...");
          $("#topBodyText").text("");
 		 $("#eventsContent").replaceWith('<div id="eventsContent"><p align="center"><strong><span style="color:#48a948; font-size:150%">No Cruises Found.</span> <br /><br /><span style="color:#48a948; font-size:100%">Get on your ass and host one!</span></strong></p></div>');
+    	continueTimer = false;
     	clearInterval(intervalTimer);
     }
     
@@ -535,8 +537,9 @@ $(window).load(function(){
 			}
 
 			refreshTimer();
-
-			intervalTimer = setInterval(refreshTimer, 30000);
+			if (continueTimer) {
+				intervalTimer = setInterval(refreshTimer, 30000);
+			}
 		}
 	})
 })
