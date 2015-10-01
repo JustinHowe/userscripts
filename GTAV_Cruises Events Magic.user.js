@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      1.90
+// @version      1.91
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises
@@ -33,9 +33,10 @@ var badEventUrl = [];
 var events, epochNow;
 var updateCounter = 0;
 var finishedCounter = 0;
+var intervalTimer;
 
 // Comment to enable console logging.
-console.log = function() {}
+//console.log = function() {}
 
 // Image Preload
 function preload(arrayOfImages) {
@@ -162,10 +163,11 @@ function checkFinished() {
 		$("#eventsHeader").text(newHeaderCounter + ' Cruises Found');
 	}
     
-    if (finishedCounter == goodEvents.length) {
-         $("#eventsHeader").text("It's Lonely Around Here...");
+    if (newHeaderCounter == 0) {
+         $("#eventsHeader").text("It's Quiet Around Here...");
          $("#topBodyText").text("");
-		 $("#eventsContent").replaceWith('<div id="eventsContent"><p align="center"><strong><span style="color:#48a948; font-size:150%">No Cruises Found.</span> <br /><br /><span style="color:#48a948; font-size:100%">Won\'t you liven things up a bit and create one?</span></strong></p></div>');
+		 $("#eventsContent").replaceWith('<div id="eventsContent"><p align="center"><strong><span style="color:#48a948; font-size:150%">No Cruises Found.</span> <br /><br /><span style="color:#48a948; font-size:100%">Get on your ass and host one!</span></strong></p></div>');
+    	clearInterval(intervalTimer);
     }
     
     if (newHeaderCounter == 1) {
@@ -283,9 +285,9 @@ $(window).load(function(){
 		console.log("Bad Events Found: " + badEventsCounter);
 
 		if (goodEvents.length < 1) {
-            $("#eventsHeader").text("It's Lonely Around Here...");
+            $("#eventsHeader").text("It's Quiet Around Here...");
             $("#topBodyText").text("");
-			$("#eventsContent").replaceWith('<div id="eventsContent"><p align="center"><strong><span style="color:#48a948; font-size:150%">No Cruises Found.</span> <br /><br /><span style="color:#48a948; font-size:100%">Won\'t you liven things up a bit and create one?</span></strong></p></div>');
+			$("#eventsContent").replaceWith('<div id="eventsContent"><p align="center"><strong><span style="color:#48a948; font-size:150%">No Cruises Found.</span> <br /><br /><span style="color:#48a948; font-size:100%">Get on your ass and host one!</span></strong></p></div>');
 		} else {
             if (goodEvents.length == 1) {
                 $("#eventsHeader").text(goodEvents.length + ' Cruise Found');
@@ -533,9 +535,8 @@ $(window).load(function(){
 			}
 
 			refreshTimer();
-			checkFinished();
 
-			setInterval(refreshTimer, 30000);
+			intervalTimer = setInterval(refreshTimer, 30000);
 		}
 	})
 })
