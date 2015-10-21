@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      1.92
+// @version      1.93
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises
@@ -33,8 +33,6 @@ var badEventUrl = [];
 var events, epochNow;
 var updateCounter = 0;
 var finishedCounter = 0;
-var intervalTimer;
-var continueTimer = 1;
 
 // Comment to enable console logging.
 console.log = function() {}
@@ -164,12 +162,10 @@ function checkFinished() {
 		$("#eventsHeader").text(newHeaderCounter + ' Cruises Found');
 	}
     
-    if (newHeaderCounter == 0) {
-         $("#eventsHeader").text("It's Quiet Around Here...");
+    if (finishedCounter == goodEvents.length) {
+         $("#eventsHeader").text("It's Lonely Around Here...");
          $("#topBodyText").text("");
-		 $("#eventsContent").replaceWith('<div id="eventsContent"><p align="center"><strong><span style="color:#48a948; font-size:150%">No Cruises Found.</span> <br /><br /><span style="color:#48a948; font-size:100%">Get on your ass and host one!</span></strong></p></div>');
-    	continueTimer = false;
-    	clearInterval(intervalTimer);
+		 $("#eventsContent").replaceWith('<div id="eventsContent"><p align="center"><strong><span style="color:#48a948; font-size:150%">No Cruises Found.</span> <br /><br /><span style="color:#48a948; font-size:100%">Won\'t you liven things up a bit and create one?</span></strong></p></div>');
     }
     
     if (newHeaderCounter == 1) {
@@ -287,9 +283,9 @@ $(window).load(function(){
 		console.log("Bad Events Found: " + badEventsCounter);
 
 		if (goodEvents.length < 1) {
-            $("#eventsHeader").text("It's Quiet Around Here...");
+            $("#eventsHeader").text("It's Lonely Around Here...");
             $("#topBodyText").text("");
-			$("#eventsContent").replaceWith('<div id="eventsContent"><p align="center"><strong><span style="color:#48a948; font-size:150%">No Cruises Found.</span> <br /><br /><span style="color:#48a948; font-size:100%">Get on your ass and host one!</span></strong></p></div>');
+			$("#eventsContent").replaceWith('<div id="eventsContent"><p align="center"><strong><span style="color:#48a948; font-size:150%">No Cruises Found.</span> <br /><br /><span style="color:#48a948; font-size:100%">Won\'t you liven things up a bit and create one?</span></strong></p></div>');
 		} else {
             if (goodEvents.length == 1) {
                 $("#eventsHeader").text(goodEvents.length + ' Cruise Found');
@@ -338,6 +334,8 @@ $(window).load(function(){
                             }
                             year = parseInt(year, 10);
 						}
+                        
+						
 
 						var monthCurrentEpoch = Date.now();
 						var monthAheadEpoch = (monthCurrentEpoch + 2678400000)/1000;
@@ -411,29 +409,107 @@ $(window).load(function(){
 
 					var timezone = eventParts[3];
 					zones[i] = timezone;
-					if (timezone.toLowerCase().indexOf("pst") >= 0) {
-						timezone = "UTC-8";
+
+					//Get daylight savings time epochs
+					var dayDSTStart;
+					var monthDSTStart;
+					var dayDSTStop;
+					var monthDSTStop;
+
+					if (year == 2015) {
+						dayDSTStart = 8;
+						monthDSTStart = 3;
+						dayDSTStop = 1;
+						monthDSTStop = 11;
 					}
-					if (timezone.toLowerCase().indexOf("pdt") >= 0) {
-						timezone = "UTC-7";
+
+					if (year == 2016) {
+						dayDSTStart = 13;
+						monthDSTStart = 3;
+						dayDSTStop = 6;
+						monthDSTStop = 11;
 					}
-					if (timezone.toLowerCase().indexOf("est") >= 0) {
-						timezone = "UTC-5";
+
+					if (year == 2017) {
+						dayDSTStart = 12;
+						monthDSTStart = 3;
+						dayDSTStop = 5;
+						monthDSTStop = 11;
 					}
-					if (timezone.toLowerCase().indexOf("edt") >= 0) {
-						timezone = "UTC-4";
+
+					if (year == 2018) {
+						dayDSTStart = 11;
+						monthDSTStart = 3;
+						dayDSTStop = 4;
+						monthDSTStop = 11;
 					}
-					if (timezone.toLowerCase().indexOf("cst") >= 0) {
-						timezone = "UTC-6";
+
+					if (year == 2019) {
+						dayDSTStart = 10;
+						monthDSTStart = 3;
+						dayDSTStop = 3;
+						monthDSTStop = 11;
 					}
-					if (timezone.toLowerCase().indexOf("cdt") >= 0) {
-						timezone = "UTC-5";
+
+					if (year == 2020) {
+						dayDSTStart = 8;
+						monthDSTStart = 3;
+						dayDSTStop = 1;
+						monthDSTStop = 11;
 					}
-					if (timezone.toLowerCase().indexOf("aest") >= 0) {
-						timezone = "UTC+10";
+
+					var epochDSTStart;
+					var epochDSTStop;
+					epochNow = Date.now();
+					console.log("Epoch Now: " + epochNow);
+
+					if ((timezone.toLowerCase().indexOf("pst") >= 0) || (timezone.toLowerCase().indexOf("pdt") >= 0)) {
+						epochDSTStart = Date.UTC(year,monthDSTStart-1,dayDSTStart,09,00);
+						epochDSTStop = Date.UTC(year,monthDSTStop-1,dayDSTStop,09,00);
+						console.log("Epoch DST Start: " + epochDSTStart);
+						console.log("Epoch DST Stop: " + epochDSTStop);
+						if ((epochNow >= epochDSTStart) && (epochNow <= epochDSTStop)) {
+							timezone = "UTC-7";
+						} else {
+							timezone = "UTC-8";
+						}
+						console.log("Timezone Converted: ")
 					}
-					if (timezone.toLowerCase().indexOf("aedt") >= 0) {
-						timezone = "UTC+11";
+
+					if ((timezone.toLowerCase().indexOf("edt") >= 0) || (timezone.toLowerCase().indexOf("est") >= 0)) {
+						epochDSTStart = Date.UTC(year,monthDSTStart-1,dayDSTStart,12,00);
+						epochDSTStop = Date.UTC(year,monthDSTStop-1,dayDSTStop,12,00);
+						console.log("Epoch DST Start: " + epochDSTStart);
+						console.log("Epoch DST Stop: " + epochDSTStop);
+						if ((epochNow >= epochDSTStart) && (epochNow <= epochDSTStop)) {
+							timezone = "UTC-4";
+						} else {
+							timezone = "UTC-5";
+						}
+					}
+
+					if ((timezone.toLowerCase().indexOf("cdt") >= 0) || (timezone.toLowerCase().indexOf("cst") >= 0)) {
+						epochDSTStart = Date.UTC(year,monthDSTStart-1,dayDSTStart,11,00);
+						epochDSTStop = Date.UTC(year,monthDSTStop-1,dayDSTStop,11,00);
+						console.log("Epoch DST Start: " + epochDSTStart);
+						console.log("Epoch DST Stop: " + epochDSTStop);
+						if ((epochNow >= epochDSTStart) && (epochNow <= epochDSTStop)) {
+							timezone = "UTC-5";
+						} else {
+							timezone = "UTC-6";
+						}
+					}
+
+					if ((timezone.toLowerCase().indexOf("aedt") >= 0) || (timezone.toLowerCase().indexOf("aest") >= 0)) {
+						epochDSTStart = Date.UTC(year,monthDSTStart-1,dayDSTStart,20,00);
+						epochDSTStop = Date.UTC(year,monthDSTStop-1,dayDSTStop,20,00);
+						console.log("Epoch DST Start: " + epochDSTStart);
+						console.log("Epoch DST Stop: " + epochDSTStop);
+						if ((epochNow >= epochDSTStart) && (epochNow <= epochDSTStop)) {
+							timezone = "UTC+11";
+						} else {
+							timezone = "UTC+10";
+						}
 					}
 
 					timezone = timezone.replace(/ /g, "");
@@ -537,9 +613,9 @@ $(window).load(function(){
 			}
 
 			refreshTimer();
-			if (continueTimer) {
-				intervalTimer = setInterval(refreshTimer, 30000);
-			}
+			checkFinished();
+
+			setInterval(refreshTimer, 30000);
 		}
 	})
 })
