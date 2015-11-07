@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Military Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      1.96
+// @version      1.95
 // @description  Events block for GTAV_Military
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Military
@@ -231,10 +231,10 @@ $(window).load(function(){
 	var eventOpenSansCSS = '<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700italic,700" rel="stylesheet" type="text/css">';
 	var eventModuleCSS = '<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/JustinHowe/userscripts/master/event-module-military.css" media="all">';
 	var eventAttendanceCSS = '<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/JustinHowe/userscripts/master/event-attendance-military.css" media="all">';
-	var eventModuleHTML = '<div id="eventsWidget"><blockquote class="events-module" style="text-align:center"><h2><a id="eventsHeader" href="' + upcomingEventsLink + '" style="color:#fff">Events loading...</a></h2><p id="topBodyText"><strong>Countdown timers auto-update</strong></p><div id="eventsContent"></div><div id="footer"><strong>Local time detected as ' + currentLocation.replace(/\+/g, " ") + '<br />Report widget bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/" target="_blank">PapaSyntax</a></strong></div></blockquote></div>';
+	var eventModuleHTML = '<div id="eventsWidget"><h2><strong><a id="eventsHeader" href="' + upcomingEventsLink + '">Events loading...</a></strong></h2><div class="events-module" style="text-align:center; width:285px;"><p id="topBodyText"><strong>Countdown timers auto-update</strong></p><div id="eventsContent"></div><div id="footer"><strong>Local time detected as ' + currentLocation.replace(/\+/g, " ") + '<br />Report widget bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/" target="_blank">PapaSyntax</a></strong></div></div></div>';
 
 	$("head").append(eventOpenSansCSS + eventModuleCSS + eventAttendanceCSS);
-	$(".side .titlebox").prepend(eventModuleHTML);
+	$(".side .md").prepend(eventModuleHTML);
 
 	var countdownHref;
 	var iframe = document.createElement('iframe');
@@ -287,7 +287,7 @@ $(window).load(function(){
 		if (goodEvents.length < 1) {
             $("#eventsHeader").text("It's Lonely Around Here...");
             $("#topBodyText").text("");
-			$("#eventsContent").replaceWith('<div id="eventsContent"><p align="center"><strong><span style="color:#48a948; font-size:150%">No Events Found.</span> <br /><br /><span style="color:#48a948; font-size:100%">Won\'t you liven things up a bit and create one?</span></strong></p></div>');
+			$("#eventsContent").replaceWith('<div id="eventsContent"><p align="center"><strong><span style="color:#48a948; font-size:150%">No Events Found.</span> <br /><br /><span style="color:#48a948; font-size:100%">Liven things up a bit and create one!</span></strong></p></div>');
 		} else {
             if (goodEvents.length == 1) {
                 $("#eventsHeader").text(goodEvents.length + ' Event Found');
