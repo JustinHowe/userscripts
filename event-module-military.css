@@ -1,27 +1,27 @@
 /* General structure and typography */
-.side .md blockquote.events-module {
+.side .md div.events-module {
 	font-family: 'Open Sans', sans-serif;
 	font-size: 12px;
 	padding: 6px;
 	text-align: center;
 }
 
-.side .md blockquote.events-module p {
+.side .md div.events-module p {
 	margin-bottom: 6px;
 }
 
-.side .md blockquote.events-module h2 {
+.side .md div.events-module h2 {
 	height: 36px;
 	margin-bottom: 6px;
 	padding: 0;
 	position: relative;
 }
 
-.side .md blockquote.events-module h2:hover {
+.side .md div.events-module h2:hover {
 	background: #003399;
 }
 
-.side .md blockquote.events-module h2 a {
+.side .md div.events-module h2 a {
 	color: #fff;
 	display: block;
 	height: 20px;
