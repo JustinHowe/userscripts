@@ -1,16 +1,16 @@
 /* General structure and typography */
-.side .md blockquote.events-module {
+.side .md div.events-module {
 	font-family: 'Open Sans', sans-serif;
 	font-size: 12px;
 	padding: 6px;
 	text-align: center;
 }
 
-.side .md blockquote.events-module p {
+.side .md div.events-module p {
 	margin-bottom: 6px;
 }
 
-.side .md blockquote.events-module h3 {
+.side .md div.events-module h3 {
 	height: 36px;
 	margin-bottom: 6px;
 	padding: 0;
@@ -18,11 +18,11 @@
 	background: #003399;
 }
 
-.side .md blockquote.events-module h3:hover {
+.side .md div.events-module h3:hover {
 	background: #003399;
 }
 
-.side .md blockquote.events-module h3 a {
+.side .md div.events-module h3 a {
 	color: #fff;
 	display: block;
 	height: 20px;
