@@ -1,15 +1,15 @@
 // ==UserScript==
-// @name         GTAV_Cruises Events Magic
+// @name         GTAV_Military Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      1.94
-// @description  Events block for GTAV_Cruises
+// @version      1.95
+// @description  Events block for GTAV_Military
 // @author       Syntaximus
-// @match        https://www.reddit.com/r/GTAV_Cruises
-// @match        https://www.reddit.com/r/gtav_cruises
-// @match        https://www.reddit.com/r/Gtav_cruises
-// @match        https://www.reddit.com/r/GTAV_Cruises/*
-// @match        https://www.reddit.com/r/gtav_cruises/*
-// @match        https://www.reddit.com/r/Gtav_cruises/*
+// @match        https://www.reddit.com/r/GTAV_Military
+// @match        https://www.reddit.com/r/gtav_military
+// @match        https://www.reddit.com/r/Gtav_military
+// @match        https://www.reddit.com/r/GTAV_Military/*
+// @match        https://www.reddit.com/r/gtav_military/*
+// @match        https://www.reddit.com/r/Gtav_military/*
 // @grant        none
 // @require      https://github.com/JustinHowe/userscripts/raw/master/jstz.min.js
 // ==/UserScript==
@@ -160,18 +160,18 @@ function checkFinished() {
 
 	if (finishedCounter != 0) {
 		console.log(finishedCounter + " Events Finished, Changing Header to " + newHeaderCounter + " Events");
-		$("#eventsHeader").text(newHeaderCounter + ' Cruises Found');
+		$("#eventsHeader").text(newHeaderCounter + ' Events Found');
 	}
     
     if (finishedCounter == goodEvents.length) {
     	noEvents = true;
          $("#eventsHeader").text("It's Lonely Around Here...");
          $("#topBodyText").text("");
-		 $("#eventsContent").replaceWith('<div id="eventsContent"><p align="center"><strong><span style="color:#48a948; font-size:150%">No Cruises Found.</span> <br /><br /><span style="color:#48a948; font-size:100%">Won\'t you liven things up a bit and create one?</span></strong></p></div>');
+		 $("#eventsContent").replaceWith('<div id="eventsContent"><p align="center"><strong><span style="color:#48a948; font-size:150%">No Events Found.</span> <br /><br /><span style="color:#48a948; font-size:100%">Won\'t you liven things up a bit and create one?</span></strong></p></div>');
     }
     
     if ((newHeaderCounter == 1) && !noEvents) {
-        $("#eventsHeader").text(newHeaderCounter + ' Cruise Found');
+        $("#eventsHeader").text(newHeaderCounter + ' Event Found');
     }
 }
 
@@ -226,15 +226,15 @@ $(window).load(function(){
 	var currentTimezone = jstzTimezone.name();
 	var currentLocation = currentTimezone.split("/");
 	currentLocation = currentLocation[1].replace(/\_/g, "+");
-	var upcomingEventsLink = "https://www.reddit.com/r/GTAV_Cruises/search?q=flair%3A%22events%22&restrict_sr=on&sort=new&t=all#res-hide-options";
+	var upcomingEventsLink = "https://www.reddit.com/r/GTAV_Military/search?q=flair%3A%22event%22&restrict_sr=on&sort=new&t=all#res-hide-options";
 
 	var eventOpenSansCSS = '<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700italic,700" rel="stylesheet" type="text/css">';
-	var eventModuleCSS = '<link rel="stylesheet" type="text/css" href="https://rawgit.com/yogensia/userscripts/master/event-module.css" media="all">';
+	var eventModuleCSS = '<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/JustinHowe/userscripts/master/event-module-military.css" media="all">';
 	var eventAttendanceCSS = '<link rel="stylesheet" type="text/css" href="https://rawgit.com/yogensia/userscripts/master/event-attendance.css" media="all">';
-	var eventModuleHTML = '<div id="eventsWidget"><blockquote class="events-module" style="text-align:center"><h3><a id="eventsHeader" href="' + upcomingEventsLink + '" style="color:#fff">Cruises loading...</a></h3><p id="topBodyText"><strong>Countdown timers auto-update</strong></p><div id="eventsContent"></div><div id="footer"><strong>Local time detected as ' + currentLocation.replace(/\+/g, " ") + '<br />Report widget bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/" target="_blank">PapaSyntax</a></strong></div></blockquote></div>';
+	var eventModuleHTML = '<div id="eventsWidget"><blockquote class="events-module" style="text-align:center"><h3><a id="eventsHeader" href="' + upcomingEventsLink + '" style="color:#fff">Events loading...</a></h3><p id="topBodyText"><strong>Countdown timers auto-update</strong></p><div id="eventsContent"></div><div id="footer"><strong>Local time detected as ' + currentLocation.replace(/\+/g, " ") + '<br />Report widget bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/" target="_blank">PapaSyntax</a></strong></div></blockquote></div>';
 
 	$("head").append(eventOpenSansCSS + eventModuleCSS + eventAttendanceCSS);
-	$(".side .md").prepend(eventModuleHTML);
+	$(".side .titlebox").prepend(eventModuleHTML);
 
 	var countdownHref;
 	var iframe = document.createElement('iframe');
@@ -269,9 +269,9 @@ $(window).load(function(){
 
 		// Check for bad formated events and print them separately
 		if (badEventsCounter > 0) {
-			var errorCruise = "cruises";
+			var errorCruise = "Events";
 			if (badEventsCounter == 1) {
-				errorCruise = "cruise";
+				errorCruise = "Event";
 			}
 
 			for (var k = 0; k < badEventUrl.length; k++) {
@@ -287,12 +287,12 @@ $(window).load(function(){
 		if (goodEvents.length < 1) {
             $("#eventsHeader").text("It's Lonely Around Here...");
             $("#topBodyText").text("");
-			$("#eventsContent").replaceWith('<div id="eventsContent"><p align="center"><strong><span style="color:#48a948; font-size:150%">No Cruises Found.</span> <br /><br /><span style="color:#48a948; font-size:100%">Won\'t you liven things up a bit and create one?</span></strong></p></div>');
+			$("#eventsContent").replaceWith('<div id="eventsContent"><p align="center"><strong><span style="color:#48a948; font-size:150%">No Events Found.</span> <br /><br /><span style="color:#48a948; font-size:100%">Won\'t you liven things up a bit and create one?</span></strong></p></div>');
 		} else {
             if (goodEvents.length == 1) {
-                $("#eventsHeader").text(goodEvents.length + ' Cruise Found');
+                $("#eventsHeader").text(goodEvents.length + ' Event Found');
             } else {
-                $("#eventsHeader").text(goodEvents.length + ' Cruises Found');
+                $("#eventsHeader").text(goodEvents.length + ' Events Found');
             }
 			continueLoading = true;
 		}
@@ -317,12 +317,12 @@ $(window).load(function(){
 					console.log("Date: " + date);
 					if (date.indexOf("/") >= 0) {
 						date = date.split("/");
-						day = parseInt(date[0], 10);
-						month = parseInt(date[1], 10);
+						day = parseInt(date[1], 10);
+						month = parseInt(date[0], 10);
 
 						if (month > 12) {
-							day = parseInt(date[1], 10);
-							month = parseInt(date[0], 10);
+							day = parseInt(date[0], 10);
+							month = parseInt(date[1], 10);
 						}
 
 						if (!date[2]) {
@@ -345,8 +345,8 @@ $(window).load(function(){
 						console.log("Date Epochs: " + monthAheadEpoch + " / " + eventEpoch);
 
 						if (eventEpoch > monthAheadEpoch) {
-							day = parseInt(date[1], 10);
-							month = parseInt(date[0], 10);
+							day = parseInt(date[0], 10);
+							month = parseInt(date[1], 10);
 						}
 
 					}
