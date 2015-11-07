@@ -10,18 +10,18 @@
 	margin-bottom: 6px;
 }
 
-.side .md blockquote.events-module h3 {
+.side .md blockquote.events-module h2 {
 	height: 36px;
 	margin-bottom: 6px;
 	padding: 0;
 	position: relative;
 }
 
-.side .md blockquote.events-module h3:hover {
+.side .md blockquote.events-module h2:hover {
 	background: #003399;
 }
 
-.side .md blockquote.events-module h3 a {
+.side .md blockquote.events-module h2 a {
 	color: #fff;
 	display: block;
 	height: 20px;
