@@ -10,18 +10,18 @@
 	margin-bottom: 6px;
 }
 
-.side .md div.events-module h2 {
+.side .md div.events-module h3 {
 	height: 36px;
 	margin-bottom: 6px;
 	padding: 0;
 	position: relative;
 }
 
-.side .md div.events-module h2:hover {
+.side .md div.events-module h3:hover {
 	background: #003399;
 }
 
-.side .md div.events-module h2 a {
+.side .md div.events-module h3 a {
 	color: #fff;
 	display: block;
 	height: 20px;
