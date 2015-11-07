@@ -1,18 +1,24 @@
-# Events sidebar widget for r/GTAV_Cruises
+## Events sidebar widget for r/GTAV_Cruises
 
 Tampermonkey/Greasemonkey userscript that lists upcoming, in progress and recent online events for the GTAV subredit [r/GTAV_Cruises](https://www.reddit.com/r/GTAV_Cruises/)
 
-**Coded by** [u/PapaSyntax](https://www.reddit.com/user/PapaSyntax).
+---
 
-**GUI created by** [u/Yogensya](https://www.reddit.com/user/Yogensya).
+* **Coded by** [u/PapaSyntax](https://www.reddit.com/user/PapaSyntax) (Syntax in-game).
 
+* **GUI created by** [u/Yogensya](https://www.reddit.com/user/Yogensya) (Yogensia in-game).
 
 ---
+
+**CURRENT VERSION: 1.78**
+(check for updates on the userscript in tampermonkey/greasemonkey if you're on a prior version).
+
+---
+
 > Hi all,
 >
-> Hi all, I just deployed a tampermonkey/greasemonkey userscript that I created to display our upcoming cruises/events in a much better way. Tired of reading through all posts to find events, then converting them to your own timezone and figuring out when they are? This script does that for you and adds a countdown timer in-line with the title of the event, all conveniently on the right sidebar (as well as a link to go to the full event, and a converted time for when the event is in your timezone, and more). Just bring up our subreddit page and you'll see all upcoming events quickly and with their own countdown timers.
+>I deployed a tampermonkey/greasemonkey userscript that I created to display our upcoming cruises/events in a much better way. Tired of reading through all posts to find events, then converting them to your own timezone and figuring out when they are? This script does that for you and adds a countdown timer in-line with the title of the event, all conveniently on the right sidebar (as well as a link to go to the full event, and a converted time for when the event is in your timezone, and more). Just bring up our subreddit page and you'll see all upcoming events quickly and with their own countdown timers.
 
-[See original post on reddit](https://www.reddit.com/r/GTAV_Cruises/comments/3hkafk/events_magic_show_upcoming_cruises_wcountdown/).
 
 ---
 ## Features
@@ -35,10 +41,11 @@ Tampermonkey/Greasemonkey userscript that lists upcoming, in progress and recent
 
 * Error handling for invalid event titles (which are not formatted correctly). Invalid event titles are displayed at the bottom, indicating the number of events omitted as well as their title(s) and link(s) to event(s).
 
+---
 
-**Here is a screenshot of what it looks like:**
+**[Here is a screenshot of what it looks like](http://i.imgur.com/agvyvbd.png).**
 
-![screenshot](http://i.imgur.com/agvyvbd.png)
+
 ---
 ## Installation
 
@@ -47,6 +54,7 @@ Tampermonkey/Greasemonkey userscript that lists upcoming, in progress and recent
 2. Then **[click here to open the script](https://github.com/JustinHowe/userscripts/raw/master/GTAV_Cruises%20Events%20Magic.user.js)** and click the `install` button.
 
 That's it! Just reload the subreddit page and you'll see the cruises/events box appear on the sidebar after a couple of seconds.
+
 
 ---
 ## Notes for event hosts
@@ -63,6 +71,7 @@ That's it! Just reload the subreddit page and you'll see the cruises/events box 
 
 * The script does have other fixes to attempt to resolve human formatting errors, but plase follow these guideline to minimize possible issues. **The most important thing is to always use day/month/year for your date.**
 
+
 ---
 ## How it works
 
@@ -76,13 +85,16 @@ For those who are interested, the script does the following (and ONLY the follow
 
 4. Compares the future epoch of that UTC time to the current UTC epoch, which creates a difference, and uses that as the countdown.
 
+---
 
 **[The code is fully visible on github for the analysis of whomever wishes](https://github.com/JustinHowe/userscripts).**
+
 
 ---
 ## Next development steps:
 
 * Create overlay for "Create an event" page so that event hosts only need to choose the date, time, etc from dropdown boxes and input fields. This will ensure events are recorded in the correct format for this script to use, as well as ensure hosts enter what is needed but not too much and not too little.
+
 
 ---
 ## Changelog:
@@ -128,3 +140,13 @@ For those who are interested, the script does the following (and ONLY the follow
 * v1.77 | Cosmetic change in code.
 
 * v1.78 | Cosmetic changes in code and better comment documentation.
+
+* v1.79 | Added handling for if somebody posts an event with 24hr time greater than the 12'th hour and adds a PM as well. Such events will not advance +12 hours in the future because of the PM now.
+
+* v1.80 | Added more styling for event blocks that have invalid title formats.
+
+* v1.81 | Updated countdown timer text to exclude minutes if minute is 0 and hour > 0. Ex: 4 HRS, 0 MIN will show as 4 HRS.
+
+* v1.82 | Updated In Progress events to show, "JUST STARTED" or "STARTED n HRS, m MIN AGO" instead of "IN PROGRESS".
+
+* v1.84 | Cosmetic changes with text.
