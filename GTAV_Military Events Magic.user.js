@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Military Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      1.97
+// @version      1.98
 // @description  Events block for GTAV_Military
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Military
@@ -165,9 +165,9 @@ function checkFinished() {
     
     if (finishedCounter == goodEvents.length) {
     	noEvents = true;
-         $("#eventsHeader").text("It's Lonely Around Here...");
+         $("#eventsHeader").text("At Ease, Soldier!");
          $("#topBodyText").text("");
-		 $("#eventsContent").replaceWith('<div id="eventsContent"><p align="center"><strong><span style="color:#48a948; font-size:150%">No Events Found.</span> <br /><br /><span style="color:#48a948; font-size:100%">Won\'t you liven things up a bit and create one?</span></strong></p></div>');
+		 $("#eventsContent").replaceWith('<div id="eventsContent"><p align="center"><strong><span style="color:#48a948; font-size:150%">No Events Found.</span> <br /><br /><span style="color:#48a948; font-size:100%">Liven things up and create one!</span></strong></p></div>');
     }
     
     if ((newHeaderCounter == 1) && !noEvents) {
