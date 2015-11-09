@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Military Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      1.98
+// @version      1.99
 // @description  Events block for GTAV_Military
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Military
@@ -285,9 +285,9 @@ $(window).load(function(){
 		console.log("Bad Events Found: " + badEventsCounter);
 
 		if (goodEvents.length < 1) {
-            $("#eventsHeader").text("It's Lonely Around Here...");
+            $("#eventsHeader").text("At Ease, Soldier!");
             $("#topBodyText").text("");
-			$("#eventsContent").replaceWith('<div id="eventsContent"><p align="center"><strong><span style="color:#48a948; font-size:150%">No Events Found.</span> <br /><br /><span style="color:#48a948; font-size:100%">Liven things up a bit and create one!</span></strong></p></div>');
+			$("#eventsContent").replaceWith('<div id="eventsContent"><p align="center"><strong><span style="color:#48a948; font-size:150%">No Events Found.</span> <br /><br /><span style="color:#48a948; font-size:100%">Liven things up and create one!</span></strong></p></div>');
 		} else {
             if (goodEvents.length == 1) {
                 $("#eventsHeader").text(goodEvents.length + ' Event Found');
