@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Military Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      1.99
+// @version      2.0
 // @description  Events block for GTAV_Military
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Military
@@ -44,7 +44,7 @@ function preload(arrayOfImages) {
 		$('<img/>')[0].src = this;
 	});
 }
-preload(['https://raw.githubusercontent.com/yogensia/userscripts/master/background.jpg']);
+preload(['https://raw.githubusercontent.com/JustinHowe/userscripts/master/military-background.jpg']);
 
 function toTitleCase(str) {
 	return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});

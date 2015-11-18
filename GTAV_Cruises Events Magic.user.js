@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      1.96
+// @version      1.97
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises
@@ -44,7 +44,7 @@ function preload(arrayOfImages) {
 		$('<img/>')[0].src = this;
 	});
 }
-preload(['https://raw.githubusercontent.com/yogensia/userscripts/master/background.jpg']);
+preload(['https://raw.githubusercontent.com/JustinHowe/userscripts/master/background.jpg']);
 
 function toTitleCase(str) {
 	return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
@@ -230,7 +230,7 @@ $(window).load(function(){
 
 	var eventOpenSansCSS = '<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700italic,700" rel="stylesheet" type="text/css">';
 	var eventModuleCSS = '<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/JustinHowe/userscripts/master/event-module.css" media="all">';
-	var eventAttendanceCSS = '<link rel="stylesheet" type="text/css" href="https://rawgit.com/yogensia/userscripts/master/event-attendance.css" media="all">';
+	var eventAttendanceCSS = '<link rel="stylesheet" type="text/css" href="https://rawgit.com/JustinHowe/userscripts/master/event-attendance.css" media="all">';
 	var eventModuleHTML = '<div id="eventsWidget"><blockquote class="events-module" style="text-align:center"><h3><a id="eventsHeader" href="' + upcomingEventsLink + '" style="color:#fff">Cruises loading...</a></h3><p id="topBodyText"><strong>Countdown timers auto-update</strong></p><div id="eventsContent"></div><div id="footer"><strong>Local time detected as ' + currentLocation.replace(/\+/g, " ") + '<br />Report widget bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/" target="_blank">PapaSyntax</a></strong></div></blockquote></div>';
 
 	$("head").append(eventOpenSansCSS + eventModuleCSS + eventAttendanceCSS);
