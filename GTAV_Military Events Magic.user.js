@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Military Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      2.01
+// @version      2.02
 // @description  Events block for GTAV_Military
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Military
@@ -229,7 +229,7 @@ $(window).load(function(){
 	var upcomingEventsLink = "https://www.reddit.com/r/GTAV_Military/search?q=flair%3A%22event%22&restrict_sr=on&sort=new&t=all#res-hide-options";
 
 	var eventOpenSansCSS = '<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700italic,700" rel="stylesheet" type="text/css">';
-	var eventModuleCSS = '<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/JustinHowe/userscripts/master/event-module-military.css" media="all">';
+	var eventModuleCSS = '<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/JustinHowe/userscripts/36b6054d5d593a452846fcfbaf1df21e55b36e95/event-module-military.css" media="all">';
 	var eventAttendanceCSS = '<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/JustinHowe/userscripts/master/event-attendance-military.css" media="all">';
 	var eventModuleHTML = '<div id="eventsWidget"><h2><strong><a id="eventsHeader" href="' + upcomingEventsLink + '">Events loading...</a></strong></h2><div class="events-module" style="text-align:center; width:285px;"><p id="topBodyText"><strong>Countdown timers auto-update</strong></p><div id="eventsContent"></div><div id="footer"><strong>Local time detected as ' + currentLocation.replace(/\+/g, " ") + '<br />Report widget bugs to <a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/" target="_blank">PapaSyntax</a></strong></div></div></div>';
 
