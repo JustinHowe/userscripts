@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Military Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      2.0
+// @version      2.01
 // @description  Events block for GTAV_Military
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Military
