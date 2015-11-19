@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Military Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      2.02
+// @version      2.03
 // @description  Events block for GTAV_Military
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Military
@@ -34,6 +34,7 @@ var events, epochNow;
 var updateCounter = 0;
 var finishedCounter = 0;
 var noEvents = false;
+var eventImage, eventText;
 
 // Comment to enable console logging.
 console.log = function() {}
@@ -167,7 +168,7 @@ function checkFinished() {
     	noEvents = true;
          $("#eventsHeader").text("At Ease, Soldier!");
          $("#topBodyText").text("");
-		 $("#eventsContent").replaceWith('<div id="eventsContent"><p align="center"><strong><span style="color:#48a948; font-size:150%">No Events Found.</span> <br /><br /><span style="color:#48a948; font-size:100%">Liven things up and create one!</span></strong></p></div>');
+		 $("#eventsContent").replaceWith('<div id="eventsContent"><p align="center"><strong><span style="color:#304968; font-size:150%">No Events Found.</span> <br /><br /><span style="color:#304968; font-size:100%">Liven things up and create one!</span></strong></p></div>');
     }
     
     if ((newHeaderCounter == 1) && !noEvents) {
@@ -226,7 +227,7 @@ $(window).load(function(){
 	var currentTimezone = jstzTimezone.name();
 	var currentLocation = currentTimezone.split("/");
 	currentLocation = currentLocation[1].replace(/\_/g, "+");
-	var upcomingEventsLink = "https://www.reddit.com/r/GTAV_Military/search?q=flair%3A%22event%22&restrict_sr=on&sort=new&t=all#res-hide-options";
+	var upcomingEventsLink = "https://www.reddit.com/r/GTAV_Military/search?q=flair%3A%22event%22+OR+flair%3A%22training%22&restrict_sr=on&sort=new&t=all";
 
 	var eventOpenSansCSS = '<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700italic,700" rel="stylesheet" type="text/css">';
 	var eventModuleCSS = '<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/JustinHowe/userscripts/36b6054d5d593a452846fcfbaf1df21e55b36e95/event-module-military.css" media="all">';
@@ -250,7 +251,7 @@ $(window).load(function(){
 		var eventsString = "";
 
 		// Get events from iframe
-		events = $("#eventsiFrame").contents().find("header.search-result-header > span").filter(function() { return ($(this).text() === 'Event') }).next();
+		events = $("#eventsiFrame").contents().find("header.search-result-header > span").filter(function() { return ($(this).text() === 'Event' || $(this).text() === 'Training') }).next();
 		console.log("Events Found: " + events.length);
 
 		// Do initial format check and store found events
@@ -287,7 +288,7 @@ $(window).load(function(){
 		if (goodEvents.length < 1) {
             $("#eventsHeader").text("At Ease, Soldier!");
             $("#topBodyText").text("");
-			$("#eventsContent").replaceWith('<div id="eventsContent"><p align="center"><strong><span style="color:#48a948; font-size:150%">No Events Found.</span> <br /><br /><span style="color:#48a948; font-size:100%">Liven things up and create one!</span></strong></p></div>');
+			$("#eventsContent").replaceWith('<div id="eventsContent"><p align="center"><strong><span style="color:#304968; font-size:150%">No Events Found.</span> <br /><br /><span style="color:#304968; font-size:100%">Liven things up and create one!</span></strong></p></div>');
 		} else {
             if (goodEvents.length == 1) {
                 $("#eventsHeader").text(goodEvents.length + ' Event Found');
@@ -301,6 +302,7 @@ $(window).load(function(){
 		if (continueLoading) {
 			for (var i=0; i < goodEvents.length; i++) {
 				var eventString = goodEvents[i].innerHTML;
+				console.log("EVENT STRING: " + eventString);
 				var wellFormedEvent = eventString.replace(/[^\|]/g, "").length;
 				if (wellFormedEvent == 4) {
 					eventString = eventString.replace(/\[/g, "");
@@ -308,7 +310,13 @@ $(window).load(function(){
 					console.log("Event String: " + eventString);
 					var href = $(goodEvents[i]).attr('href');
 					var eventParts = eventString.split("|");
-					var region = eventParts[0];
+					var eventType = eventParts[0];
+					if (eventType.toLowerCase().indexOf("training") >= 0) {
+						eventImage = "http:\/\/b.thumbs.redditmedia.com\/lBtKHKUjXlftfbAcytg1UxXFu7gBhCJJJHD0xClYalA.png";
+						eventText = "Training Event";
+					} else {
+						eventImage = "http:\/\/a.thumbs.redditmedia.com\/9QMk1uVpga4fg4WZMIcOrC20Mc3xYh6kDiZLwxVeTF8.png"
+					}
 
 					//Determine date parts
 					var date = eventParts[1];
@@ -599,7 +607,7 @@ $(window).load(function(){
 						}
 						localDate = localDayString + " " + localMonth + " " + localDay + " @ " + localTimeHr + ":" + localTimeMin + "" + amPm;
 						console.log(localDate);
-						eventData[i] = [epochFuture[i], '<div id="event-block-' + i + '" class="event-block"><p class="event-title"><a title="Link to: ' + title + '" href="' + href + '">' + title + '</a></p><p id="timer' + i + '" class="event-timer"></p><p class="event-local-date">' + localDate + '</p><a class="block-link" a title="Link to: ' + title + '" href="' + href + '"></a></div>'];
+						eventData[i] = [epochFuture[i], '<div id="event-block-' + i + '" class="event-block"><span style="background:url(\'' + eventImage + '\') no-repeat;background-position:0 0; float: left; width: 20px; height: 80px;"></span><p class="event-title"><a title="Link to: ' + title + '" href="' + href + '">' + title + '</a></p><p id="timer' + i + '" class="event-timer"></p><p class="event-local-date">' + localDate + '</p><a class="block-link" a title="Link to: ' + title + '" href="' + href + '"></a></div>'];
 					} else {
 						eventData[i] = [9999999999, '<div id="event-block-' + i + '" class="event-block"><p class="event-title"><a title="No Countdown Timer - Bad Date - Should be day/month/year. err_code:id10t" href="' + href + '">' + title + '</a></p><p id="timer' + i + '" class="event-timer"></p><p class="event-local-date">' + localDate + '</p><a class="block-link" a title="No Countdown Timer - Bad Date - Should be day/month/year. err_code:id10t" href="' + href + '"></a></div>'];
 					}
