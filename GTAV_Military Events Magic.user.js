@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Military Events Magic
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      2.03
+// @version      2.04
 // @description  Events block for GTAV_Military
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Military
@@ -315,7 +315,7 @@ $(window).load(function(){
 						eventImage = "http:\/\/b.thumbs.redditmedia.com\/lBtKHKUjXlftfbAcytg1UxXFu7gBhCJJJHD0xClYalA.png";
 						eventText = "Training Event";
 					} else {
-						eventImage = "http:\/\/a.thumbs.redditmedia.com\/9QMk1uVpga4fg4WZMIcOrC20Mc3xYh6kDiZLwxVeTF8.png"
+						eventImage = "http:\/\/b.thumbs.redditmedia.com\/2tBdUUb-w41ew3qaWZYIVxgM1xwVy7G3irYPi1KvpHU.png"
 					}
 
 					//Determine date parts
