@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Military Events Magic 
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      2.05
+// @version      2.06
 // @description  Events block for GTAV_Military
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Military
@@ -238,21 +238,21 @@ $(window).load(function(){
 	$(".side .md").prepend(eventModuleHTML);
 
 	var countdownHref;
-	/*var iframe = document.createElement('iframe');
+	var iframe = document.createElement('iframe');
 	iframe.frameBorder=0;
 	iframe.width="0px";
 	iframe.height="0px";
 	iframe.id="eventsiFrame";
 	iframe.setAttribute("src", upcomingEventsLink);
-	$("div.footer-parent").append(iframe);*/
+	$("div.footer-parent").append(iframe);
 
 	// Run everything after iFrame load.
-	//$("#eventsiFrame").load(function(){
+	$("#eventsiFrame").load(function(){
 		var eventsString = "";
 
 		// Get events from iframe
-		//events = $("#eventsiFrame").contents().find("header.search-result-header > span").filter(function() { return ($(this).text() === 'Event' || $(this).text() === 'Training') }).next();
-		events = $("#siteTable").contents().find("span.linkflairlabel").filter(function() { return ($(this).text() === 'Event' || $(this).text() === 'Training') }).next();
+		events = $("#eventsiFrame").contents().find("header.search-result-header > span").filter(function() { return ($(this).text() === 'Event' || $(this).text() === 'Training') }).next();
+		//events = $("#siteTable").contents().find("span.linkflairlabel").filter(function() { return ($(this).text() === 'Event' || $(this).text() === 'Training') }).next();
 		console.log("Events Found: " + events.length);
 
 		// Do initial format check and store found events
@@ -628,5 +628,5 @@ $(window).load(function(){
 
 			setInterval(refreshTimer, 30000);
 		}
-	//})
+	})
 })
