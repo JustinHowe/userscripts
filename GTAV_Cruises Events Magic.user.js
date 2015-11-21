@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises
 // @namespace    test
-// @version      2.3
+// @version      2.4
 // @description  Events block for GTAV_Cruises
 // @author       test
 // @match        https://www.reddit.com/r/GTAV_Cruises
