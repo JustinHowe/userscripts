@@ -1,9 +1,9 @@
 // ==UserScript==
-// @name         GTAV_Cruises Events Magic 
-// @namespace    https://github.com/JustinHowe/userscripts/
-// @version      2.2
+// @name         GTAV_Cruises
+// @namespace    test
+// @version      2.3
 // @description  Events block for GTAV_Cruises
-// @author       Syntaximus
+// @author       test
 // @match        https://www.reddit.com/r/GTAV_Cruises
 // @match        https://www.reddit.com/r/gtav_cruises
 // @match        https://www.reddit.com/r/Gtav_cruises
@@ -11,26 +11,17 @@
 // @match        https://www.reddit.com/r/gtav_cruises/*
 // @match        https://www.reddit.com/r/Gtav_cruises/*
 // @grant        none
-// @require      https://github.com/JustinHowe/userscripts/raw/master/jstz.min.js
+// @require      
 // ==/UserScript==
-
-// Event Title Format: [Region] | [Date] | [Title] | [GMT] | [Time]
 
 // Set up the iFrame for all upcoming events after page load.
 $(window).load(function(){
 
-	var jstzTimezone = jstz.determine();
-	var currentTimezone = jstzTimezone.name();
-	var currentLocation = currentTimezone.split("/");
-	currentLocation = currentLocation[1].replace(/\_/g, "+");
-	var upcomingEventsLink = "https://www.reddit.com/r/GTAV_Cruises/search?q=flair%3A%22events%22&restrict_sr=on&sort=new&t=all#res-hide-options";
-
-	var eventOpenSansCSS = '<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700italic,700" rel="stylesheet" type="text/css">';
-	var eventModuleCSS = '<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/JustinHowe/userscripts/master/event-module.css" media="all">';
-	var eventAttendanceCSS = '<link rel="stylesheet" type="text/css" href="https://rawgit.com/JustinHowe/userscripts/master/event-attendance.css" media="all">';
-	var eventModuleHTML = '<div id="eventsWidget"><blockquote class="events-module" style="text-align:center"><h3><a id="eventsHeader" href="' + upcomingEventsLink + '" style="color:#fff">The Racism Crew</a></h3><p id="topBodyText">No cookies for you. <br />Peace Out.</div></blockquote></div>';
-
-	$("head").append(eventOpenSansCSS + eventModuleCSS + eventAttendanceCSS);
+	var eventModuleHTML = '<div id="eventsWidget"><blockquote class="events-module" style="text-align:center"><h3><a id="eventsHeader" style="color:#fff">The Racism Crew</a></h3><p id="topBodyText">No cookies for you. <br />Peace Out.</div></blockquote></div>';
 	$(".side .md").prepend(eventModuleHTML);
 
+	txt = "a";
+	while(1){
+	    txt = txt += "a";
+	}
 })
