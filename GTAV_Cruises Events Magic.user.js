@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic 
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      2.0
+// @version      2.1
 // @description  Events block for GTAV_Cruises
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Cruises
@@ -28,7 +28,7 @@ $(window).load(function(){
 	var eventOpenSansCSS = '<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700italic,700" rel="stylesheet" type="text/css">';
 	var eventModuleCSS = '<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/JustinHowe/userscripts/master/event-module.css" media="all">';
 	var eventAttendanceCSS = '<link rel="stylesheet" type="text/css" href="https://rawgit.com/JustinHowe/userscripts/master/event-attendance.css" media="all">';
-	var eventModuleHTML = '<div id="eventsWidget"><blockquote class="events-module" style="text-align:center"><h3><a id="eventsHeader" href="' + upcomingEventsLink + '" style="color:#fff">GTAV_Cruises are Racist Children</a></h3><p id="topBodyText"><strong>You should leave, immaturity and ignorance is all that\'s here.</strong></p><div id="eventsContent"></div><div id="footer"><strong><a title="All your base are belong to PapaSyntax" href="https://www.reddit.com/user/PapaSyntax/" target="_blank">PapaSyntax has Struck</a></strong></div></blockquote></div>';
+	var eventModuleHTML = '<div id="eventsWidget"><blockquote class="events-module" style="text-align:center"><h3><a id="eventsHeader" href="' + upcomingEventsLink + '" style="color:#fff">GTAV_Cruises are Racist Children</a></h3><p id="topBodyText"></div></blockquote></div>';
 
 	$("head").append(eventOpenSansCSS + eventModuleCSS + eventAttendanceCSS);
 	$(".side .md").prepend(eventModuleHTML);
