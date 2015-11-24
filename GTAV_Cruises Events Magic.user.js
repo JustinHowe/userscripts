@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Cruises Events Magic 
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      3.2
+// @version      3.3
 // @description  Events block for GTAV_Cruises
 // @author       Justin Howe [https://github.com/JustinHowe]
 // @match        https://www.reddit.com/r/GTAV_Cruises
@@ -249,9 +249,17 @@ $(window).load(function(){
 	$("#eventsiFrame").load(function(){
 		var eventsString = "";
 
-		// Get events from iframe
-		events = $("#eventsiFrame").contents().find("header.search-result-header > span").filter(function() { return ($(this).text() === 'Event') }).next();
-		//events = $("#siteTable").contents().find("span.linkflairlabel").filter(function() { return ($(this).text() === 'Event') }).next();
+		//Detect if legacy serch is enabled then get events from iframe
+		var legacySearch = $("#siteTable").contents().find("p.title > span.linkflairlabel").filter(function() { return ($(this).text() === 'Event') }).next();
+
+		if (legacySearch.length > 0) {
+			events = legacySearch;
+			console.log("Search Type: Legacy");
+		} else {
+			events = $("#eventsiFrame").contents().find("header.search-result-header > span.linkflairlabel").filter(function() { return ($(this).text() === 'Event') }).next();
+			console.log("Search Type: New");
+		}
+
 		console.log("Events Found: " + events.length);
 
 		// Do initial format check and store found events
