@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Military Events Magic 
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      2.06
+// @version      2.07
 // @description  Events block for GTAV_Military
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Military
@@ -250,9 +250,17 @@ $(window).load(function(){
 	$("#eventsiFrame").load(function(){
 		var eventsString = "";
 
-		// Get events from iframe
-		events = $("#eventsiFrame").contents().find("header.search-result-header > span").filter(function() { return ($(this).text() === 'Event' || $(this).text() === 'Training') }).next();
-		//events = $("#siteTable").contents().find("span.linkflairlabel").filter(function() { return ($(this).text() === 'Event' || $(this).text() === 'Training') }).next();
+		//Detect if legacy serch is enabled then get events from iframe
+		var legacySearch = $("#siteTable").contents().find("p.title > span.linkflairlabel").filter(function() { return ($(this).text() === 'Event') }).next();
+
+		if (legacySearch.length > 0) {
+			events = legacySearch;
+			console.log("Search Type: Legacy");
+		} else {
+			events = $("#eventsiFrame").contents().find("header.search-result-header > span.linkflairlabel").filter(function() { return ($(this).text() === 'Event') }).next();
+			console.log("Search Type: New");
+		}
+
 		console.log("Events Found: " + events.length);
 
 		// Do initial format check and store found events
