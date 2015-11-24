@@ -3,7 +3,7 @@
 // @namespace    https://github.com/JustinHowe/userscripts/
 // @version      3.2
 // @description  Events block for GTAV_Cruises
-// @author       Syntaximus
+// @author       Justin Howe [https://github.com/JustinHowe]
 // @match        https://www.reddit.com/r/GTAV_Cruises
 // @match        https://www.reddit.com/r/gtav_cruises
 // @match        https://www.reddit.com/r/Gtav_cruises
