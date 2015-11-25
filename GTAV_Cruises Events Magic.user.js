@@ -36,7 +36,7 @@ var finishedCounter = 0;
 var noEvents = false;
 
 // Comment to enable console logging.
-console.log = function() {}
+//console.log = function() {}
 
 // Image Preload
 function preload(arrayOfImages) {
@@ -226,7 +226,7 @@ $(window).load(function(){
 	var currentTimezone = jstzTimezone.name();
 	var currentLocation = currentTimezone.split("/");
 	currentLocation = currentLocation[1].replace(/\_/g, "+");
-	var upcomingEventsLink = "https://www.reddit.com/r/GTAV_Cruises/search?q=flair%3A%22events%22&restrict_sr=on&sort=new&t=all#res-hide-options";
+	var upcomingEventsLink = "https://www.reddit.com/r/GTAV_Cruises/search?q=flair%3A%22events%22&restrict_sr=on&sort=relevance&t=all";
 
 	var eventOpenSansCSS = '<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700italic,700" rel="stylesheet" type="text/css">';
 	var eventModuleCSS = '<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/JustinHowe/userscripts/master/event-module.css" media="all">';
@@ -243,6 +243,11 @@ $(window).load(function(){
 	iframe.height="0px";
 	iframe.id="eventsiFrame";
 	iframe.setAttribute("src", upcomingEventsLink);
+	var iFramePresent = $("div.footer-parent").contents().find("#eventsiFrame");
+	if (iFramePresent.length > 0) {
+		console.log("iFrame Found! Removing...");
+		$("#eventsiFrame").remove();
+	}
 	$("div.footer-parent").append(iframe);
 
 	// Run everything after iFrame load.

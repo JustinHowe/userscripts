@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GTAV_Military Events Magic 
 // @namespace    https://github.com/JustinHowe/userscripts/
-// @version      2.07
+// @version      2.08
 // @description  Events block for GTAV_Military
 // @author       Syntaximus
 // @match        https://www.reddit.com/r/GTAV_Military
@@ -227,7 +227,7 @@ $(window).load(function(){
 	var currentTimezone = jstzTimezone.name();
 	var currentLocation = currentTimezone.split("/");
 	currentLocation = currentLocation[1].replace(/\_/g, "+");
-	var upcomingEventsLink = "https://www.reddit.com/r/GTAV_Military/search?q=flair%3A%22event%22+OR+flair%3A%22training%22&restrict_sr=on&sort=new&t=all";
+	var upcomingEventsLink = "https://www.reddit.com/r/GTAV_Military/search?q=flair%3A%22event%22+OR+flair%3A%22training%22+OR+flair%3A%22Event%22+OR+flair%3A%22Training%22&restrict_sr=on&sort=new&t=all";
 
 	var eventOpenSansCSS = '<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700italic,700" rel="stylesheet" type="text/css">';
 	var eventModuleCSS = '<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/JustinHowe/userscripts/36b6054d5d593a452846fcfbaf1df21e55b36e95/event-module-military.css" media="all">';
@@ -250,17 +250,9 @@ $(window).load(function(){
 	$("#eventsiFrame").load(function(){
 		var eventsString = "";
 
-		//Detect if legacy serch is enabled then get events from iframe
-		var legacySearch = $("#siteTable").contents().find("p.title > span.linkflairlabel").filter(function() { return ($(this).text() === 'Event') }).next();
-
-		if (legacySearch.length > 0) {
-			events = legacySearch;
-			console.log("Search Type: Legacy");
-		} else {
-			events = $("#eventsiFrame").contents().find("header.search-result-header > span.linkflairlabel").filter(function() { return ($(this).text() === 'Event') }).next();
-			console.log("Search Type: New");
-		}
-
+		// Get events from iframe
+		events = $("#eventsiFrame").contents().find("header.search-result-header > span").filter(function() { return ($(this).text() === 'Event' || $(this).text() === 'Training') }).next();
+		//events = $("#siteTable").contents().find("span.linkflairlabel").filter(function() { return ($(this).text() === 'Event' || $(this).text() === 'Training') }).next();
 		console.log("Events Found: " + events.length);
 
 		// Do initial format check and store found events
