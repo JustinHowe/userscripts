@@ -1,10 +1,8 @@
 // ==UserScript==
-// @name 		   JSON formatter
+// @name	   JSON formatter
 // @version        1.0
+// @run-at         document-idle
 // @description	   Formats JSON if the document only contains JSON
-// @compability    Only tested with Opera, might work with others
-// @author		   Martin Hansen
-// @website        http://martinhansen.no
 // ==/UserScript==
 (function(){
 	var indentation = 4;//Change this to vary the indentation
